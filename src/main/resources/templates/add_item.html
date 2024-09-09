@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th=http://www.thymeleaf.org>
+
+<head>
+	<!-- Basic -->
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<!-- Mobile Metas -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<!-- Site Metas -->
+	<meta name="keywords" content="" />
+	<meta name="description" content="" />
+	<meta name="author" content="" />
+	<link rel="shortcut icon" th:href="@{/images/easy_query2.png}" type="image/x-icon">
+
+	<title>
+		Shopping Centre
+	</title>
+
+	<!-- slider stylesheet -->
+
+	<link rel="stylesheet" type="text/css"
+		href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+	<!-- bootstrap core css -->
+	<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.css}" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+		integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+		crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<!-- Custom styles for this template -->
+	<link th:href="@{/css/style.css}" rel="stylesheet" />
+	<link th:href="@{/css/style1.css}" rel="stylesheet" />
+	<!-- responsive style -->
+	<link th:href="@{/css/responsive.css}" rel="stylesheet" />
+
+</head>
+
+<body>
+
+
+	<div class="hero_area hero_area1">
+		<!-- header section strats -->
+
+		<!--<header class="header_section">-->
+
+		<nav class="navbar navbar-expand-lg custom_nav-container main_nav fixed-top">
+
+			<!--<a class="navbar-brand" href="index.html">
+					<span>
+
+					</span>
+				</a>-->
+			<div id="navbarSupportedContent1">
+				<div class="container">
+					<div class="row">
+						<div class="col-4">
+							<div class="logo3">
+								<img class="logo1" th:src="@{/images/easy_query2.png}" alt="no image" />
+								<!--<img class="logo2" th:src="@{/images/logo2.png}" alt="no image" />-->
+								<!--<button class="navbar-toggler m_menu2" type="button" data-toggle="collapse"
+						data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+						aria-expanded="false" aria-label="Toggle navigation">
+						<span class=""></span>
+					</button>-->
+							</div>
+						</div>
+						<div class="col-8">
+							<ul class="navbar-nav navbar-nav1">
+
+								<!--<li class="nav-item">
+						<a class="nav-link" href="#">
+							
+						</a>
+					</li>-->
+
+								<li class="nav-item active1 m_menu1">
+									<a class="nav-link" href="#" onclick="close_menu()">Home <span
+											class="sr-only">(current)</span></a>
+								</li>
+								<li class="nav-item m_menu1">
+									<a id="a_greeting" class="nav-link" href="#" onclick="close_menu()"
+										th:if="${greeting}" th:text="'Hi '+${greeting}">
+
+									</a>
+								</li>
+								<li class="nav-item m_menu1">
+									<a class="nav-link" href="#" onclick="close_menu()">
+										Log Out
+									</a>
+								</li>
+							</ul>
+
+						</div>
+					</div>
+				</div>
+				<!--<div class="logo31">
+					<img class="logo1" th:src="@{/images/easy_query2.png}" alt="no image" />
+					<img class="logo2" th:src="@{/images/logo2.png}" alt="no image" />
+					<button class="navbar-toggler m_menu2" type="button" data-toggle="collapse"
+						data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+						aria-expanded="false" aria-label="Toggle navigation">
+						<span class=""></span>
+					</button>
+				</div>-->
+				<!--<ul class="navbar-nav navbar-nav1">
+
+					<li class="nav-item">
+						<a class="nav-link" href="#">
+							
+						</a>
+					</li>
+
+					<li class="nav-item active1 m_menu1">
+						<a class="nav-link" href="#" onclick="close_menu()">Home <span
+								class="sr-only">(current)</span></a>
+					</li>
+					<li class="nav-item m_menu1">
+						<a id="a_greeting" class="nav-link" href="#" onclick="close_menu()" th:if="${greeting}"
+							th:text="'Hi '+${greeting}">
+
+						</a>
+					</li>
+					<li class="nav-item m_menu1">
+						<a class="nav-link" href="#" onclick="close_menu()">
+							Log Out
+						</a>
+					</li>
+				</ul>
+-->
+
+			</div>
+
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<div class="logo">
+					<img class="logo1" th:src="@{/images/easy_query2.jpg}" alt="no image" />
+					<!--<img class="logo2" th:src="@{/images/logo2.png}" alt="no image" />-->
+				</div>
+				<ul class="navbar-nav">
+
+					<!--<li class="nav-item">
+						<a class="nav-link" href="#">
+							
+						</a>
+					</li>-->
+
+					<li class="nav-item active1 m_menu1">
+						<a class="nav-link" href="#" onclick="close_menu()">Home <span
+								class="sr-only">(current)</span></a>
+					</li>
+					<li class="nav-item m_menu1">
+						<a id="a_greeting" class="nav-link" href="#" onclick="close_menu()" th:if="${greeting}"
+							th:text="'Hi '+${greeting}">
+
+						</a>
+					</li>
+					<li class="nav-item m_menu1">
+						<a class="nav-link" href="#" onclick="close_menu()">
+							Log Out
+						</a>
+					</li>
+					<!--<li class="nav-item m_menu1">
+						<a class="nav-link" href="#" onclick="close_menu()">
+							Shop
+						</a>
+					</li>
+					<li class="nav-item m_menu1">
+						<a class="nav-link" href="#why_us" onclick="close_menu()">
+							Why Us
+						</a>
+					</li>
+					<li class="nav-item m_menu1">
+						<a class="nav-link" href="#testimonial" onclick="close_menu()">
+							Testimonial
+						</a>
+					</li>
+					<li class="nav-item m_menu1">
+						<a class="nav-link" href="#contact" onclick="close_menu()">Contact Us</a>
+					</li>
+
+				</ul>
+
+				<div class="user_option">
+					<a onclick="login_opt()">
+						<i class="fa fa-user" aria-hidden="true"></i>
+						<span>
+							Login
+						</span>
+						<ul class="list-group login_opt">
+							<li class="list-group-item s1" onclick="show_search(this)">Seller</li>
+							<li class="list-group-item s1" onclick="show_search(this)">Customer</li>
+
+						</ul>
+					</a>
+					<a href="#" onclick="close_menu()">
+						<i class="fa fa-shopping-bag" aria-hidden="true"></i>
+					</a>-->
+					<form class="form-inline ">
+						<button class="btn nav_search-btn s1" type="button" onclick="show_search(this)">
+							<i class="fa fa-search" aria-hidden="true"></i>
+						</button>
+					</form>
+			</div>
+	</div>
+	</nav>
+
+	<div class="search_sec fixed-top">
+		<!--<section class="search_area1">
+				<i class="fa-solid fa-xmark close_btn" onclick="close_search()"></i>
+				<form action="#" th:object="${seller}" method="post" th:action="@{/seller/do_register}" class="mt-2">
+					<h1>Seller Registration</h1>
+
+					<input id="cred_checker" type="hidden" th:value="${credentials}" />
+					<div class="input_container1">
+						<input th:value="${seller.name}" name="name" type="text" class="search_input1"
+							placeholder="----------Name-----------" />
+						<p class="inval" th:if="${namerror}" th:text="${namerrormessage}"></p>
+
+					</div>
+					<div class="input_container1">
+						<input th:value="${seller.email}" name="email" type="email" class="search_input1"
+							placeholder="----------E-Mail-----------" />
+						<p class="inval" th:if="${emailerror}" th:text="${emailerrormessage}"></p>
+
+					</div>
+					<div class="input_container1">
+						<input name="password" type="password" class="search_input1"
+							placeholder="----------Password-----------" />
+						<p class="inval" th:if="${passworderror}" th:text="${passworderrormessage}"></p>
+
+					</div>
+					<div class="input_container1">
+						<input name="confirmPassword" type="password" class="search_input1"
+							placeholder="----------Confirm Password-----------" />
+
+						<p class="inval" th:if="${confirmpassworderror}" th:text="${confirmpassworderrormessage}"></p>
+					</div>
+					<select class="select1 search_input">
+					<option value="service">Service</option>
+					<option value="product">Product</option>
+				</select>
+					<div class="input_container1">
+						<input th:value="${seller.phone}" name="phone" type="text" class="search_input1"
+							placeholder="----------Contact Number----------" />
+						<p class="inval" th:if="${phoneerror}" th:text="${phoneerrormessage}"></p>
+					</div>
+					<input type="text" class="search_input" placeholder="----------Product/Service Name----------" />
+				
+				<div class="file_chooser">
+					<label for="file">Select your item image</label>
+					<input type="file" id="file" />
+				</div>
+					<div class="input_container1">
+						<textarea th:text="${seller.address}" name="address" class="search_input1" title="hello"
+							style="height: auto;" rows="3" placeholder="----------Address----------"></textarea>
+					</div>
+
+
+					<div class="input_container1">
+						<input th:value="${seller.city}" name="city" type="text" class="search_input1"
+							placeholder="----------City----------" />
+					</div>
+					<div class="input_container1">
+						<input th:value="${seller.pinCode}" name="pinCode" type="text" class="search_input1"
+							placeholder="----------Pin Code----------" />
+						<p class="inval" th:if="${pincodeerror}" th:text="${pincodeerrormessage}"></p>
+					</div>
+					<hr />
+					<button class="customer_login_btn" type="submit">Register</button>
+
+
+				</form>
+
+			</section>-->
+		<!--<input id="backB" type="hidden" th:value="${backB}" />-->
+		<section class="search_area2">
+			<input id="length_check" type="hidden" th:value="${length_check}" />
+			<input id="add_check_id" type="hidden" th:value="${add_check}" />
+			<i class="fa-solid fa-xmark close_btn c_btn" onclick="close_search(this)"></i>
+			<div id="special_form">
+				<i class="fa-solid fa-xmark" onclick="close_special_form()"></i><br />
+				<label>You are entering price per</label>
+
+				<br />
+				<input id="r1" class="qty_radio" type="radio" name="qty" onclick="activate_finish()" />
+				<label for="r1">piece</label>
+				<input id="r2" class="qty_radio" type="radio" name="qty" onclick="activate_finish()" />
+				<label for="r2">kg,metre,litre etc.</label>
+				<hr />
+				<button class="finish_btn" onclick="finish()">Finish</button>
+
+
+			</div>
+			<form id="add_product_form" class="add_product_form mt-2" action="#" th:object="${product}" method="post"
+				enctype="multipart/form-data" th:action="@{/seller/add_product}" onkeydown="return event.key !='Enter'">
+				<h1>Add Product</h1>
+				<input id="cred_checker2" type="hidden" th:value="${credentials}" />
+				<input id="seller_id" type="hidden" name="seller_email" th:value="${s_email}" />
+				<input id="add_id" type="hidden" name="adding" value="add2" />
+				<input id="qty_h" name="qty_out" type="hidden" />
+				<input type="hidden" name="p_list" th:value="${s_list}" />
+				<div class="input_container1">
+					<input id="p_name" name="p_name" type="text" class="search_input1"
+						placeholder="----------Name-----------" required />
+					<p class="inval" th:if="${namerror}" th:text="${namerrormessage}"></p>
+
+				</div>
+
+				<div class="input_container1">
+					<!--<label>Enter price (eg.Rs.200,Rs.200/piece,Rs.200/quintal etc.)</label>-->
+					<label id="ic1_l1">Rs.</label>
+					<input id="p_price" name="price" type="number" class="search_input1 price_input" placeholder="price"
+						required onfocus="priceFocus()" />
+
+					<span id="ic1_sp1">
+						<label id="ic1_l2">/</label>
+						<input id="i_qty" name="qty_i" type="text" class="search_input1 price_input1" />
+						<label id="ic1_l3">piece</label>
+						<i class="fa-solid fa-xmark" onclick="closeQty()"></i>
+					</span>
+
+					<p class="inval" th:if="${namerror}" th:text="${namerrormessage}"></p>
+
+				</div>
+				<div class="input_container1">
+					<select name="category" class="select1 search_input1" required>
+						<option value="">-----Select Category------</option>
+						<option value="Hardware">Hardware</option>
+						<option value="Raw Materials">Raw Materials</option>
+						<option value="Electronics">Electronics</option>
+						<option value="Furniture">Furniture</option>
+						<option value="Fashion">Fashion</option>
+						<option value="Automobile">Automobile</option>
+
+						<option value="Kitchen Application">Kitchen Application</option>
+						<option value="Architect & Designer">Architect & Designer</option>
+						<option value="Call Services">Call Services</option>
+						<option value="Machineries">Machineries</option>
+					</select>
+
+				</div>
+				<div class="file_chooser">
+					<label for="file">choose main image</label>
+					<input type="file" id="file" onchange="file_choosen()" name="main_image"
+						accept="image/jpeg,image/png" required />
+				</div>
+				<br />
+				<!--<div class="input_container1" style="width:100%;">
+					<textarea style="height:auto;" name="description" type="text" class="search_input1"
+						placeholder="Desciption of product (optional)" rows="5"></textarea>
+					<p class="inval" th:if="${namerror}" th:text="${namerrormessage}"></p>
+
+				</div>-->
+				<div class="choice1">
+					<hr />
+					<span>Do you want to add more images ?</span>
+					<button class="choice1_yes_btn" type="button" onclick="choice1_yes(this)">Yes</button>
+					<button class="choice1_no_btn" type="button" onclick="choice1_no(this)">No</button>
+
+				</div>
+				<div class="n_images">
+					<label>Enter Number of images you want to add </label>
+					<input type="number" class="search_input1 img_input1"
+						placeholder="Enter Number of images you want to add" />
+					<i class="fa-solid fa-xmark close_btn3" onclick="close_img_input1(this)"></i>
+					<button class="proceed1_btn" type="button" onclick="proceed1(this)">Add</button>
+					<p class="inval" th:if="${namerror}" th:text="${namerrormessage}"></p>
+
+				</div>
+				<div class="sub_images">
+
+				</div>
+				<!--<div class="sub_images1">
+
+				</div>-->
+				<div class="add_img_div">
+					<button id="add_img_btn" class="add_img_btn" type="button" onclick="add_img(this)">Add more
+						images</button>
+					<button id="proceed_btn" class="choice2_yes_btn" type="button" onclick="choice2_yes(this)">
+						Next
+						<i class="fa-solid fa-right-long"></i>
+					</button>
+					<!--<div class="n_images1">
+						<input type="number" class="search_input1 img_input1"
+							placeholder="Enter Number of images you want to add" />
+						<i class="fa-solid fa-xmark close_btn3"></i>
+						<button id="proceed_btn" type="button" onclick="proceed1()">Proceed</button>
+						<p class="inval" th:if="${namerror}" th:text="${namerrormessage}"></p>
+					</div>-->
+					<a id="navi_link1" href="#f_id">link1</a>
+				</div>
+				<div id="f_id" class="n_images1">
+					<label>Enter number of features of your product you want to add </label>
+
+					<input type="number" class="search_input1 feature_input1" placeholder="Enter Number of features" />
+					<!--<i class="fa-solid fa-xmark close_btn3"></i>-->
+					<button type="button" class="proceed2_btn" onclick="proceed2(this)">Add</button>
+					<p class="inval" th:if="${namerror}" th:text="${namerrormessage}"></p>
+
+				</div>
+				<div class="features">
+
+				</div>
+				<div class="add_feature_div">
+					<button id="add_feature_btn" class="add_feature_btn" type="button" onclick="add_feature(this)">Add
+						more features</button>
+					<button id="proceed1_btn" class="choice3_yes_btn" type="button" onclick="choice3_yes(this)">
+						Add more images
+						<i class="fa-solid fa-right-long"></i>
+					</button>
+					<!--<div class="n_images1">
+						<input type="number" class="search_input1 img_input1"
+							placeholder="Enter Number of images you want to add" />
+						<i class="fa-solid fa-xmark close_btn3"></i>
+						<button id="proceed_btn" type="button" onclick="proceed1()">Proceed</button>
+						<p class="inval" th:if="${namerror}" th:text="${namerrormessage}"></p>
+					</div>-->
+					<!--<a id="navi_link1" href="#f_id">link1</a>-->
+				</div>
+				<!--</div>-->
+
+				<!--<div id="f_id" class="n_images1">
+					<input type="number" class="search_input1 img_input1"
+						placeholder="Enter Number of features you want to add" />
+					<i class="fa-solid fa-xmark close_btn3"></i>
+					<button type="button" onclick="proceed1()">Proceed</button>
+					<p class="inval" th:if="${namerror}" th:text="${namerrormessage}"></p>
+
+
+				</div>-->
+				<!--<div class="input_container1">
+						<input name="email" type="email" class="search_input1"
+							placeholder="----------E-Mail-----------" />
+						<p class="inval" th:if="${emailerror}" th:text="${emailerrormessage}"></p>
+
+					</div>
+					<div class="input_container1">
+						<input name="password" type="password" class="search_input1"
+							placeholder="----------Password-----------" />
+						<p class="inval" th:if="${passworderror}" th:text="${passworderrormessage}"></p>
+
+					</div>
+					<div class="input_container1">
+						<input name="confirmPassword" type="password" class="search_input1"
+							placeholder="----------Confirm Password-----------" />
+
+						<p class="inval" th:if="${confirmpassworderror}" th:text="${confirmpassworderrormessage}"></p>
+					</div>
+					<select class="select1 search_input">
+					<option value="service">Service</option>
+					<option value="product">Product</option>
+				</select>
+					<div class="input_container1">
+						<input name="phone" type="text" class="search_input1"
+							placeholder="----------Contact Number----------" />
+						<p class="inval" th:if="${phoneerror}" th:text="${phoneerrormessage}"></p>
+					</div>
+					<input type="text" class="search_input" placeholder="----------Product/Service Name----------" />
+				
+				<div class="file_chooser">
+					<label for="file">Select your item image</label>
+					<input type="file" id="file" />
+				</div>
+					<div class="input_container1">
+						<textarea name="address" class="search_input1" title="hello"
+							style="height: auto;" rows="3" placeholder="----------Address----------"></textarea>
+					</div>
+
+
+					<div class="input_container1">
+						<input name="city" type="text" class="search_input1"
+							placeholder="----------City----------" />
+					</div>
+					<div class="input_container1">
+						<input name="pinCode" type="text" class="search_input1"
+							placeholder="----------Pin Code----------" />
+						<p class="inval" th:if="${pincodeerror}" th:text="${pincodeerrormessage}"></p>
+					</div>-->
+				<hr />
+				<button id="add_product_btn" class="customer_login_btn add_product_btn" type="button"
+					onclick="addQty()">Add</button>
+				<button id="submit_product_btn" style="display:none;" class="customer_login_btn"
+					type="submit">Add</button>
+
+
+			</form>
+
+		</section>
+
+		<section class="search_area3">
+			<input id="length_check1" type="hidden" th:value="${length_check1}" />
+			<input id="add_check_id1" type="hidden" th:value="${add_check}" />
+			<i class="fa-solid fa-xmark close_btn c_btn" onclick="close_search(this)"></i>
+			<!--<div id="special_form">
+
+				<label>You are entering price per</label>
+				<i class="fa-solid fa-xmark" onclick="close_special_form()"></i>
+				<br />
+				<input id="r1" class="qty_radio" type="radio" name="qty" onclick="activate_finish()" />
+				<label for="r1">piece</label>
+				<input id="r2" class="qty_radio" type="radio" name="qty" onclick="activate_finish()" />
+				<label for="r2">kg,metre,litre etc.</label>
+				<hr />
+				<button class="finish_btn" onclick="finish()">Finish</button>
+
+
+			</div>-->
+			<form id="add_product_form" class="add_product_form mt-2" action="#" th:object="${service}" method="post"
+				enctype="multipart/form-data" th:action="@{/seller/add_service}" onkeydown="return event.key !='Enter'">
+				<h1>Add Service</h1>
+				<input id="cred_checker3" type="hidden" th:value="${credentials}" />
+				<input id="seller_id1" type="hidden" name="seller_email" th:value="${s_email}" />
+				<input id="add_id1" type="hidden" name="adding" value="add2" />
+				<input id="qty_h1" name="qty_out" type="hidden" />
+				<input type="hidden" name="p_list" th:value="${p_list}" />
+				<div class="input_container1">
+					<input id="s_name" name="s_name" type="text" class="search_input1"
+						placeholder="----------Name-----------" required />
+					<p class="inval" th:if="${namerror}" th:text="${namerrormessage}"></p>
+
+				</div>
+
+				<div class="input_container1">
+					<!--<label>Enter price (eg.Rs.200,Rs.200/piece,Rs.200/quintal etc.)</label>-->
+					<label id="s_ic1_l1">Rs.</label>
+					<input id="s_price" name="price" type="number" class="search_input1 price_input"
+						placeholder="----------price-----------" required />
+
+					<span id="s_ic1_sp1">
+						<label id="s_ic1_l2">/</label>
+						<input id="s_i_qty" name="qty_i" type="text" class="search_input1 price_input1"
+							placeholder="----------price-----------" />
+						<label id="s_ic1_l3">piece</label>
+						<i class="fa-solid fa-xmark" onclick="closeQty()"></i>
+					</span>
+
+					<p class="inval" th:if="${namerror}" th:text="${namerrormessage}"></p>
+
+				</div>
+				<div class="input_container1">
+					<select name="category" class="select1 search_input1" required>
+						<option value="">-----Select Category------</option>
+						<option value="Hardware">Hardware</option>
+						<option value="Raw Materials">Raw Materials</option>
+						<option value="Electronics">Electronics</option>
+						<option value="Furniture">Furniture</option>
+						<option value="Fashion">Fashion</option>
+						<option value="Automobile">Automobile</option>
+
+						<option value="Kitchen Application">Kitchen Application</option>
+						<option value="Architect & Designer">Architect & Designer</option>
+						<option value="Call Services">Call Services</option>
+						<option value="Machineries">Machineries</option>
+					</select>
+
+				</div>
+				<div class="file_chooser">
+					<label for="s_file">choose main image</label>
+					<input type="file" id="s_file" onchange="file_choosen()" name="main_image"
+						accept="image/jpeg,image/png" required />
+				</div>
+				<!--<div class="input_container1" style="width:100%;">
+					<textarea style="height:auto;" name="description" type="text" class="search_input1"
+						placeholder="Desciption of service (optional)" rows="5"></textarea>
+					<p class="inval" th:if="${namerror}" th:text="${namerrormessage}"></p>
+
+				</div>-->
+				<div class="choice1">
+					<hr />
+					<span>Do you want to add more images ?</span>
+					<button class="choice1_yes_btn" type="button" onclick="choice1_yes(this)">Yes</button>
+					<button class="choice1_no_btn" type="button" onclick="choice1_no(this)">No</button>
+
+				</div>
+				<div class="n_images">
+					<label>Enter Number of images you want to add </label>
+					<input type="number" class="search_input1 img_input1"
+						placeholder="Enter Number of images you want to add" />
+					<i class="fa-solid fa-xmark close_btn3" onclick="close_img_input1(this)"></i>
+					<button class="proceed1_btn" type="button" onclick="proceed1(this)">Add</button>
+					<p class="inval" th:if="${namerror}" th:text="${namerrormessage}"></p>
+
+				</div>
+				<div class="sub_images">
+
+				</div>
+				<!--<div class="sub_images1">
+
+				</div>-->
+				<div class="add_img_div">
+					<button id="s_add_img_btn" class="add_img_btn" type="button" onclick="add_img(this)">Add more
+						images</button>
+					<button id="s_proceed_btn" class="choice2_yes_btn" type="button" onclick="choice2_yes(this)">
+						Next
+						<i class="fa-solid fa-right-long"></i>
+					</button>
+					<!--<div class="n_images1">
+						<input type="number" class="search_input1 img_input1"
+							placeholder="Enter Number of images you want to add" />
+						<i class="fa-solid fa-xmark close_btn3"></i>
+						<button id="proceed_btn" type="button" onclick="proceed1()">Proceed</button>
+						<p class="inval" th:if="${namerror}" th:text="${namerrormessage}"></p>
+					</div>-->
+					<a id="navi_link2" href="#f_id1">link1</a>
+				</div>
+				<div id="f_id1" class="n_images1">
+					<label>Enter number of features of your product you want to add </label>
+
+					<input type="number" class="search_input1 feature_input1" placeholder="Enter Number of features" />
+					<!--<i class="fa-solid fa-xmark close_btn3"></i>-->
+					<button class="proceed2_btn" type="button" onclick="proceed2(this)">Add</button>
+					<p class="inval" th:if="${namerror}" th:text="${namerrormessage}"></p>
+
+				</div>
+				<div class="features">
+
+				</div>
+				<div class="add_feature_div">
+					<button id="s_add_feature_btn" class="add_feature_btn" type="button" onclick="add_feature(this)">Add
+						more features</button>
+					<button id="s_proceed1_btn" class="choice3_yes_btn" type="button" onclick="choice3_yes(this)">
+						Add more images
+						<i class="fa-solid fa-right-long"></i>
+					</button>
+					<!--<div class="n_images1">
+						<input type="number" class="search_input1 img_input1"
+							placeholder="Enter Number of images you want to add" />
+						<i class="fa-solid fa-xmark close_btn3"></i>
+						<button id="proceed_btn" type="button" onclick="proceed1()">Proceed</button>
+						<p class="inval" th:if="${namerror}" th:text="${namerrormessage}"></p>
+					</div>-->
+					<!--<a id="navi_link1" href="#f_id">link1</a>-->
+				</div>
+				<!--</div>-->
+
+				<!--<div id="f_id" class="n_images1">
+					<input type="number" class="search_input1 img_input1"
+						placeholder="Enter Number of features you want to add" />
+					<i class="fa-solid fa-xmark close_btn3"></i>
+					<button type="button" onclick="proceed1()">Proceed</button>
+					<p class="inval" th:if="${namerror}" th:text="${namerrormessage}"></p>
+
+
+				</div>-->
+				<!--<div class="input_container1">
+						<input name="email" type="email" class="search_input1"
+							placeholder="----------E-Mail-----------" />
+						<p class="inval" th:if="${emailerror}" th:text="${emailerrormessage}"></p>
+
+					</div>
+					<div class="input_container1">
+						<input name="password" type="password" class="search_input1"
+							placeholder="----------Password-----------" />
+						<p class="inval" th:if="${passworderror}" th:text="${passworderrormessage}"></p>
+
+					</div>
+					<div class="input_container1">
+						<input name="confirmPassword" type="password" class="search_input1"
+							placeholder="----------Confirm Password-----------" />
+
+						<p class="inval" th:if="${confirmpassworderror}" th:text="${confirmpassworderrormessage}"></p>
+					</div>
+					<select class="select1 search_input">
+					<option value="service">Service</option>
+					<option value="product">Product</option>
+				</select>
+					<div class="input_container1">
+						<input name="phone" type="text" class="search_input1"
+							placeholder="----------Contact Number----------" />
+						<p class="inval" th:if="${phoneerror}" th:text="${phoneerrormessage}"></p>
+					</div>
+					<input type="text" class="search_input" placeholder="----------Product/Service Name----------" />
+				
+				<div class="file_chooser">
+					<label for="file">Select your item image</label>
+					<input type="file" id="file" />
+				</div>
+					<div class="input_container1">
+						<textarea name="address" class="search_input1" title="hello"
+							style="height: auto;" rows="3" placeholder="----------Address----------"></textarea>
+					</div>
+
+
+					<div class="input_container1">
+						<input name="city" type="text" class="search_input1"
+							placeholder="----------City----------" />
+					</div>
+					<div class="input_container1">
+						<input name="pinCode" type="text" class="search_input1"
+							placeholder="----------Pin Code----------" />
+						<p class="inval" th:if="${pincodeerror}" th:text="${pincodeerrormessage}"></p>
+					</div>-->
+				<hr />
+				<button id="s_add_product_btn" class="customer_login_btn add_product_btn" type="submit">Add</button>
+				<!--<button id="s_submit_product_btn" style="display:none;" class="customer_login_btn"
+					type="submit">Add</button>-->
+
+
+			</form>
+
+		</section>
+
+		<!--<div class="search_area">
+				<i class="fa-solid fa-xmark close_btn" onclick="close_search()"></i>
+
+				<h1>Seller Login</h1>
+				<input type="text" class="search_input" placeholder="----------E-Mail-----------" />
+				<input type="password" class="search_input" placeholder="----------Password-----------" />
+				<hr />
+				<button class="seller_login_btn">Login</button>
+				<span onclick="show_register()">Register</span>
+			</div>
+			<div class="search_area">
+				<i class="fa-solid fa-xmark close_btn" onclick="close_search()"></i>
+
+				<h1>Customer Login</h1>
+				<input type="text" class="search_input" placeholder="----------E-Mail-----------" />
+				<input type="password" class="search_input" placeholder="----------Password-----------" />
+				<hr />
+				<button class="customer_login_btn">Login</button>
+				<span>Register</span>
+			</div>-->
+		<div class="search_area">
+			<i class="fa-solid fa-xmark close_btn" onclick="close_search(this)"></i>
+
+			<h1>Search Your Item</h1>
+			<input type="text" class="search_input" placeholder="----------Search here-----------" />
+			<button class="search_btn">Search</button>
+		</div>
+
+
+	</div>
+
+
+	<!--	<input type="text" class="search_txt" />
+				<button class="search_btn">Search</button>-->
+
+	<!--</header>-->
+
+	<!-- end header section -->
+	<!-- slider section -->
+
+
+
+	<!-- end slider section -->
+	</div>
+
+	<!-- end hero area -->
+	<!--category area-->
+
+	<!--<section class="shop_section layout_padding">
+		<div class="container">
+			<div class="heading_container heading_center">
+				<h2>
+					Categories
+				</h2>
+			</div>
+			<div class="row">
+				<div class="col-sm-6 col-md-4 col-lg-4">
+					<div class="box">
+						<span>
+							<div class="img-box">
+								<img th:src="@{/images/cat_building.png}" alt="no image">
+							</div>
+							<div class="detail-box">
+								<h6 class="cat_name">
+									Building & Construction
+								</h6>
+
+								<h6>
+									Price
+									<span>
+										$200
+									</span>
+								</h6>
+							</div>
+							<hr />
+							<button class="view_cat">View</button>
+							<div class="new">
+								<span>
+									View
+								</span>
+							</div>
+						</span>
+					</div>
+				</div>
+
+
+
+			</div>
+			<div class="btn-box">
+				<a href="">
+					View All Categories
+				</a>
+			</div>
+		</div>
+	</section>-->
+
+	<!--end category area-->
+	<!-- shop section -->
+
+
+	<section class="shop_section shop_section1 layout_padding">
+		<div class="container">
+			<a style="display:none;" class="jl2" href="#product_id" id="jump_link2">hello</aclass>
+				<a style="display:none;" href="#service_id" id="jump_link3"></a>
+				<div class="heading_container heading_center">
+					<h2>
+						Your Products
+					</h2>
+				</div>
+				<div class="row">
+					<!--<div class="col-sm-6 col-md-4 col-lg-3">
+					<div class="box">
+						<a href="">
+							<div class="img-box">
+								<img th:src="@{/images/p1.png}" alt="">
+							</div>
+							<div class="detail-box">
+								<h6>
+									Ring
+								</h6>
+								<h6>
+									Price
+									<span>
+										$200
+									</span>
+								</h6>
+							</div>
+							<div class="new">
+								<span>
+									New
+								</span>
+							</div>
+						</a>
+					</div>
+				</div>-->
+					<div class="col-sm-6 col-md-4 col-lg-3" th:unless="${p_list}">
+						<h1>No products available</h1>
+					</div>
+					<div class="col-sm-6 col-md-4 col-lg-3" th:if="${p_list}" th:each="p:${p_list}">
+						<span class="rem_span">Remove item</span>
+						<div class="box">
+							<form th:action="@{/seller/remove_product}" method="post">
+								<input name="id" type="hidden" th:value="${p.p_id}" />
+								<input id="seller_id1" type="hidden" name="seller_email" th:value="${s_email}" />
+								<input type="hidden" name="s_list" th:value="${s_list}" />
+								<i class="fa-solid fa-xmark i_remove" onclick="click1(this)"></i>
+
+								<button class="remove_product_btn" style="display: none;" type="submit"></button>
+							</form>
+
+							<span>
+								<div class="img-box">
+									<img th:src="@{'/images/'+${p.mainImage}}" alt="no image">
+								</div>
+								<div class="detail-box">
+									<h6 th:text="${p.p_name}">
+										Ring
+									</h6>
+									<h6>
+										Price
+										<span th:text="'Rs.'+${p.price}">
+											$200
+										</span>
+									</h6>
+								</div>
+								<div class="new">
+									<span>
+
+										<input id="view_span_id" type="hidden" th:value="${done}" />
+										<input id="view_span_id1" type="hidden" th:value="${p_added}" />
+										<form th:action="@{/item/view_product}">
+											<input type="hidden" name="page" value="add_item" />
+											<input type="hidden" name="id" th:value="${p.p_id}" />
+											<span class="view_span" onclick="p_submit(this)">View</span>
+											<button style="display : none;" class="p_submit_btn" type="submit"></button>
+										</form>
+
+									</span>
+
+								</div>
+
+							</span>
+						</div>
+					</div>
+					<div class="col-sm-6 col-md-4 col-lg-3">
+						<div style="cursor: pointer;" class="add_product" onclick="show_add_product(this)">
+							<i class="fa-solid fa-plus"></i>
+						</div>
+						<h5 id="product_id" class="h5_add_product">Add Product</h5>
+					</div>
+				</div>
+				<div class="btn-box">
+					<a href="">
+						View All Products
+					</a>
+					<a class="back" th:href="@{/}">
+						Back
+					</a>
+				</div>
+		</div>
+	</section>
+
+	<!-- end shop section -->
+
+	<!-- saving section -->
+
+
+	<!-- end saving section -->
+	<!--services section-->
+	<!--<section class="shop_section shop_section2 layout_padding">
+		<div class="container">
+			<div class="heading_container heading_center">
+				<h2>
+					Your Services
+				</h2>
+			</div>
+			<div class="row">
+				<div class="col-sm-6 col-md-4 col-lg-4">
+					<div class="box">
+						<div class="box1">
+							<span>
+								<div class="img-box1">
+									<img th:src="@{/images/serv_photography.jpg}" alt="no image">
+								</div>
+								<div class="detail-box">
+									<h6 class="cat_name serv_name">
+										Phtography Service
+									</h6>
+
+									<h6>
+									Price
+									<span>
+										$200
+									</span>
+								</h6>
+								</div>
+								<hr />
+								<button class="view_cat">View</button>
+								<div class="new">
+								<span>
+									View
+								</span>
+							</div>
+							</span>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-6 col-md-4 col-lg-3" th:unless="${s_list}">
+					<h1>No services available</h1>
+				</div>
+				<div class="col-sm-6 col-md-4 col-lg-4" th:if="${s_list}" th:each="s:${s_list}">
+					<div class="box">
+						<form th:action="@{/seller/remove_service}" method="post">
+							<input name="id" type="hidden" th:value="${s.s_id}" />
+							<input id="seller_id1" type="hidden" name="seller_email" th:value="${s_email}" />
+							<input type="hidden" name="p_list" th:value="${p_list}" />
+							<i class="fa-solid fa-xmark i_remove" onclick="click1(this)"></i>
+
+							<button class="remove_product_btn" style="display: none;" type="submit"></button>
+						</form>
+						<span>
+							<div class="img-box1">
+								<img th:src="@{'/images/'+${s.mainImage}}" style="border-radius: 100%;" alt="no image">
+							</div>
+							<div class="detail-box">
+								<h6 class="cat_name serv_name" th:text="${s.s_name}">
+									Buffet Service
+								</h6>
+
+								<h6>
+									Price
+									<span th:text="'Rs.'+${s.price}">
+										$200
+									</span>
+								</h6>
+							</div>
+							<hr />
+							<input id="view_span_idd" type="hidden" th:value="${done1}" />
+							<input id="view_span_id2" type="hidden" th:value="${s_added}" />
+							<form th:action="@{/item/view_service}">
+								<input type="hidden" name="id" th:value="${s.s_id}" />
+								<span class="view_span" onclick="p_submit(this)">View</span>
+								<button class="view_cat" onclick="s_submit(this)">View</button>
+								<button style="display : none;" class="s_submit_btn" type="submit"></button>
+							</form>
+							<button class="view_cat">View</button>
+							<div class="new">
+								<span>
+									View
+								</span>
+							</div>
+						</span>
+					</div>
+				</div>
+
+				<div class="col-sm-6 col-md-4 col-lg-3">
+					<div style="cursor: pointer;" class="add_product" onclick="show_add_product(this)">
+						<i class="fa-solid fa-plus"></i>
+					</div>
+					<h5 id="service_id" class="h5_add_product">Add Service</h5>
+				</div>
+			</div>
+			<div class="btn-box">
+				<a href="">
+					View All Services
+				</a>
+				<a class="back" th:href="@{/}">
+					Back
+				</a>
+			</div>
+		</div>
+	</section>-->
+
+	<!--end services section-->
+	<!-- why section -->
+
+
+	<!-- end why section -->
+
+
+	<!-- gift section -->
+
+
+
+
+	<!-- end gift section -->
+	<hr />
+
+	<!-- contact section -->
+
+	<section id="contact" class="contact_section ">
+		<div class="container px-0">
+			<div class="heading_container ">
+				<h2 class="">
+					Contact Us
+				</h2>
+			</div>
+		</div>
+		<div class="container container-bg">
+			<div class="row">
+				<div class="col-lg-7 col-md-6 px-0">
+					<div class="map_container">
+						<div class="map-responsive">
+							<iframe
+								src="https://www.google.com/maps/embed/v1/place?key=AIzaSyA0s1a7phLN0iaD6-UE7m4qP-z21pH0eSc&q=Eiffel+Tower+Paris+France"
+								width="600" height="300" frameborder="0" style="border:0; width: 100%; height:100%"
+								allowfullscreen></iframe>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6 col-lg-5 px-0">
+					<form action="#">
+						<div>
+							<input type="text" placeholder="Name" />
+						</div>
+						<div>
+							<input type="email" placeholder="Email" />
+						</div>
+						<div>
+							<input type="text" placeholder="Phone" />
+						</div>
+						<div>
+							<input type="text" class="message-box" placeholder="Message" />
+						</div>
+						<div class="d-flex ">
+							<button>
+								SEND
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- end contact section -->
+
+	<!-- client section -->
+
+	<!-- end client section -->
+
+	<!-- info section -->
+
+	<section class="info_section  layout_padding2-top section2">
+		<div class="social_container">
+			<div class="social_box">
+				<a href="">
+					<i class="fa fa-facebook" aria-hidden="true"></i>
+				</a>
+				<a href="">
+					<i class="fa fa-twitter" aria-hidden="true"></i>
+				</a>
+				<a href="">
+					<i class="fa fa-instagram" aria-hidden="true"></i>
+				</a>
+				<a href="">
+					<i class="fa fa-youtube" aria-hidden="true"></i>
+				</a>
+			</div>
+		</div>
+		<div class="info_container">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-6 col-lg-3">
+						<h6>
+							ABOUT US
+						</h6>
+						<p>
+							it amet consectetur adipisicing elit. Architecto enim tempore quam placeat rerum laudantium
+							unde. 
+						</p>
+					</div>
+					<div class="col-md-6 col-lg-3">
+						<div class="info_form ">
+							<h5>
+								Newsletter
+							</h5>
+							<form action="#">
+								<input type="email" placeholder="Enter your email">
+								<button>
+									Subscribe
+								</button>
+							</form>
+						</div>
+					</div>
+					<div class="col-md-6 col-lg-3">
+						<h6>
+							NEED HELP
+						</h6>
+						<p>
+							it amet consectetur adipisicing elit. Architecto enim tempore quam placeat rerum laudantium
+							unde. 
+						</p>
+					</div>
+					<div class="col-md-6 col-lg-3">
+						<h6>
+							CONTACT US
+						</h6>
+						<div class="info_link-box">
+							<a href="">
+								<i class="fa fa-map-marker" aria-hidden="true"></i>
+								<span> Gb road 123 london Uk </span>
+							</a>
+							<a href="">
+								<i class="fa fa-phone" aria-hidden="true"></i>
+								<span>+01 12345678901</span>
+							</a>
+							<a href="">
+								<i class="fa fa-envelope" aria-hidden="true"></i>
+								<span> abc@gmail.com</span>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- footer section -->
+
+		<footer class=" footer_section">
+			<div class="container">
+				<p>
+					&copy; <span id="displayYear"></span> All Rights Reserved By
+					<a href="https://html.design/">hcuwqguqwgqiw</a>
+				</p>
+			</div>
+		</footer>
+
+		<!-- footer section -->
+
+	</section>
+
+	<!-- end info section -->
+
+
+	<script th:src="@{/js/jquery-3.4.1.min.js}"></script>
+	<script th:src="@{/js/bootstrap.js}"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js}">
+	</script>
+	<script th:src="@{/js/custom.js}"></script>
+	<script th:src="@{/js/myscript.js}"></script>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	<script>
+		const mq = window.matchMedia("(max-width:600px)");
+		//if (mq.matches) {
+		window.addEventListener("hashchange", function () {
+			console.log(window.location.hash);
+			if (window.location.hash === "#contact") {
+				console.log("hello1");
+
+				window.scrollTo(window.scrollX, window.scrollY - 100);
+			}
+			else {
+				console.log("hello2");
+			}
+		});
+		<!--window.onbeforeunload = function(){
+			return "sorry";
+		}-->
+
+	</script>
+</body>
+
+</html>

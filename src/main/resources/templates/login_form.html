@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th=http://www.thymeleaf.org>
+
+<head>
+	<!-- Basic -->
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<!-- Mobile Metas -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<!-- Site Metas -->
+	<meta name="keywords" content="" />
+	<meta name="description" content="" />
+	<meta name="author" content="" />
+	<link rel="shortcut icon" th:href="@{/images/easy_query2.png}" type="image/x-icon">
+
+	<title>
+		Shopping Centre
+	</title>
+
+	<!-- slider stylesheet -->
+
+	<link rel="stylesheet" type="text/css"
+		href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+	<!-- bootstrap core css -->
+	<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.css}" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+		integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+		crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<!-- Custom styles for this template -->
+	<link th:href="@{/css/style.css}" rel="stylesheet" />
+	<link th:href="@{/css/style1.css}" rel="stylesheet" />
+	<!-- responsive style -->
+	<link th:href="@{/css/responsive.css}" rel="stylesheet" />
+	<script type="text/javascript">
+		const preventBack = () => {
+			window.history.forward();
+		}
+		setTimeout(preventBack, 0);
+		window.onunload = function () {
+			null;
+		}
+	</script>
+</head>
+
+<body>
+
+	<div class="container">
+		<button class="log_btn">Login</button>
+		<div class="submitting_details_top">
+			<div class="submitting_details">
+				<h5>Submitting details...please wait...</h5>
+			</div>
+
+		</div>
+		<ul class="list-group login_list">
+			<li class="list-group-item s1 text-center" onclick="show_search(this)">Seller</li>
+			<li class="list-group-item s1 cus_s1 text-center" onclick="show_search(this)">Customer</li>
+
+		</ul>
+		<hr />
+		<a class="back2 text-center" th:href="@{/}">
+			Back
+		</a>
+	</div>
+	<!--<div class="submit_top">
+		<div class="submitting_details">
+			<h5>Submitting details...please wait...</h5>
+		</div>
+
+	</div>-->
+	<div class="search_sec">
+
+
+		<!--<div class="bottom_menu">
+			<div class="container">
+				<div class="row">
+					<div class="col-2">
+						<i class="fa-solid fa-house fa-home"></i><br />
+						<span>Home</span>
+					</div>
+					<div class="col-2">
+						<i class="fa-regular fa-envelope"></i><br />
+						<span>Leads</span>
+					</div>
+					<div class="col-2">
+						<i class="fa-regular fa-handshake"></i><br />
+						<span>B2B</span>
+					</div>
+					<d
+					iv class="col-2">
+						<i class="fa-regular fa-credit-card"></i><br />
+						<span>Pay</span>
+					</div>
+					<div class="col-2">
+						<i class="fa-regular fa-newspaper"></i><br />
+						<span>News</span>
+					</div>
+					<div class="col-2">
+						<i class="fa-solid fa-bars"></i><br />
+						<span>More</span>
+					</div>
+				</div>
+			</div>
+		</div>-->
+		<section class="search_area1">
+
+			<i class="fa-solid fa-xmark close_btn" onclick="close_search()"></i>
+			<form action="#" th:object="${seller}" method="post" th:action="@{/seller/do_register}" class="mt-2">
+				<h1>Enter Bussiness Details</h1>
+				<p class="instruction1">All star fields are required</p>
+				<input id="cred_checker" type="hidden" th:value="${credentials}" />
+				<div class="input_container1">
+					<i class="fa-solid fa-star star"></i>
+					<input th:value="${seller.name}" name="name" type="text" class="search_input1"
+						placeholder="----------Contact Name-----------" />
+					<p class="inval" th:if="${namerror}" th:text="${namerrormessage}"></p>
+
+				</div>
+				<div class="input_container1">
+					<i class="fa-solid fa-star star"></i>
+					<input th:value="${seller.email}" name="email" type="email" class="search_input1"
+						placeholder="----------E-Mail-----------" />
+					<p class="inval" th:if="${emailerror}" th:text="${emailerrormessage}"></p>
+					<p class="inval" th:if="${cvError}" th:text="${cvError}"></p>
+
+				</div>
+				<div class="input_container1">
+					<i class="fa-solid fa-star star"></i>
+					<input th:value="${seller.bussinessName}" name="bussinessName" type="text" class="search_input1"
+						placeholder="----------Legal Bussiness Name-----------" />
+					<p class="inval" th:if="${bussinessNamerror}" th:text="${bussinessNamerrormessage}"></p>
+
+				</div>
+				<div class="input_container1">
+					<input type="hidden" id="bussinessType_id" th:value="${seller.bussinessType}" />
+					<i class="fa-solid fa-star star"></i>
+					<select name="bussinessType" class="select1 search_input1">
+						<option value="">-----Select Bussiness Type------</option>
+						<option value="Private Limited">Private Limited</option>
+						<option value="Proprietorship">Proprietorship</option>
+						<option value="Partnership">Partnership</option>
+						<option value="Individual">Individual</option>
+						<option value="Public Limited">Public Limited</option>
+						<option value="LLP">LLP</option>
+
+						<option value="Trust">Trust</option>
+						<option value="Society">Society</option>
+						<option value="NGO">NGO</option>
+
+					</select>
+					<p class="inval" th:if="${bussinessTypeerror}" th:text="${bussinessTypeerrormessage}"></p>
+				</div>
+				<div class="input_container1">
+					<i class="fa-solid fa-star star"></i>
+					<input name="password" type="password" class="search_input1" th:value="${seller.password}"
+						placeholder="----------Password-----------" />
+					<p class="inval" th:if="${passworderror}" th:text="${passworderrormessage}"></p>
+
+				</div>
+				<div class="input_container1">
+					<input name="confirmPassword" type="password" class="search_input1 align_end"
+						placeholder="----------Confirm Password-----------" />
+
+					<p class="inval" th:if="${confirmpassworderror}" th:text="${confirmpassworderrormessage}"></p>
+				</div>
+
+				<div class="input_container1">
+					<i class="fa-solid fa-star star"></i>
+					<input th:value="${seller.phone}" name="phone" type="text" class="search_input1"
+						placeholder="----------Contact Number----------" />
+					<p class="inval" th:if="${phoneerror}" th:text="${phoneerrormessage}"></p>
+					<p class="inval" th:if="${mobileError}" th:text="${mobileError}"></p>
+				</div>
+				<!--<input type="text" class="search_input" placeholder="----------Product/Service Name----------" />-->
+
+				<!--<div class="file_chooser">
+					<label for="file">Select your item image</label>
+					<input type="file" id="file" />
+				</div>-->
+				<div class="input_container1 sa_textarea">
+					<i class="fa-solid fa-star star"></i>
+					<textarea th:text="${seller.street1}" name="street1" type="text" class="search_input1 street1"
+						placeholder="----------Address----------" onkeyup="suggest()" rows="3"></textarea>
+					<p class="inval" th:if="${street1error}" th:text="${street1errormessage}"></p>
+				</div>
+				<!--<div class="input_container1">
+					<input th:value="${seller.street2}" name="street2" type="text" class="search_input1 align_end"
+						placeholder="----------Street 2----------" />
+
+				</div>-->
+
+				<div class="input_container1">
+					<i class="fa-solid fa-star star"></i>
+					<input th:value="${seller.city}" name="city" type="text" class="search_input1"
+						placeholder="----------City----------" />
+					<p class="inval" th:if="${cityerror}" th:text="${cityerrormessage}"></p>
+				</div>
+				<div class="input_container1">
+					<i class="fa-solid fa-star star"></i>
+					<input th:value="${seller.state}" name="state" type="text" class="search_input1"
+						placeholder="----------State----------" />
+					<p class="inval" th:if="${stateerror}" th:text="${stateerrormessage}"></p>
+				</div>
+				<!--<div class="input_container1">
+					<i class="fa-solid fa-star star"></i>
+					<input th:value="${seller.pinCode}" name="pinCode" type="text" class="search_input1"
+						placeholder="----------Pin Code----------" />
+					<p class="inval" th:if="${pincodeerror}" th:text="${pincodeerrormessage}"></p>
+				</div>-->
+				<hr />
+				<div class="container text-center">
+					<input type="checkbox" name="agreement" id="terms_conditions_id"
+						class="terms_conditions text-center" value="agreed" />
+
+					<label for="terms_conditions_id">I agree to <a th:href="@{/terms-conditions}" target="_blank">terms
+							and
+							conditions</a></label>
+				</div>
+				<hr />
+				<!--<button class="customer_login_btn" type="submit">Register</button>
+-->
+				<button id="customer_login_btn10" class="customer_login_btn" type="button"
+					onclick="submit_seller()">Register</button>
+				<button id="customer_login_btn10_submit" style="display: none;" type="submit"></button>
+
+			</form>
+			<form action="#" th:action="@{/seller/add_item}" class="mt-2" style="display: none;">
+				<input name="s_email" type="hidden" th:value="${s_email}" />
+				<input name="greeting" type="hidden" th:value="${greeting}" />
+				<button id="s_register_btn" type="submit" />
+			</form>
+		</section>
+
+		<section class="search_area1">
+			<i class="fa-solid fa-xmark close_btn" onclick="close_search()"></i>
+			<form action="#" th:object="${customer}" method="post" th:action="@{/customer/do_register}" class="mt-2">
+				<h1>Customer Registration</h1>
+				<p class="text-center" style="color:white;">All the fields are required</p>
+				<input id="cred_checker3" type="hidden" th:value="${credentials3}" />
+				<div class="input_container1">
+					<input th:value="${customer.name}" name="name" type="text" class="search_input1"
+						placeholder="----------Name-----------" />
+					<p class="inval" th:if="${namerror1}" th:text="${namerrormessage1}"></p>
+
+				</div>
+				<div class="input_container1">
+					<input th:value="${customer.email}" name="email" type="email" class="search_input1"
+						placeholder="----------E-Mail-----------" />
+					<p class="inval" th:if="${emailerror1}" th:text="${emailerrormessage1}"></p>
+					<p class="inval" th:if="${cvError}" th:text="${cvError}"></p>
+				</div>
+				<div class="input_container1">
+					<input name="password" type="password" class="search_input1"
+						placeholder="----------Password-----------" />
+					<p class="inval" th:if="${passworderror1}" th:text="${passworderrormessage1}"></p>
+
+				</div>
+				<div class="input_container1">
+					<input name="confirmPassword" type="password" class="search_input1"
+						placeholder="----------Confirm Password-----------" />
+
+					<p class="inval" th:if="${confirmpassworderror1}" th:text="${confirmpassworderrormessage1}"></p>
+				</div>
+
+				<div class="input_container1">
+					<input th:value="${customer.phone}" name="phone" type="text" class="search_input1"
+						placeholder="----------Contact Number----------" />
+					<p class="inval" th:if="${phoneerror1}" th:text="${phoneerrormessage1}"></p>
+
+				</div>
+				<!--<input type="text" class="search_input" placeholder="----------Product/Service Name----------" />-->
+
+				<!--<div class="file_chooser">
+					<label for="file">Select your item image</label>
+					<input type="file" id="file" />
+				</div>-->
+				<!--<div class="input_container1">
+					<textarea id="cAddress_search_item" th:text="${customer.address}" name="address"
+						class="search_input1 cAddress_search_item" title="hello" style="height: auto;" rows="3"
+						placeholder="----------Address----------" th:onkeyup="|cAddress_search()|"></textarea>
+				</div>
+				<div class="cAddress_search_result mobile_searchh">
+					<span th:if="${products}" th:each="p:${products}" th:text="${p.p_name}"></span><br />
+				</div>-->
+
+				<!--<div class="input_container1">
+					<input th:value="${customer.city}" name="city" type="text" class="search_input1"
+						placeholder="----------City----------" />
+				</div>-->
+				<!--<div class="input_container1">
+					<input th:value="${customer.pinCode}" name="pinCode" type="text" class="search_input1 pin_code"
+						placeholder="----------Pin Code----------" th:onkeyup="|validatePin()|" />
+					<p class="inval" th:if="${pincodeerror1}" th:text="${pincodeerrormessage1}"></p>
+				</div>-->
+				<div class="input_container1 cAddress_container">
+					<!--<textarea id="cAddress_search_item" th:text="${customer.address}" name="address"
+						class="search_input1 cAddress_search_item" title="hello" style="height: auto;" rows="3"
+						placeholder="----------Address----------" th:onkeyup="|cAddress_search()|"></textarea>-->
+					<textarea id="cAddress_search_item" th:text="${customer.address}" name="address"
+						class="search_input1 cAddress_search_item" title="hello" style="height: auto;" rows="3"
+						placeholder="----------Address----------" onkeyup="suggest1()"></textarea>
+					<p class="inval" th:if="${addressError}" th:text="${addressError}"></p>
+					<input type="hidden" name="cAddressStatus" class="cAddress_hidden" value="no show" />
+					<input type="hidden" class="cAddress_hidden1" th:if="${cAddress}" />
+				</div>
+				<div class="cAddress_search_result mobile_searchh">
+
+
+					<!--<span th:if="${products}" th:each="p:${products}" th:text="${p.p_name}"></span><br />-->
+				</div>
+
+				<hr />
+				<div class="container text-center">
+					<input type="checkbox" name="agreement" id="cu_terms_conditions_id"
+						class="terms_conditions text-center" value="agreed" />
+
+					<label for="cu_terms_conditions_id">I agree to <a th:href="@{/terms-conditions}"
+							target="_blank">terms
+							and
+							conditions</a></label>
+				</div>
+				<hr />
+				<!--<button class="customer_login_btn" type="submit">Register</button>
+-->
+				<button class="customer_login_btn" type="submit">Register</button>
+
+			</form>
+			<form action="#" method="post" th:action="@{/customer/do_register1}" class="mt-2" style="display: none;">
+				<input name="c_email" type="hidden" th:value="${c_email}" />
+				<input name="greeting" type="hidden" th:value="${greeting}" />
+				<button id="c_register_btn" type="submit"></button>
+			</form>
+		</section>
+		<section class="search_area1">
+			<i class="fa-solid fa-xmark close_btn" onclick="close_search()"></i>
+			<form action="#" th:object="${bankAccount}" method="post" th:action="@{/seller/do_register1}" class="mt-2">
+				<h1>Bank Account Details</h1>
+				<p class="instruction1">All star fields are required</p>
+				<input id="cred_checker5" type="hidden" th:value="${credentials}" />
+				<input type="hidden" name="email" th:value="${s_email}" />
+				<div class="input_container1">
+					<i class="fa-solid fa-star star"></i>
+					<input th:value="${bankAccount.ifscCode}" name="ifscCode" type="text" class="search_input1"
+						placeholder="----------IFSC Code-----------" />
+					<p class="inval" th:if="${ifscCodeerror}" th:text="${ifscCodeerrormessage}"></p>
+
+				</div>
+				<div class="input_container1">
+					<i class="fa-solid fa-star star"></i>
+					<input th:value="${bankAccount.accountNumber}" name="accountNumber" type="text"
+						class="search_input1" placeholder="----------Account Number-----------" />
+					<p class="inval" th:if="${accountNumbererror}" th:text="${accountNumbererrormessage}"></p>
+
+				</div>
+				<div class="input_container1">
+
+					<input name="confirmAccountNumber" type="text" class="search_input1 in_confirmAccountNumber"
+						placeholder="----------Re-enter Account Number-----------" />
+					<p class="inval" th:if="${confirmAccountNumbererror}" th:text="${confirmAccountNumbererrormessage}">
+					</p>
+
+				</div>
+
+				<div class="input_container1">
+					<i class="fa-solid fa-star star"></i>
+					<input th:value="${bankAccount.beneficiaryName}" name="beneficiaryName" type="text"
+						class="search_input1" placeholder="----------Beneficiary Name-----------" />
+					<p class="inval" th:if="${beneficiaryNameerror}" th:text="${beneficiaryNameerrormessage}"></p>
+
+				</div>
+				<hr />
+				<button class="customer_login_btn" type="submit">Submit</button>
+			</form>
+		</section>
+		<!--<div class="submitting_otp_to_email">
+			<h3>Sending OTP to your mail...Please wait</h3>
+		</div>-->
+		<section class="search_area1 verification_area">
+			<input type="hidden" id="mail_otp_id" th:if="${mail_otp}" />
+			<input type="hidden" id="mobile_otp_id" th:if="${mobile_otp}" />
+			<input type="hidden" id="mo_verification_id" th:value="${mo_verification}" />
+			<input type="hidden" id="ma_verification_id" th:value="${ma_verification}" />
+			<i class="fa-solid fa-xmark close_btn" onclick="close_search()"></i>
+			<div class="verify_btns">
+				<form style="display:none;" method="post" th:action="@{/verify/otp-to-mail}">
+					<input type="hidden" name="email" th:value="'seller:'+${s_email}" th:if="${s_email}"/>
+					<input type="hidden" name="email" th:value="'customer:'+${c_email}" th:if="${c_email}"/>
+					<button class="otp_to_mail_btn" type="submit"></button>
+				</form>
+				<form style="display:none;" method="post" th:action="@{/verify/otp-to-mobile}">
+					<input type="hidden" name="email" th:value="'seller:'+${s_email}" th:if="${s_email}"/>
+					<input type="hidden" name="email" th:value="'customer:'+${c_email}" th:if="${c_email}"/>
+					<button class="otp_to_mobile_btn" type="submit"></button>
+				</form>
+				<a class="btn1 text-center" onclick="otp_to_mail()">Verify Email</a>
+				<a class="btn2 text-center" onclick="otp_to_mobile()">Verify Mobile Number</a>
+			</div>
+			<div class="input_container1 mail_otp_div">
+				<h4 style="color:white;">Enter OTP sent to your email</h4>
+				<form method="post" th:action="@{/verify/verify-otp-mail}">
+					<input type="hidden" name="email" th:value="'seller:'+${s_email}" th:if="${s_email}"/>
+					<input type="hidden" name="email" th:value="'customer:'+${c_email}" th:if="${c_email}"/>
+					<input type="text" name="otp" class="search_input1"
+						placeholder="-------------Enter Otp-------------" />
+					<button class="search_btn">Submit</button>
+					<p class="inval" th:if="${otpError}" th:text="${otpError}"></p>
+				</form>
+
+			</div>
+			<div class="input_container1 mobile_otp_div">
+				<h4 style="color:white;">Enter OTP sent to your mobile</h4>
+				<form method="post" th:action="@{/verify/verify-otp-mobile}">
+					<input id="s_email_present" type="hidden" name="email" th:value="'seller:'+${s_email}" th:if="${s_email}"/>
+					<input id="c_email_present" type="hidden" name="email" th:value="'customer:'+${c_email}" th:if="${c_email}"/>
+					<input type="text" name="otp" class="search_input1"
+						placeholder="-------------Enter Otp-------------" />
+					<button class="search_btn">Submit</button>
+					<p class="inval" th:if="${otpError}" th:text="${otpError}"></p>
+				</form>
+
+			</div>
+			<form method="post" th:action="@{/seller/go-to-seller}" style="display:none" class="go_to_seller_form">
+				<input type="hidden" name="email" th:value="${s_email}" />
+				<button type="submit"></button>
+			</form>
+
+			<!--<input type="text" class="search_input" placeholder="----------Product/Service Name----------" />-->
+
+			<!--<div class="file_chooser">
+					<label for="file">Select your item image</label>
+					<input type="file" id="file" />
+				</div>-->
+
+
+		</section>
+		<section class="search_area1 verification_area">
+			<h3 class="text-center">Sending OTP to your mail...Please wait...</h3>
+			
+		</section>
+		<section class="search_area1 verification_area">
+			
+			<h3 class="text-center">Sending OTP to your mobile...Please wait...</h3>
+		</section>
+		<div id="s_login" class="search_area">
+			<i class="fa-solid fa-xmark close_btn" onclick="close_search()"></i>
+			<input id="cred_checker1" type="hidden" th:value="${login_credentials}" />
+			<h1>Seller Login</h1>
+			<!--<div id="bad_cred1">
+				<h4>
+					Inavlid username or password !
+					<i class="fa-solid fa-xmark" onclick="close_search()"></i>
+
+				</h4>
+			</div>-->
+			<input id="backB" type="hidden" th:value="${backB}" />
+			<form action="#" th:object="${seller}" method="post" th:action="@{/seller/do_login}" class="mt-2">
+				<input name="email" type="email" class="search_input" placeholder="----------E-Mail-----------" />
+				<input name="password" type="password" class="search_input"
+					placeholder="----------Password-----------" />
+				<hr />
+				<button class="seller_login_btn" type="submit">Login</button>
+				<span class="show_register" onclick="show_register(this)">Register</span>
+			</form>
+			<form style="display: none;" action="#" method="post" th:action="@{/seller/do_login1}" class="mt-2">
+				<input name="email" type="hidden" th:value="${s_email}" />
+				<input name="greeting" type="hidden" th:value="${greeting}" />
+				<input name="p_list" type="hidden" th:value="${p_list}" />
+				<hr />
+				<button class="seller_login_btn1" type="submit">Login</button>
+				<span onclick="show_register()">Register</span>
+			</form>
+		</div>
+		<div id="c_login" class="search_area">
+			<i class="fa-solid fa-xmark close_btn" onclick="close_search()"></i>
+			<input id="cred_checker4" type="hidden" th:value="${login_credentials4}" />
+			<h1>Customer Login</h1>
+			<!--<div id="bad_cred1">
+				<h4>
+					Inavlid username or password !
+					<i class="fa-solid fa-xmark" onclick="close_search()"></i>
+
+				</h4>
+			</div>-->
+			<input id="c_backB" type="hidden" th:value="${backB}" />
+			<form action="#" th:object="${customer}" method="post" th:action="@{/customer/do_login}" class="mt-2">
+				<input name="email" type="email" class="search_input" placeholder="----------E-Mail-----------" />
+				<input name="password" type="password" class="search_input"
+					placeholder="----------Password-----------" />
+				<hr />
+				<button class="seller_login_btn" type="submit">Login</button>
+				<span class="show_register" onclick="show_register(this)">Register</span>
+			</form>
+			<!--<form style="display: none;" action="#" method="post" th:action="@{/seller/do_login1}" class="mt-2">
+				<input name="email" type="hidden" th:value="${s_email}" />
+				<input name="greeting" type="hidden" th:value="${greeting}" />
+				<input name="p_list" type="hidden" th:value="${p_list}" />
+				<hr />
+				<button class="seller_login_btn1" type="submit">Login</button>
+				<span onclick="show_register()">Register</span>
+			</form>-->
+		</div>
+		<!--<div class="search_area search_item">
+			<i class="fa-solid fa-xmark close_btn" onclick="close_search()"></i>
+
+			<h1>Search Your Item</h1>
+			<input type="text" class="search_input" placeholder="----------Search your item-----------" />
+			<button class="search_btn">Search</button>
+		</div>-->
+
+
+	</div>
+	<script th:src="@{/js/jquery-3.4.1.min.js}"></script>
+	<script th:src="@{/js/bootstrap.js}"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js}">
+	</script>
+	<!--<script th:src="@{/js/custom.js}"></script>-->
+	<script th:src="@{/js/myscript.js}"></script>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	<script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCl30do4Fl45eUvhk6PQDFA7JMWIBhS0jk
+&loading=async&libraries=places&callback=initMap"></script>
+</body>
+
+</html>
