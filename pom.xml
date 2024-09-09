@@ -188,29 +188,31 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-			<artifactId>maven-antrun-plugin</artifactId>
-			<executions>
-				<execution>
-					<id>generate-sources</id>
-					<phase>generate-sources</phase>
-					<configuration>
-						<tasks>
-							<mkdir dir="target/generated-sources/thrift" />
-							<exec executable="${thrift.executable}">
-								<arg value="--gen" />
-								<arg value="java:beans" />
-								<arg value="-o" />
-								<arg value="target/generated-sources/thrift" />
-								<arg
-									value="src/main/resources/MyThriftMessages.thrift" />
-							</exec>
-						</tasks>
-					</configuration>
-					<goals>
-						<goal>run</goal>
-					</goals>
-				</execution>
-			</executions>
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>generate-sources</id>
+						<phase>generate-sources</phase>
+						<configuration>
+							<tasks>
+								<mkdir dir="target/generated-sources/thrift" />
+								<exec executable="${thrift.executable}">
+									<arg value="--gen" />
+									<arg value="java:beans" />
+									<arg value="-o" />
+									<arg value="target/generated-sources/thrift" />
+									<arg
+										value="src/main/resources/MyThriftMessages.thrift" />
+								</exec>
+							</tasks>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 
