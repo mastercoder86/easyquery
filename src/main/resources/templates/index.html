@@ -15,7 +15,7 @@
 	<meta name="keywords" content="" />
 	<meta name="description" content="" />
 	<meta name="author" content="" />
-	<link rel="shortcut icon" th:href="@{/images/easy_query2.png}" type="image/x-icon">
+	<link rel="shortcut icon" th:href="@{/images/easy_query.jpg}" type="image/x-icon">
 
 	<title>
 		Easy Query
@@ -47,10 +47,10 @@
 </head>
 
 <body>
-	<input type="hidden" id="phonepe_checkout_id" th:if="${phonepe_checkout}" th:value="${phonepe_checkout}"/>
-	<form method="post" th:action="@{/phonepe-payment}">
+	<input type="hidden" id="phonepe_checkout_id" th:if="${phonepe_checkout}" th:value="${phonepe_checkout}" />
+	<!--<form method="post" th:action="@{/phonepe-payment}">
 		<button type="button" onclick="phonepeTransact()">Pay</button>
-	</form>
+	</form>-->
 	<button style="display:none;"></button>
 	<form method="post" th:action="@{/customer/logged_in}">
 		<input id="customer_email_id" name="email" type="hidden" value="abc@gmail.com" />
@@ -227,6 +227,12 @@
 				<input type="hidden" name="page" value="index" />
 				<button id="search_item_submit" type="submit"></button>
 			</form>-->
+			<form th:action="@{/item/show_product}">
+				<!--<span class="pro_name" onclick="submit_pro(this)">${product.p_name}</span>-->
+				<input type="hidden" name="page" value="index" />
+				<input id="product_name_id" type="hidden" name="name" />
+				<button class="pro_submit1" type="submit" style="display: none;"></button>
+			</form>
 			<form th:action="@{/item/show_product}">
 				<!--<span class="pro_name" onclick="submit_pro(this)">${product.p_name}</span>-->
 				<input type="hidden" name="page" value="index" />
@@ -535,6 +541,7 @@
 
 	<section class="shop_section layout_padding">
 		<input id="show_id" type="hidden" th:value="${show}" />
+
 		<a href="#build_const" id="jump_link1"></a>
 		<div class="container">
 			<div class="heading_container heading_center">
@@ -973,6 +980,12 @@
 					</div>
 				</div>-->
 			</div>
+			<th:block th:if="${enableSearch}">
+				<div class="container fixed-top item_top_div no_item_top_div" th:unless="${products}">
+					<i class="fa-solid fa-xmark item_close_cross text-right" onclick="close_item(this)"></i>
+					<h4>No items with this name available</h4>
+				</div>
+			</th:block>
 			<a href="#show_cat_id" id="link_show_cat"></a>
 			<div class="cat_top_div" th:if="${category}">
 				<div class="container">
@@ -991,8 +1004,8 @@
 								<form th:action="@{/item/show_product}">
 									<span class="pro_name" th:text="${p.p_name}" onclick="submit_pro(this)"></span>
 									<input type="hidden" name="page" value="index" />
-									<input type="hidden" name="id" th:value="${p.p_id}" />
-									<button class="pro_submit" type="submit" style="display: none;"></button>
+									<input type="hidden" name="name" th:value="${p.p_name}" />
+									<button class="pro_submit2" type="submit" style="display: none;"></button>
 								</form>
 
 							</span>
@@ -1009,13 +1022,13 @@
 						</div>
 					</th:block>
 				</div>
-			</div>
-			<div class="container fixed-top item_top_div" th:if="${product}">
 
-				<!--<span class="rem_span">Remove item</span>-->
-				<div class="box">
-					<i class="fa-solid fa-xmark item_close_cross" onclick="close_item(this)"></i>
-					<!--<form th:action="@{/seller/remove_product}" method="post">
+				<div class="container fixed-top item_top_div" th:if="${products}">
+
+					<!--<span class="rem_span">Remove item</span>-->
+					<div class="box" th:each="p:${products}">
+						<i class="fa-solid fa-xmark item_close_cross" onclick="close_item(this)"></i>
+						<!--<form th:action="@{/seller/remove_product}" method="post">
 							<input name="id" type="hidden" th:value="${p.p_id}" />
 							<input id="seller_id1" type="hidden" name="seller_email" th:value="${s_email}" />
 							<input type="hidden" name="s_list" th:value="${s_list}" />
@@ -1024,44 +1037,44 @@
 							<button class="remove_product_btn" style="display: none;" type="submit"></button>
 						</form>-->
 
-					<span>
-						<th:block>
-							<div class="img-box">
-								<img class="cat_p_img" th:src="@{'/images/'+${product.mainImage}}" alt="no image">
-							</div>
-							<div class="detail-box">
-								<h6 th:text="${product.p_name}">
-									Ring
-								</h6>
-								<h6>
-									Price
-									<span th:text="'Rs.'+${product.price}">
-										$200
+						<span>
+							<th:block>
+								<div class="img-box">
+									<img class="cat_p_img" th:src="@{'/images/'+${p.mainImage}}" alt="no image">
+								</div>
+								<div class="detail-box">
+									<h6 th:text="${p.p_name}">
+										Ring
+									</h6>
+									<h6>
+										Price
+										<span th:text="'Rs.'+${p.price}">
+											$200
+										</span>
+									</h6>
+								</div>
+								<div class="new">
+									<span>
+
+										<input id="view_span_id" type="hidden" th:value="${done}" />
+										<form th:action="@{/item/view_product}">
+											<input type="hidden" name="page" value="index" />
+											<input type="hidden" name="id" th:value="${p.p_id}" />
+											<span class="view_span" onclick="p_submit(this)">View</span>
+											<button style="display : none;" class="p_submit_btn" type="submit"></button>
+										</form>
+
 									</span>
-								</h6>
-							</div>
-							<div class="new">
-								<span>
 
-									<input id="view_span_id" type="hidden" th:value="${done}" />
-									<form th:action="@{/item/view_product}">
-										<input type="hidden" name="page" value="index" />
-										<input type="hidden" name="id" th:value="${product.p_id}" />
-										<span class="view_span" onclick="p_submit(this)">View</span>
-										<button style="display : none;" class="p_submit_btn" type="submit"></button>
-									</form>
-
-								</span>
-
-							</div>
-						</th:block>
-					</span>
+								</div>
+							</th:block>
+						</span>
+					</div>
 				</div>
-			</div>
-			<div class="container fixed-top item_top_div" th:if="${service}">
-				<div class="box">
-					<i class="fa-solid fa-xmark item_close_cross" onclick="close_item(this)"></i>
-					<!--<form th:action="@{/seller/remove_service}" method="post">
+				<div class="container fixed-top item_top_div" th:if="${service}">
+					<div class="box">
+						<i class="fa-solid fa-xmark item_close_cross" onclick="close_item(this)"></i>
+						<!--<form th:action="@{/seller/remove_service}" method="post">
 						<input name="id" type="hidden" th:value="${s.s_id}" />
 						<input id="seller_id1" type="hidden" name="seller_email" th:value="${s_email}" />
 						<input type="hidden" name="p_list" th:value="${p_list}" />
@@ -1069,44 +1082,44 @@
 
 						<button class="remove_product_btn" style="display: none;" type="submit"></button>
 					</form>-->
-					<span>
-						<div class="img-box1">
-							<img th:src="@{'/images/'+${service.mainImage}}" style="border-radius: 100%;"
-								alt="no image">
-						</div>
-						<div class="detail-box">
-							<h6 class="cat_name serv_name" th:text="${service.s_name}">
-								Buffet Service
-							</h6>
+						<span>
+							<div class="img-box1">
+								<img th:src="@{'/images/'+${service.mainImage}}" style="border-radius: 100%;"
+									alt="no image">
+							</div>
+							<div class="detail-box">
+								<h6 class="cat_name serv_name" th:text="${service.s_name}">
+									Buffet Service
+								</h6>
 
-							<h6>
-								Price
-								<span th:text="${service.price}">
-									$200
-								</span>
-							</h6>
-						</div>
-						<hr />
-						<form th:action="@{/item/view_service}">
-							<input type="hidden" name="id" th:value="${service.s_id}" />
-							<button class="view_cat" onclick="s_submit(this)">View</button>
-							<button style="display : none;" class="s_submit_btn" type="submit"></button>
-						</form>
-						<!--<button class="view_cat">View</button>-->
-						<!--<div class="new">
+								<h6>
+									Price
+									<span th:text="${service.price}">
+										$200
+									</span>
+								</h6>
+							</div>
+							<hr />
+							<form th:action="@{/item/view_service}">
+								<input type="hidden" name="id" th:value="${service.s_id}" />
+								<button class="view_cat" onclick="s_submit(this)">View</button>
+								<button style="display : none;" class="s_submit_btn" type="submit"></button>
+							</form>
+							<!--<button class="view_cat">View</button>-->
+							<!--<div class="new">
 								<span>
 									View
 								</span>
 							</div>-->
-					</span>
+						</span>
+					</div>
 				</div>
-			</div>
-			<!--<div class="btn-box">
+				<!--<div class="btn-box">
 				<a href="">
 					View All Categories
 				</a>
 			</div>-->
-		</div>
+			</div>
 	</section>
 
 	<!--end category area-->
@@ -3782,7 +3795,10 @@
 								Fast Delivery
 							</h5>
 							<p>
-								consectetur adipiscing elit, sed doLorem ipsum dolor sit amet,
+								With our website, you can enjoy fast and reliable delivery of your products. Whether
+								you're shopping
+								for everyday essentials or unique gifts, our website makes it easy to get what you need
+								quickly and conveniently.
 							</p>
 						</div>
 					</div>
@@ -3900,7 +3916,7 @@
 								Free Shiping
 							</h5>
 							<p>
-								consectetur adipiscing elit, sed doLorem ipsum dolor sit amet,
+								zero or optimal shipping charges.
 							</p>
 						</div>
 					</div>
@@ -3925,7 +3941,9 @@
 								Best Quality
 							</h5>
 							<p>
-								consectetur adipiscing elit, sed doLorem ipsum dolor sit amet,
+								At our website, we take pride in offering the best quality products to our customers. We
+								curate a selection of premium items from renowned brands and manufacturers, ensuring
+								that every product meets our high standards of quality, durability, and performance.
 							</p>
 						</div>
 					</div>
@@ -3959,9 +3977,9 @@
 								</h2>
 							</div>
 							<p>
-								Omnis ex nam laudantium odit illum harum, excepturi accusamus at corrupti, velit
-								blanditiis unde perspiciatis, vitae minus culpa? Beatae at aut consequuntur porro
-								adipisci aliquam eaque iste ducimus expedita accusantium?
+								You're looking for gift ideas for your loved ones! we'd be happy to help you with that.
+								On this website, we have a vast collection of unique and thoughtful gifts for all
+								occasions, from birthdays to anniversaries and holidays
 							</p>
 							<div class="btn-box btn-box1">
 								<a href="#" class="btn1">
@@ -4055,7 +4073,7 @@
 										Morijorch
 									</h5>
 									<h6>
-										abc@gmail.com
+										morijorch@gmail.com
 									</h6>
 								</div>
 								<i class="fa fa-quote-left" aria-hidden="true"></i>
@@ -4073,7 +4091,7 @@
 										Rochak
 									</h5>
 									<h6>
-										abc@gmail.com
+										rochak@gmail.com
 									</h6>
 								</div>
 								<i class="fa fa-quote-left" aria-hidden="true"></i>
@@ -4091,7 +4109,7 @@
 										Brad Johns
 									</h5>
 									<h6>
-										abc@gmail.com
+										johns@gmail.com
 									</h6>
 								</div>
 								<i class="fa fa-quote-left" aria-hidden="true"></i>
@@ -4201,7 +4219,7 @@
 			<div class="container">
 				<p>
 					&copy; <span id="displayYear"></span> All Rights Reserved By
-					<a href="https://html.design/">hcuwqguqwgqiw</a>
+					<a href="#">Kumar Siddharth</a>
 				</p>
 			</div>
 		</footer>
@@ -4252,15 +4270,15 @@
 	<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 	<script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCl30do4Fl45eUvhk6PQDFA7JMWIBhS0jk
 &loading=async&libraries=places&callback=initMap"></script>
-<script src = "https://mercury.phonepe.com/web/bundle/checkout.js" ></script>
+	<script src="https://mercury.phonepe.com/web/bundle/checkout.js"></script>
 	<script>
-			function getLocation() {
-				if (navigator.geolocation) {
-					navigator.geolocation.getCurrentPosition(showPosition);
-				} else {
-					alert("Geolocation is not supported by this browser.");
-				}
+		function getLocation() {
+			if (navigator.geolocation) {
+				navigator.geolocation.getCurrentPosition(showPosition);
+			} else {
+				alert("Geolocation is not supported by this browser.");
 			}
+		}
 		function showPosition(position) {
 			var lat = position.coords.latitude;
 			var lng = position.coords.longitude;

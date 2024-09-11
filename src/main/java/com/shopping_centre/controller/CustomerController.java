@@ -628,7 +628,7 @@ public class CustomerController {
 		int amount = Integer.parseInt(data.get("amount").toString());
 		Order order = null;
 		try {
-			RazorpayClient client = new RazorpayClient("rzp_test_y84XqHSv5nPYer", "aRNRG1XGthPYkdebPAGg0IWN");
+			RazorpayClient client = new RazorpayClient("rzp_test_u5jZubA75Ra06W", "1zJ7H0tGqp2DerpCSUFAGoua");
 			JSONObject orderRequest = new JSONObject();
 			try {
 				orderRequest.put("amount", amount * 100);
@@ -704,7 +704,7 @@ public class CustomerController {
 		myOrderRepository.save(myOrder);
 		RazorpayClient razorpay = null;
 		try {
-			razorpay = new RazorpayClient("rzp_test_y84XqHSv5nPYer", "aRNRG1XGthPYkdebPAGg0IWN");
+			razorpay = new RazorpayClient("rzp_test_u5jZubA75Ra06W", "1zJ7H0tGqp2DerpCSUFAGoua");
 		} catch (RazorpayException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

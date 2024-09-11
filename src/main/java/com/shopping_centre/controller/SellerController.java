@@ -82,13 +82,13 @@ import com.shopping_centre.dao.BankAccountRepository;
 import com.shopping_centre.dao.OtpDetailsRepository;
 import com.shopping_centre.dao.ProductRepository;
 import com.shopping_centre.dao.SellerRepository;
-import com.shopping_centre.dao.ServiceRepository;
+
 import com.shopping_centre.entities.BankAccount;
 import com.shopping_centre.entities.Customer;
 import com.shopping_centre.entities.OtpDetails;
 import com.shopping_centre.entities.Product;
 import com.shopping_centre.entities.Seller;
-import com.shopping_centre.entities.Service;
+
 import com.shopping_centre.service.EmailService;
 //import com.shopping_centre.helper.SendSms;
 //import com.shopping_centre.helper.SinchSms;
@@ -772,157 +772,132 @@ public class SellerController {
 
 	}
 
-	@PostMapping("/add_service")
-	public String processService(@ModelAttribute Service service, @RequestParam("seller_email") String s_email,
-			@RequestParam String qty_out, @RequestParam String adding, @RequestParam("main_image") MultipartFile file,
-			@RequestParam("sub_image") Optional<MultipartFile[]> files, Model model) {
-		System.out.println(s_email);
-		System.out.println(qty_out);
-		System.out.println(adding);
-
-		try {
-			Seller seller = sellerRepository.findByEmail(s_email);
-			if (!seller.getAddCheck().equals(adding)) {
-				if (file.isEmpty()) {
-					System.out.println("File is empty");
-				} else {
-
-					service.setMainImage(file.getOriginalFilename());
-					File saveFile = new ClassPathResource("/static/images").getFile();
-					Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + file.getOriginalFilename());
-					Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
-					System.out.println("Image uploaded");
-
-				}
-				if (files.isPresent()) {
-					for (MultipartFile f : files.get()) {
-						service.getSubImages().add(f.getOriginalFilename());
-						File saveFile = new ClassPathResource("static/images").getFile();
-						Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + f.getOriginalFilename());
-						Files.copy(f.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
-						System.out.println("Sub Image uploaded");
-					}
-				}
-				for (String f1 : service.getFeatures()) {
-					System.out.println(f1);
-				}
-
-				if (seller != null) {
-					System.out.println("password" + seller.getPassword());
-					/*
-					 * String greetName = seller.getName().substring(0,
-					 * seller.getName().indexOf(" "));
-					 */
-					/*
-					 * model.addAttribute("greeting", greetName); model.addAttribute("s_email",
-					 * s_email); model.addAttribute("seller", seller);
-					 */
-				} /*
-					 * else { System.out.println("seller is null"); }
-					 */
-				// product.setDescription(description);
-				/*
-				 * if (!qty_out.equals("piece")) { service.setPrice(service.getPrice() + "/" +
-				 * qty_out); }
-				 */
-				// service.setSeller(seller);
-				// seller.getServices().add(service);
-				seller.setPassword(seller.getPassword());
-				seller.setAddCheck(adding);
-
-				sellerRepository.save(seller);
-				System.out.println("product added successfully");
-				System.out.println("Data : " + service);
-				model.addAttribute("s_added", "added");
-
-			}
-			String greetName;
-			try {
-				greetName = seller.getName().substring(0, seller.getName().indexOf(" "));
-			} catch (StringIndexOutOfBoundsException se) {
-				greetName = seller.getName();
-			}
-			model.addAttribute("greeting", greetName);
-			model.addAttribute("s_email", s_email);
-			model.addAttribute("seller", seller);
-			// model.addAttribute("s_list",
-			// serviceRepository.findServicesBySeller(sellerRepository.findByEmail(s_email)));
-			model.addAttribute("p_list", productRepository.findProductsBySeller(seller));
-			model.addAttribute("add_check", seller.getAddCheck());
-			/*
-			 * if (!seller.getServices().isEmpty()) { if (((seller.getServices().size()) %
-			 * 3) == 0) { model.addAttribute("length_check1", "change"); } }
-			 */
-		} catch (Exception e) {
-			e.printStackTrace();
-			/*
-			 * session.setAttribute("message", new
-			 * Message("Something went wrong !! Try Again", "danger"));
-			 */
-		}
-
-		return "add_item";
-	}
-
-	@PostMapping("/remove_service")
-	public String deleteService(@RequestParam long id, @RequestParam String seller_email, Model model) {
-		System.out.println("id :" + id);
-		// Optional<Service> s = serviceRepository.findById(id);
-		// System.out.println(s);
-		model.addAttribute("s_added", "added");
-		Seller seller1 = sellerRepository.findByEmail(seller_email);
-		if (seller1 != null) {
-			String greetName;
-			try {
-				greetName = seller1.getName().substring(0, seller1.getName().indexOf(" "));
-			} catch (StringIndexOutOfBoundsException se) {
-				greetName = seller1.getName();
-			}
-			model.addAttribute("s_email", seller1.getEmail());
-			model.addAttribute("greeting", greetName);
-			model.addAttribute("add_check", seller1.getAddCheck());
-
-		}
-		/*
-		 * if (!s.isEmpty()) { System.out.println("system"); Service service = s.get();
-		 * if (service != null) { System.out.println("system2");
-		 * seller1.getServices().remove(service);
-		 * 
-		 * serviceRepository.delete(service);
-		 * 
-		 * System.out.println(seller1.getServices()); sellerRepository.save(seller1);
-		 * 
-		 * 
-		 * if (seller1 != null) { String greetName = seller1.getName().substring(0,
-		 * seller1.getName().indexOf(" ")); model.addAttribute("s_email",
-		 * seller1.getEmail()); model.addAttribute("greeting", greetName); if
-		 * (seller1.getProducts().isEmpty()) { model.addAttribute("p_list", null); }
-		 * else { model.addAttribute("p_list",
-		 * productRepository.findProductsBySeller(seller1)); }
-		 * 
-		 * }
-		 * 
-		 * } }
-		 */
-
-		/*
-		 * else { model.addAttribute("login_credentials", "bad"); return "index"; }
-		 */
-		/*
-		 * if (seller1.getServices().isEmpty()) { model.addAttribute("s_list", null);
-		 * System.out.println("system3"); } else { if (((seller1.getServices().size()) %
-		 * 3) == 0) { model.addAttribute("length_check1", "change"); }
-		 * model.addAttribute("s_list",
-		 * serviceRepository.findServicesBySeller(seller1)); }
-		 */
-		if (seller1.getProducts().isEmpty()) {
-			model.addAttribute("p_list", null);
-		} else {
-			model.addAttribute("p_list", seller1.getProducts());
-		}
-
-		return "add_item";
-	}
+	/*
+	 * @PostMapping("/add_service") public String processService(@ModelAttribute
+	 * Service service, @RequestParam("seller_email") String s_email,
+	 * 
+	 * @RequestParam String qty_out, @RequestParam String
+	 * adding, @RequestParam("main_image") MultipartFile file,
+	 * 
+	 * @RequestParam("sub_image") Optional<MultipartFile[]> files, Model model) {
+	 * System.out.println(s_email); System.out.println(qty_out);
+	 * System.out.println(adding);
+	 * 
+	 * try { Seller seller = sellerRepository.findByEmail(s_email); if
+	 * (!seller.getAddCheck().equals(adding)) { if (file.isEmpty()) {
+	 * System.out.println("File is empty"); } else {
+	 * 
+	 * service.setMainImage(file.getOriginalFilename()); File saveFile = new
+	 * ClassPathResource("/static/images").getFile(); Path path =
+	 * Paths.get(saveFile.getAbsolutePath() + File.separator +
+	 * file.getOriginalFilename()); Files.copy(file.getInputStream(), path,
+	 * StandardCopyOption.REPLACE_EXISTING); System.out.println("Image uploaded");
+	 * 
+	 * } if (files.isPresent()) { for (MultipartFile f : files.get()) {
+	 * service.getSubImages().add(f.getOriginalFilename()); File saveFile = new
+	 * ClassPathResource("static/images").getFile(); Path path =
+	 * Paths.get(saveFile.getAbsolutePath() + File.separator +
+	 * f.getOriginalFilename()); Files.copy(f.getInputStream(), path,
+	 * StandardCopyOption.REPLACE_EXISTING);
+	 * System.out.println("Sub Image uploaded"); } } for (String f1 :
+	 * service.getFeatures()) { System.out.println(f1); }
+	 * 
+	 * if (seller != null) { System.out.println("password" + seller.getPassword());
+	 * 
+	 * String greetName = seller.getName().substring(0,
+	 * seller.getName().indexOf(" "));
+	 * 
+	 * 
+	 * model.addAttribute("greeting", greetName); model.addAttribute("s_email",
+	 * s_email); model.addAttribute("seller", seller);
+	 * 
+	 * } else { System.out.println("seller is null"); }
+	 * 
+	 * // product.setDescription(description);
+	 * 
+	 * if (!qty_out.equals("piece")) { service.setPrice(service.getPrice() + "/" +
+	 * qty_out); }
+	 * 
+	 * // service.setSeller(seller); // seller.getServices().add(service);
+	 * seller.setPassword(seller.getPassword()); seller.setAddCheck(adding);
+	 * 
+	 * sellerRepository.save(seller);
+	 * System.out.println("product added successfully");
+	 * System.out.println("Data : " + service); model.addAttribute("s_added",
+	 * "added");
+	 * 
+	 * } String greetName; try { greetName = seller.getName().substring(0,
+	 * seller.getName().indexOf(" ")); } catch (StringIndexOutOfBoundsException se)
+	 * { greetName = seller.getName(); } model.addAttribute("greeting", greetName);
+	 * model.addAttribute("s_email", s_email); model.addAttribute("seller", seller);
+	 * // model.addAttribute("s_list", //
+	 * serviceRepository.findServicesBySeller(sellerRepository.findByEmail(s_email))
+	 * ); model.addAttribute("p_list",
+	 * productRepository.findProductsBySeller(seller));
+	 * model.addAttribute("add_check", seller.getAddCheck());
+	 * 
+	 * if (!seller.getServices().isEmpty()) { if (((seller.getServices().size()) %
+	 * 3) == 0) { model.addAttribute("length_check1", "change"); } }
+	 * 
+	 * } catch (Exception e) { e.printStackTrace();
+	 * 
+	 * session.setAttribute("message", new
+	 * Message("Something went wrong !! Try Again", "danger"));
+	 * 
+	 * }
+	 * 
+	 * return "add_item"; }
+	 * 
+	 * @PostMapping("/remove_service") public String deleteService(@RequestParam
+	 * long id, @RequestParam String seller_email, Model model) {
+	 * System.out.println("id :" + id); // Optional<Service> s =
+	 * serviceRepository.findById(id); // System.out.println(s);
+	 * model.addAttribute("s_added", "added"); Seller seller1 =
+	 * sellerRepository.findByEmail(seller_email); if (seller1 != null) { String
+	 * greetName; try { greetName = seller1.getName().substring(0,
+	 * seller1.getName().indexOf(" ")); } catch (StringIndexOutOfBoundsException se)
+	 * { greetName = seller1.getName(); } model.addAttribute("s_email",
+	 * seller1.getEmail()); model.addAttribute("greeting", greetName);
+	 * model.addAttribute("add_check", seller1.getAddCheck());
+	 * 
+	 * }
+	 * 
+	 * if (!s.isEmpty()) { System.out.println("system"); Service service = s.get();
+	 * if (service != null) { System.out.println("system2");
+	 * seller1.getServices().remove(service);
+	 * 
+	 * serviceRepository.delete(service);
+	 * 
+	 * System.out.println(seller1.getServices()); sellerRepository.save(seller1);
+	 * 
+	 * 
+	 * if (seller1 != null) { String greetName = seller1.getName().substring(0,
+	 * seller1.getName().indexOf(" ")); model.addAttribute("s_email",
+	 * seller1.getEmail()); model.addAttribute("greeting", greetName); if
+	 * (seller1.getProducts().isEmpty()) { model.addAttribute("p_list", null); }
+	 * else { model.addAttribute("p_list",
+	 * productRepository.findProductsBySeller(seller1)); }
+	 * 
+	 * }
+	 * 
+	 * } }
+	 * 
+	 * 
+	 * 
+	 * else { model.addAttribute("login_credentials", "bad"); return "index"; }
+	 * 
+	 * 
+	 * if (seller1.getServices().isEmpty()) { model.addAttribute("s_list", null);
+	 * System.out.println("system3"); } else { if (((seller1.getServices().size()) %
+	 * 3) == 0) { model.addAttribute("length_check1", "change"); }
+	 * model.addAttribute("s_list",
+	 * serviceRepository.findServicesBySeller(seller1)); }
+	 * 
+	 * if (seller1.getProducts().isEmpty()) { model.addAttribute("p_list", null); }
+	 * else { model.addAttribute("p_list", seller1.getProducts()); }
+	 * 
+	 * return "add_item"; }
+	 */
 
 	@GetMapping("/create_account")
 	public String createAccount(Model model) {
@@ -1037,8 +1012,8 @@ public class SellerController {
 	@GetMapping("/delete_account")
 	public String deleteAccount() {
 		try {
-			RazorpayClient razorpay = new RazorpayClient("rzp_test_y84XqHSv5nPYer", "aRNRG1XGthPYkdebPAGg0IWN");
-			String account_id = "acc_OlyZXoOw3KfrXb";
+			RazorpayClient razorpay = new RazorpayClient("rzp_test_u5jZubA75Ra06W", "1zJ7H0tGqp2DerpCSUFAGoua");
+			String account_id = "acc_OvbMiL8kd9yyCn";
 			Account account = razorpay.account.delete(account_id);
 			System.out.println(account);
 		} catch (RazorpayException e) {

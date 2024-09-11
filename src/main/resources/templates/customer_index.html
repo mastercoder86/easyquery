@@ -18,7 +18,7 @@
 	<link rel="shortcut icon" th:href="@{/images/easy_query2.png}" type="image/x-icon">
 
 	<title>
-		Shopping Centre
+		Easy Query
 	</title>
 
 	<!-- slider stylesheet -->
@@ -35,6 +35,7 @@
 	<link th:href="@{/css/style1.css}" rel="stylesheet" />
 	<!-- responsive style -->
 	<link th:href="@{/css/responsive.css}" rel="stylesheet" />
+	<link rel="shortcut icon" th:href="@{/images/easy_query.jpg}" type="image/x-icon">
 	<script type="text/javascript">
 		const preventBack = () => {
 			window.history.forward();
@@ -72,7 +73,8 @@
 					<!--<img class="logo2" th:src="@{/images/logo2.png}" alt="no image" />-->
 				</a>
 				<a class="ma_shopping" onclick="cart_open()">
-					<i class="fa fa-shopping-bag cart" aria-hidden="true"><sup th:if="${noOfItems}" th:text="${noOfItems}">0</sup></i>
+					<i class="fa fa-shopping-bag cart" aria-hidden="true"><sup th:if="${noOfItems}"
+							th:text="${noOfItems}">0</sup></i>
 					<!--<i class="fa fa-shopping-bag"></i>-->
 
 				</a>
@@ -210,7 +212,8 @@
 						</ul>-->
 					</a>
 					<a class="a_shopping" onclick="cart_open()">
-						<i class="fa fa-shopping-bag" aria-hidden="true"><sup th:if="${noOfItems}" th:text="${noOfItems}">0</sup></i>
+						<i class="fa fa-shopping-bag" aria-hidden="true"><sup th:if="${noOfItems}"
+								th:text="${noOfItems}">0</sup></i>
 
 					</a>
 					<!--<form class="form-inline ">
@@ -228,7 +231,7 @@
 			<h4>Name</h4>
 			<h4>Quantity</h4>
 			<h4>Price</h4>
-			
+
 			<hr />
 			<div class="items_in_cart">
 				<h1 th:unless="${products}">No Items available</h1>
@@ -290,7 +293,43 @@
 			</div>
 		</div>
 		<div class="search_area search_item">
+			<input type="text" class="search_input" id="in_search_item"
+				placeholder="----------Search your item-----------" th:onkeyup="|search()|" th:value="${sentItem}" />
+			<!--<input type="text" class="search_input" id="in_search_item"
+				placeholder="----------Search your item-----------" />-->
+			<!--<button class="search_btn">Search</button>-->
+			<div class="search_result mobile_search">
+				<!--<span th:if="${products}" th:each="p:${products}" th:text="${p.p_name}"></span><br />-->
+			</div>
+			<button class="search_btn" onclick="show_searched_item()">Search</button>
+			<!--<form th:action="@{/item/find_item}" style="display:none;">
+				<input type="hidden" id="finding_item_id" name="findingItem" />
+				<input type="hidden" name="page" value="index" />
+				<button id="search_item_submit" type="submit"></button>
+			</form>-->
+			<form th:action="@{/item/show_product}">
+				<!--<span class="pro_name" onclick="submit_pro(this)">${product.p_name}</span>-->
+				<input type="hidden" name="page" value="index" />
+				<input id="product_name_id" type="hidden" name="name" />
+				<button class="pro_submit1" type="submit" style="display: none;"></button>
+			</form>
+			<form th:action="@{/item/show_product}">
+				<!--<span class="pro_name" onclick="submit_pro(this)">${product.p_name}</span>-->
+				<input type="hidden" name="page" value="index" />
+				<input id="product_id3" type="hidden" name="id" />
+				<button class="pro_submit" type="submit" style="display: none;"></button>
+			</form>
+			<div class="search_result main_search">
 
+				<!--<span th:if="${products}" th:each="p:${products}" th:text="${p.p_name}"></span><br />-->
+			</div>
+			<!--<div class="sea_it">
+				hello
+			</div>-->
+			<br />
+			<div class="search_items">
+
+			</div>
 			<!--<i class="fa-solid fa-xmark close_btn" onclick="close_search()"></i>
 
 			<h1>Search Your Item</h1>-->
@@ -1095,7 +1134,8 @@
 
 									<input id="view_span_id" type="hidden" th:value="${done}" />
 									<form th:action="@{/item/view_product}">
-										<input type="hidden" name="manage_cart" id="manage_cart_id" th:if="${manage_cart}" th:value="${manage_cart}"/>
+										<input type="hidden" name="manage_cart" id="manage_cart_id"
+											th:if="${manage_cart}" th:value="${manage_cart}" />
 										<!--<input type="hidden" name="manage_cart" id="manage_cart_id" th:value="${manage_cart}"/>-->
 										<input type="hidden" name="page" value="customer_index" />
 										<input name="c_email" type="hidden" th:value="${c_email}" />
@@ -3179,7 +3219,7 @@
 				</div>
 			</div>
 		</div>-->
-		
+
 		<div class="container-fluid cat_trailer">
 			<!--<h1 class="text-center">Hardware</h1>-->
 			<div class="row">
@@ -4053,7 +4093,10 @@
 								Fast Delivery
 							</h5>
 							<p>
-								consectetur adipiscing elit, sed doLorem ipsum dolor sit amet,
+								With our website, you can enjoy fast and reliable delivery of your products. Whether
+								you're shopping
+								for everyday essentials or unique gifts, our website makes it easy to get what you need
+								quickly and conveniently.
 							</p>
 						</div>
 					</div>
@@ -4171,7 +4214,7 @@
 								Free Shiping
 							</h5>
 							<p>
-								consectetur adipiscing elit, sed doLorem ipsum dolor sit amet,
+								zero or optimal shipping charges.
 							</p>
 						</div>
 					</div>
@@ -4196,7 +4239,9 @@
 								Best Quality
 							</h5>
 							<p>
-								consectetur adipiscing elit, sed doLorem ipsum dolor sit amet,
+								At our website, we take pride in offering the best quality products to our customers. We
+								curate a selection of premium items from renowned brands and manufacturers, ensuring
+								that every product meets our high standards of quality, durability, and performance.
 							</p>
 						</div>
 					</div>
@@ -4230,9 +4275,9 @@
 								</h2>
 							</div>
 							<p>
-								Omnis ex nam laudantium odit illum harum, excepturi accusamus at corrupti, velit
-								blanditiis unde perspiciatis, vitae minus culpa? Beatae at aut consequuntur porro
-								adipisci aliquam eaque iste ducimus expedita accusantium?
+								You're looking for gift ideas for your loved ones! we'd be happy to help you with that.
+								On this website, we have a vast collection of unique and thoughtful gifts for all
+								occasions, from birthdays to anniversaries and holidays
 							</p>
 							<div class="btn-box btn-box1">
 								<a href="#" class="btn1">
@@ -4322,20 +4367,13 @@
 										Morijorch
 									</h5>
 									<h6>
-										abc@gmail.com
+										morijorch@gmail.com
 									</h6>
 								</div>
 								<i class="fa fa-quote-left" aria-hidden="true"></i>
 							</div>
 							<p>
-								it amet consectetur adipisicing elit. Architecto enim tempore quam placeat rerum
-								laudantium unde.
-								Similique ratione reiciendis ex commodi? Possimus inventore aliquam, adipisci
-								officiis
-								labore velit! Harum at sed
-								maiores aliquam quis alias eveniet laborum. Vitae exercitationem quaerat neque
-								aliquid,
-								iste, molestias dolore illum
+								I was completely impressed with their professionalism and customer service.
 
 							</p>
 						</div>
@@ -4348,22 +4386,13 @@
 										Rochak
 									</h5>
 									<h6>
-										abc@gmail.com
+										rochak@gmail.com
 									</h6>
 								</div>
 								<i class="fa fa-quote-left" aria-hidden="true"></i>
 							</div>
 							<p>
-								doloribus ab ut officia error repellat conse
-								ipsum dolor, quatur? Porro, sapiente! Deleniti, ullam? Reiciendis eveniet dolorum
-								illum
-								ad rerum impedit aspernatur doloribus eum. A, numquam! Dolorem blanditiis error
-								dolorum.
-								Atque enim nemo dolor iure
-								eveniet, praesentium sed accusamus delectus minus similique omnis iste fugiat
-								provident
-								necessitatibus officiis dolorum
-								quam, commodi doloribus itaque, minima quos at illum!
+								The product quality is consistently outstanding, exceeding my expectations every time.
 							</p>
 						</div>
 					</div>
@@ -4375,22 +4404,13 @@
 										Brad Johns
 									</h5>
 									<h6>
-										abc@gmail.com
+										johns@gmail.com
 									</h6>
 								</div>
 								<i class="fa fa-quote-left" aria-hidden="true"></i>
 							</div>
 							<p>
-								doloribus ab ut officia error repellat conse
-								ipsum dolor, quatur? Porro, sapiente! Deleniti, ullam? Reiciendis eveniet dolorum
-								illum
-								ad rerum impedit aspernatur doloribus eum. A, numquam! Dolorem blanditiis error
-								dolorum.
-								Atque enim nemo dolor iure
-								eveniet, praesentium sed accusamus delectus minus similique omnis iste fugiat
-								provident
-								necessitatibus officiis dolorum
-								quam, commodi doloribus itaque, minima quos at illum!
+								Pricing is fair and transparent - definitely value for money.
 							</p>
 						</div>
 					</div>
@@ -4491,7 +4511,7 @@
 			<div class="container">
 				<p>
 					&copy; <span id="displayYear"></span> All Rights Reserved By
-					<a href="https://html.design/">hcuwqguqwgqiw</a>
+					<a href="#">Kumar Siddharth</a>
 				</p>
 			</div>
 		</footer>

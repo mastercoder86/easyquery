@@ -227,13 +227,42 @@ public class ItemController {
 
 	}
 
+	/*
+	 * @GetMapping("/show_product1") public String showProduct(@RequestParam long
+	 * id, @RequestParam String page, @RequestParam Optional<String> c_email, Model
+	 * model) {
+	 * 
+	 * Product product = productRepository.findById(id).get();;
+	 * 
+	 * 
+	 * 
+	 * model.addAttribute("product", product); model.addAttribute("seller", new
+	 * Seller()); model.addAttribute("show", "show"); model.addAttribute("category",
+	 * null); if (!(c_email.isEmpty())) { model.addAttribute("c_email",
+	 * c_email.get()); Customer customer =
+	 * customerRepository.findByEmail(c_email.get()); String greetName; try {
+	 * greetName = customer.getName().substring(0, customer.getName().indexOf(" "));
+	 * } catch (StringIndexOutOfBoundsException se) { greetName =
+	 * customer.getName(); } model.addAttribute("greeting", greetName); } if
+	 * (page.equals("index")) return "index"; else return "customer_index"; }
+	 */
 	@GetMapping("/show_product")
-	public String showProduct(@RequestParam long id, @RequestParam String page, @RequestParam Optional<String> c_email,
+	public String showProduct(@RequestParam String name, @RequestParam String page, @RequestParam Optional<String> c_email,
 			Model model) {
-		Product product = productRepository.findById(id).get();
-		model.addAttribute("product", product);
+		
+		List<Product> products = productRepository.findByName(name);
+		
+		if(products.isEmpty()) {
+			model.addAttribute("products", null);
+			System.out.println("nulll");
+		}
+		else {
+			model.addAttribute("products", products);
+		}
+		
 		model.addAttribute("seller", new Seller());
 		model.addAttribute("show", "show");
+		model.addAttribute("enableSearch", true);
 		model.addAttribute("category", null);
 		if (!(c_email.isEmpty())) {
 			model.addAttribute("c_email", c_email.get());

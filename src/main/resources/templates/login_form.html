@@ -14,7 +14,7 @@
 	<link rel="shortcut icon" th:href="@{/images/easy_query2.png}" type="image/x-icon">
 
 	<title>
-		Shopping Centre
+		Easy Query
 	</title>
 
 	<!-- slider stylesheet -->
@@ -402,7 +402,7 @@
 					<input type="hidden" name="email" th:value="'customer:'+${c_email}" th:if="${c_email}"/>
 					<input type="text" name="otp" class="search_input1"
 						placeholder="-------------Enter Otp-------------" />
-					<button class="search_btn">Submit</button>
+					<button class="search_btn" onclick="submit_otp()">Submit</button>
 					<p class="inval" th:if="${otpError}" th:text="${otpError}"></p>
 				</form>
 
@@ -414,7 +414,7 @@
 					<input id="c_email_present" type="hidden" name="email" th:value="'customer:'+${c_email}" th:if="${c_email}"/>
 					<input type="text" name="otp" class="search_input1"
 						placeholder="-------------Enter Otp-------------" />
-					<button class="search_btn">Submit</button>
+					<button class="search_btn" onclick="submit_otp()">Submit</button>
 					<p class="inval" th:if="${otpError}" th:text="${otpError}"></p>
 				</form>
 
@@ -440,6 +440,10 @@
 		<section class="search_area1 verification_area">
 			
 			<h3 class="text-center">Sending OTP to your mobile...Please wait...</h3>
+		</section>
+		<section class="search_area1 submitting_details_area">
+			
+			<h3 class="text-center">Submitting details...Please wait...</h3>
 		</section>
 		<div id="s_login" class="search_area">
 			<i class="fa-solid fa-xmark close_btn" onclick="close_search()"></i>

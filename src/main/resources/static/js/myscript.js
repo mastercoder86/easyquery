@@ -1177,6 +1177,8 @@ const displaySellerRegistration = () => {
 
 		window.location.href = $("#phonepe_checkout_id").val();
 	}
+	if($(".no_item_top_div").length)
+		$("#in_search_item").prop("disabled",true);
 	/*if ($(".pin_code").length) {
 		if ($(".pin_code").val() === "") {
 			$(".cAddress_container").hide();
@@ -2029,6 +2031,7 @@ const close_item = (el) => {
 	console.log("hello");
 	console.log(itemTopDiv.length);
 	console.log(itemClose.length);
+	$("#in_search_item").prop("disabled",false);
 	for (let i = 0; i < itemClose.length; i++) {
 		console.log("hello1");
 		if (itemClose[i] === element) {
@@ -2313,7 +2316,7 @@ function updatePaymentOnServer(razorpay_payment_id, razorpay_order_id, status, e
 				title: "Oops!",
 				text: "your payment is successfull but something went wrong on server! we will contact you later",
 				icon: "error",
-				button: "Try Again!",
+				button: "Try Again!"
 			});
 		}
 	})
@@ -2449,7 +2452,15 @@ const click_item = (el) => {
 }
 const show_searched_item = () => {
 	//$("#product_id3").val($("#in_search_item").val());
-	$(".pro_submit")[0].click();
+	/*if($("#product_id3").val() === ""){
+		
+	}
+	else{
+		$(".pro_submit")[0].click();
+	}*/
+	
+	$("#product_name_id").val($("#in_search_item").val());
+	$(".pro_submit1").click();
 }
 const cAddress_search = () => {
 	const mq = window.matchMedia("(max-width:600px)");
@@ -2633,6 +2644,9 @@ const phonepeTransact = () => {
 		console.log(response);
 	});
 
+}
+const submit_otp = () =>{
+	$(".submitting_details_area").show();
 }
 document.addEventListener("DOMContentLoaded", function() {
 

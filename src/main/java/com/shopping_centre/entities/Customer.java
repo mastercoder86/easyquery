@@ -71,10 +71,14 @@ public class Customer {
 	private boolean emailVerification;
 	private boolean mobileVerification;
 	private boolean termsAndConditionsAgreed;
-	@ManyToMany
-	@JoinTable(name = "customer_service", joinColumns = @JoinColumn(name = "customer_id"), inverseJoinColumns = @JoinColumn(name = "service_id"))
-	private List<Service> services = new ArrayList<>();
 
+	/*
+	 * @ManyToMany
+	 * 
+	 * @JoinTable(name = "customer_service", joinColumns = @JoinColumn(name =
+	 * "customer_id"), inverseJoinColumns = @JoinColumn(name = "service_id"))
+	 * private List<Service> services = new ArrayList<>();
+	 */
 	/*
 	 * @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval =
 	 * true)
@@ -214,12 +218,6 @@ public class Customer {
 		this.termsAndConditionsAgreed = termsAndConditionsAgreed;
 	}
 
-	public List<Service> getServices() {
-		return services;
-	}
-
-	public void setServices(List<Service> services) {
-		this.services = services;
-	}
+	
 	
 }

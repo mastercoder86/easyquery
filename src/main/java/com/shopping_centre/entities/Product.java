@@ -25,9 +25,9 @@ import jakarta.persistence.Transient;
 import jakarta.transaction.Transactional;
 
 @Entity
-@Table(name="PRODUCT")
+@Table(name = "PRODUCT")
 public class Product {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long p_id;
@@ -35,6 +35,7 @@ public class Product {
 	private String mainImage;
 	private String price;
 	private String category;
+
 	@Transient
 	private String unit;
 	@Transient
@@ -45,13 +46,17 @@ public class Product {
 	private Integer qty2;
 	@Transient
 	private Integer tempPrice1;
+	private String exchangePolicy;
+	private String refundPolicy;
+
 	@Lob
 	@Column(length = 60000)
 	private List<String> subImages = new ArrayList<>();
+
 	@Lob
 	@Column(length = 60000)
 	private List<String> features = new ArrayList<>();
-	
+
 	@ManyToOne
 	@JsonIgnore
 	private Seller seller;
@@ -64,6 +69,10 @@ public class Product {
 	 * @JoinColumn(name="product_id",foreignKey = @ForeignKey(name="none")) private
 	 * List<CustomerItem> customerItem = new ArrayList<>();
 	 */
+
+	public String getMainImage() {
+		return mainImage;
+	}
 
 	public long getP_id() {
 		return p_id;
@@ -81,8 +90,12 @@ public class Product {
 		this.p_name = p_name;
 	}
 
-	public String getMainImage() {
-		return mainImage;
+	public String getRefundPolicy() {
+		return refundPolicy;
+	}
+
+	public void setRefundPolicy(String refundPolicy) {
+		this.refundPolicy = refundPolicy;
 	}
 
 	public void setMainImage(String mainImage) {
@@ -104,10 +117,14 @@ public class Product {
 	public void setCategory(String category) {
 		this.category = category;
 	}
-	
-	
-	
-	
+
+	public String getExchangePolicy() {
+		return exchangePolicy;
+	}
+
+	public void setExchangePolicy(String exchangePolicy) {
+		this.exchangePolicy = exchangePolicy;
+	}
 
 	public List<String> getSubImages() {
 		return subImages;
@@ -124,10 +141,6 @@ public class Product {
 	public void setFeatures(List<String> features) {
 		this.features = features;
 	}
-	
-	
-
-	
 
 	public Seller getSeller() {
 		return seller;
@@ -184,9 +197,6 @@ public class Product {
 		this.tempPrice1 = tempPrice1;
 	}
 
-	
-	
-
 	/*
 	 * public List<CustomerItem> getCustomerItem() { return customerItem; }
 	 * 
@@ -194,9 +204,4 @@ public class Product {
 	 * this.customerItem = customerItem; }
 	 */
 
-	
-	
-	
-	
-	
 }

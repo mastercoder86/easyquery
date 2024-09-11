@@ -7,7 +7,9 @@ import java.net.URL;
 import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -28,6 +30,8 @@ import com.shopping_centre.entities.Customer;
 import com.shopping_centre.entities.OtpDetails;
 import com.shopping_centre.entities.Seller;
 import com.shopping_centre.service.EmailService;
+
+import jakarta.xml.bind.DatatypeConverter;
 
 @Controller
 //@CrossOrigin(origins = "*")
@@ -105,18 +109,91 @@ public class VerificationController {
 				seller.setEmailVerification(true);
 				sellerRepository.save(seller);
 				// model.addAttribute("s_email", emailOriginal);
-				model.addAttribute("ma_verification",true);
+				model.addAttribute("ma_verification", true);
 				model.addAttribute("mo_verification", seller.isMobileVerification());
+				if (seller.isMobileVerification()) {
+
+					try {
+						URL url = new URL("https://api.razorpay.com/v2/accounts");
+						HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
+						httpConn.setRequestMethod("POST");
+
+						httpConn.setRequestProperty("Content-type", "application/json");
+
+						byte[] message = ("rzp_test_u5jZubA75Ra06W:1zJ7H0tGqp2DerpCSUFAGoua").getBytes("UTF-8");
+						String basicAuth = DatatypeConverter.printBase64Binary(message);
+						httpConn.setRequestProperty("Authorization", "Basic " + basicAuth);
+
+						httpConn.setDoOutput(true);
+						System.out.println("check :" + seller.getEmail());
+						String mail = seller.getEmail();
+						String phone = seller.getPhone();
+						String bussinessType;
+						if (seller.getBussinessType().contains(" ")) {
+							bussinessType = seller.getBussinessType().replace(" ", "_").toLowerCase();
+						} else {
+							bussinessType = seller.getBussinessType().toLowerCase();
+						}
+						String referenceId = "Easy_Query" + seller.getId();
+						OutputStreamWriter writer = new OutputStreamWriter(httpConn.getOutputStream());
+
+						writer.write(String.format("{\n   \"email\":\"%s\",\n   \"phone\":\"%s\","
+								+ "\n   \"type\":\"route\",\n   \"reference_id\":\"%s\","
+								+ "\n   \"legal_business_name\":\"%s\",\n   \"business_type\":\"%s\","
+								+ "\n   \"contact_name\":\"%s\","
+								+ "\n   \"profile\":{\n      \"category\":\"healthcare\",\n      \"subcategory\":\"clinic\","
+								+ "\n      \"addresses\":{\n         \"registered\":{"
+								+ "\n            \"street1\":\"%s\","
+								+ "\n            \"street2\":\"street2\",\n            \"city\":\"%s\","
+								+ "\n            \"state\":\"%s\",\n            \"postal_code\":\"110045\","
+								+ "\n            \"country\":\"IN\"\n         }\n      }\n   },\n   \"legal_info\":{"
+								+ "\n      \"pan\":\"AAACL1234C\",\n      \"gst\":\"18AABCU9603R1ZM\"\n   }\n}", mail,
+								phone, referenceId, seller.getBussinessName(), bussinessType, seller.getName(),
+								seller.getStreet1(), seller.getCity(), seller.getState()));
+
+						writer.flush();
+						writer.close();
+						httpConn.getOutputStream().close();
+
+						InputStream responseStream = httpConn.getResponseCode() / 100 == 2 ? httpConn.getInputStream()
+								: httpConn.getErrorStream();
+						Scanner s = new Scanner(responseStream).useDelimiter("\\A");
+						String response = s.hasNext() ? s.next() : "";
+						System.out.println(response);
+						if (response.contains("error")) {
+							sellerRepository.delete(seller);
+							JSONObject jsonObject = new JSONObject(response);
+							JSONObject jsonObject2 = jsonObject.getJSONObject("error");
+							String error = jsonObject2.getString("description");
+							System.out.println(error);
+							model.addAttribute("mobileError", error);
+							model.addAttribute("credentials", "bad");
+							model.addAttribute("seller", seller);
+							return "login_form";
+						} else {
+							try {
+								sellerRepository.save(seller);
+							} catch (DataIntegrityViolationException e) {
+								model.addAttribute("cvError", "This email is already registered");
+								model.addAttribute("seller", seller);
+								model.addAttribute("credentials", "bad");
+								return "login_form";
+							}
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+
+				}
 			} else {
 				Customer customer = customerRepository.findByEmail(emailOriginal);
 				customer.setEmailVerification(true);
 				customerRepository.save(customer);
-				model.addAttribute("ma_verification",true);
+				model.addAttribute("ma_verification", true);
 				model.addAttribute("mo_verification", customer.isMobileVerification());
 				// model.addAttribute("c_email", emailOriginal);
 			}
 			model.addAttribute("credentials", "email_verified");
-			
 
 		} else {
 			System.out.println("mis_matched");
@@ -177,18 +254,18 @@ public class VerificationController {
 			HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
 			httpConn.setRequestMethod("POST");
 
-			httpConn.setRequestProperty("authorization", "tlSRwnXvvicdGrlFCsnWG0sE6gn2AOIF8Z9hZEKuzLakuYdZX3yP19ctDwul");
+			httpConn.setRequestProperty("authorization",
+					"tlSRwnXvvicdGrlFCsnWG0sE6gn2AOIF8Z9hZEKuzLakuYdZX3yP19ctDwul");
 			httpConn.setRequestProperty("content-type", "application/x-www-form-urlencoded");
 
 			httpConn.setDoOutput(true);
 			OutputStreamWriter writer = new OutputStreamWriter(httpConn.getOutputStream());
-			writer.write("variables_values="+otp+"&route=otp&numbers="+mobile);
+			writer.write("variables_values=" + otp + "&route=otp&numbers=" + mobile);
 			writer.flush();
 			writer.close();
 			httpConn.getOutputStream().close();
 
-			InputStream responseStream = httpConn.getResponseCode() / 100 == 2
-					? httpConn.getInputStream()
+			InputStream responseStream = httpConn.getResponseCode() / 100 == 2 ? httpConn.getInputStream()
 					: httpConn.getErrorStream();
 			Scanner s = new Scanner(responseStream).useDelimiter("\\A");
 			String response = s.hasNext() ? s.next() : "";
@@ -234,8 +311,83 @@ public class VerificationController {
 				seller.setMobileVerification(true);
 				sellerRepository.save(seller);
 				model.addAttribute("credentials", "mobile_verified");
-				model.addAttribute("mo_verification",true);
+				model.addAttribute("mo_verification", true);
 				model.addAttribute("ma_verification", seller.isEmailVerification());
+				if (seller.isEmailVerification()) {
+					try {
+						URL url = new URL("https://api.razorpay.com/v2/accounts");
+						HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
+						httpConn.setRequestMethod("POST");
+
+						httpConn.setRequestProperty("Content-type", "application/json");
+
+						byte[] message = ("rzp_test_u5jZubA75Ra06W:1zJ7H0tGqp2DerpCSUFAGoua").getBytes("UTF-8");
+						String basicAuth = DatatypeConverter.printBase64Binary(message);
+						httpConn.setRequestProperty("Authorization", "Basic " + basicAuth);
+
+						httpConn.setDoOutput(true);
+						System.out.println("check :" + seller.getEmail());
+						String mail = seller.getEmail();
+						String phone = seller.getPhone();
+						String bussinessType;
+						if (seller.getBussinessType().contains(" ")) {
+							bussinessType = seller.getBussinessType().replace(" ", "_").toLowerCase();
+						} else {
+							bussinessType = seller.getBussinessType().toLowerCase();
+						}
+						String referenceId = "Easy_Query" + seller.getId();
+						OutputStreamWriter writer = new OutputStreamWriter(httpConn.getOutputStream());
+
+						writer.write(String.format("{\n   \"email\":\"%s\",\n   \"phone\":\"%s\","
+								+ "\n   \"type\":\"route\",\n   \"reference_id\":\"%s\","
+								+ "\n   \"legal_business_name\":\"%s\",\n   \"business_type\":\"%s\","
+								+ "\n   \"contact_name\":\"%s\","
+								+ "\n   \"profile\":{\n      \"category\":\"healthcare\",\n      \"subcategory\":\"clinic\","
+								+ "\n      \"addresses\":{\n         \"registered\":{"
+								+ "\n            \"street1\":\"%s\","
+								+ "\n            \"street2\":\"street2\",\n            \"city\":\"%s\","
+								+ "\n            \"state\":\"%s\",\n            \"postal_code\":\"110045\","
+								+ "\n            \"country\":\"IN\"\n         }\n      }\n   },\n   \"legal_info\":{"
+								+ "\n      \"pan\":\"AAACL1234C\",\n      \"gst\":\"18AABCU9603R1ZM\"\n   }\n}", mail,
+								phone, referenceId, seller.getBussinessName(), bussinessType, seller.getName(),
+								seller.getCity(),seller.getCity(), seller.getState()));
+
+						writer.flush();
+						writer.close();
+						httpConn.getOutputStream().close();
+
+						InputStream responseStream = httpConn.getResponseCode() / 100 == 2 ? httpConn.getInputStream()
+								: httpConn.getErrorStream();
+						Scanner s = new Scanner(responseStream).useDelimiter("\\A");
+						String response = s.hasNext() ? s.next() : "";
+						System.out.println(response);
+						if (response.contains("error")) {
+							sellerRepository.delete(seller);
+							JSONObject jsonObject = new JSONObject(response);
+							JSONObject jsonObject2 = jsonObject.getJSONObject("error");
+							String error = jsonObject2.getString("description");
+							System.out.println(error);
+							model.addAttribute("mobileError", error);
+							model.addAttribute("credentials", "bad");
+							model.addAttribute("seller", seller);
+							return "login_form";
+						} else {
+							try {
+								JSONObject jsonObject = new JSONObject(response);
+								String id = jsonObject.getString("id");
+								seller.setAccountId(id);
+								sellerRepository.save(seller);
+							} catch (DataIntegrityViolationException e) {
+								model.addAttribute("cvError", "This email is already registered");
+								model.addAttribute("seller", seller);
+								model.addAttribute("credentials", "bad");
+								return "login_form";
+							}
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
 			} else {
 				System.out.println("mis_matched");
 				model.addAttribute("credentials", "mobile_mismatched");
@@ -250,15 +402,13 @@ public class VerificationController {
 				customer.setMobileVerification(true);
 				customerRepository.save(customer);
 				model.addAttribute("credentials", "mobile_verified");
-				model.addAttribute("mo_verification",true);
+				model.addAttribute("mo_verification", true);
 				model.addAttribute("ma_verification", customer.isEmailVerification());
 			} else {
 				System.out.println("mis_matched");
 				model.addAttribute("credentials", "mobile_mismatched");
 			}
 		}
-
-		
 
 		/*
 		 * else { System.out.println("mis_matched"); model.addAttribute("credentials",
