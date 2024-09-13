@@ -1,6 +1,5 @@
 package com.shopping_centre.controller;
 
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -26,10 +25,6 @@ import com.shopping_centre.entities.CustomerItem;
 import com.shopping_centre.entities.Product;
 import com.shopping_centre.entities.Seller;
 
-
-
-
-
 @Controller
 @CrossOrigin(origins = "*")
 @RequestMapping("/item")
@@ -48,8 +43,8 @@ public class ItemController {
 	// @Transactional
 	public String viewProduct(@RequestParam long id, @RequestParam String page, @RequestParam Optional<String> c_email,
 			Model model) {
-		System.out.println("id : "+id);
-		//System.out.println(productRepository.findById(Long.parseLong(id)));
+		System.out.println("id : " + id);
+		// System.out.println(productRepository.findById(Long.parseLong(id)));
 		Product product = productRepository.findById(id).get();
 		System.out.println(c_email);
 		model.addAttribute("product", product);
@@ -176,7 +171,7 @@ public class ItemController {
 		} else {
 			model.addAttribute("allowed", "no");
 		}
-		model.addAttribute("manage_cart","show");
+		model.addAttribute("manage_cart", "show");
 		return "display";
 	}
 
@@ -189,18 +184,27 @@ public class ItemController {
 
 	@GetMapping("/show_cat_items")
 	public String showCatItems(@RequestParam String cat_name, @RequestParam String page,
-			@RequestParam Optional<String> c_email, Model model) {
+			@RequestParam Optional<String> c_email, @RequestParam String startSearch,Model model) {
 		List<Product> products = productRepository.findByCategory(cat_name);
-		//List<Service> services = serviceRepository.findByCategory(cat_name);
+		// List<Service> services = serviceRepository.findByCategory(cat_name);
 		model.addAttribute("p_list1", products);
-		//model.addAttribute("s_list1", services);
+		// model.addAttribute("s_list1", services);
 		model.addAttribute("category", cat_name);
 		model.addAttribute("seller", new Seller());
-		model.addAttribute("show", "show");
+		model.addAttribute("show", "show");System.out.println("start searc : "+startSearch);
 		if (!(c_email.isEmpty())) {
 			System.out.println("mail233 :" + c_email.get());
 			Customer customer = customerRepository.findByEmail(c_email.get());
 			model.addAttribute("c_email", customer.getEmail());
+			if (!(customer.getStartSearch().equals(startSearch))) {
+				//model.addAttribute("enableSearch1", true);
+				customer.setStartSearch(startSearch);
+				customerRepository.save(customer);
+				model.addAttribute("startSearch", customer.getStartSearch());
+			}
+			else {
+				model.addAttribute("category", null);
+			}
 			String greetName;
 			try {
 				greetName = customer.getName().substring(0, customer.getName().indexOf(" "));
@@ -215,6 +219,7 @@ public class ItemController {
 				model.addAttribute("p_list1", null);
 			}
 		}
+		
 		/*
 		 * if (services != null) { if (services.isEmpty()) {
 		 * model.addAttribute("s_list1", null); } }
@@ -247,26 +252,65 @@ public class ItemController {
 	 * (page.equals("index")) return "index"; else return "customer_index"; }
 	 */
 	@GetMapping("/show_product")
-	public String showProduct(@RequestParam String name, @RequestParam String page, @RequestParam Optional<String> c_email,
-			Model model) {
-		
+	public String showProduct(@RequestParam String name, @RequestParam String page,
+			@RequestParam Optional<String> c_email, @RequestParam(required = false) String startSearch, Model model) {
+		System.out.println("startSearch" + startSearch);
 		List<Product> products = productRepository.findByName(name);
-		
-		if(products.isEmpty()) {
+
+		if (products.isEmpty()) {
 			model.addAttribute("products", null);
 			System.out.println("nulll");
-		}
-		else {
+		} else {
 			model.addAttribute("products", products);
 		}
-		
+
 		model.addAttribute("seller", new Seller());
 		model.addAttribute("show", "show");
-		model.addAttribute("enableSearch", true);
+
 		model.addAttribute("category", null);
 		if (!(c_email.isEmpty())) {
 			model.addAttribute("c_email", c_email.get());
 			Customer customer = customerRepository.findByEmail(c_email.get());
+			if (customer.getStartSearch() == null) {
+				customer.setStartSearch("value3");
+				customerRepository.save(customer);
+				model.addAttribute("enableSearch", true);
+			}
+			model.addAttribute("startSearch", customer.getStartSearch());
+			/*
+			 * if(startSearch == null) { model.addAttribute("enableSearch", true);
+			 * model.addAttribute("startSearch", "value1");
+			 * 
+			 * }
+			 */
+			
+				if (!(customer.getStartSearch().equals(startSearch))) {
+					model.addAttribute("enableSearch", true);
+					customer.setStartSearch(startSearch);
+					customerRepository.save(customer);
+					model.addAttribute("startSearch", customer.getStartSearch());
+					/*
+					 * if (startSearch.isEmpty()) { if(!customer.getStartSearch().equals("value4"))
+					 * {
+					 * 
+					 * customer.setStartSearch("value4"); }
+					 * 
+					 * model.addAttribute("startSearch", "value1"); }
+					 * 
+					 * 
+					 * else { if(customer.getStartSearch().equals("value4"))
+					 * 
+					 * }
+					 */
+						
+					
+					//model.addAttribute("startSearch", customer.getStartSearch());
+				}
+			
+			/*
+			 * else { model.addAttribute("enableSearch", true); }
+			 */
+
 			String greetName;
 			try {
 				greetName = customer.getName().substring(0, customer.getName().indexOf(" "));
@@ -321,8 +365,8 @@ public class ItemController {
 			 * p.getPrice().substring(p.getPrice().indexOf("/") + 1);
 			 * p.setTempPrice(Double.parseDouble(p.getPrice().substring(0,
 			 * p.getPrice().indexOf("/")))); p.setTePrice(p.getPrice().substring(0,
-			 * p.getPrice().indexOf("/"))); totalPrice1 += p.getTempPrice(); p.setUnit(unit);
-			 * } else {
+			 * p.getPrice().indexOf("/"))); totalPrice1 += p.getTempPrice();
+			 * p.setUnit(unit); } else {
 			 * 
 			 * p.setTempPrice1(Integer.parseInt(p.getPrice()));
 			 * p.setTePrice(p.getPrice().substring(0, p.getPrice().indexOf("/")));
@@ -473,8 +517,8 @@ public class ItemController {
 			 * Double.parseDouble(p.getPrice()); }
 			 * 
 			 * if (p.getTempPrice1() != null) { totalPrice1 += p.getTempPrice1();
-			 * p.setTempPrice1(null); } else { totalPrice1 += Integer.parseInt(p.getPrice());
-			 * }
+			 * p.setTempPrice1(null); } else { totalPrice1 +=
+			 * Integer.parseInt(p.getPrice()); }
 			 */
 
 			/*
@@ -603,8 +647,8 @@ public class ItemController {
 			 * Double.parseDouble(p.getPrice()); }
 			 * 
 			 * if (p.getTempPrice1() != null) { totalPrice1 += p.getTempPrice1();
-			 * p.setTempPrice1(null); } else { totalPrice1 += Integer.parseInt(p.getPrice());
-			 * }
+			 * p.setTempPrice1(null); } else { totalPrice1 +=
+			 * Integer.parseInt(p.getPrice()); }
 			 */
 
 			/*
@@ -645,10 +689,11 @@ public class ItemController {
 
 		return "display";
 	}
+
 	@GetMapping("/search/{query}")
-	public ResponseEntity<List<Product>> search(@PathVariable String query){
+	public ResponseEntity<List<Product>> search(@PathVariable String query) {
 		List<Product> products = productRepository.findByName(query);
-		System.out.println("products : "+products);
+		System.out.println("products : " + products);
 		return ResponseEntity.ok(products);
 	}
 

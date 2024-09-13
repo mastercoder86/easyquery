@@ -71,7 +71,7 @@ public class Customer {
 	private boolean emailVerification;
 	private boolean mobileVerification;
 	private boolean termsAndConditionsAgreed;
-
+	private String startSearch = "value3";
 	/*
 	 * @ManyToMany
 	 * 
@@ -216,6 +216,14 @@ public class Customer {
 
 	public void setTermsAndConditionsAgreed(boolean termsAndConditionsAgreed) {
 		this.termsAndConditionsAgreed = termsAndConditionsAgreed;
+	}
+
+	public String getStartSearch() {
+		return startSearch;
+	}
+
+	public void setStartSearch(String startSearch) {
+		this.startSearch = startSearch;
 	}
 
 	

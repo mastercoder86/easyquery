@@ -36,18 +36,18 @@
 	<!-- responsive style -->
 	<link th:href="@{/css/responsive.css}" rel="stylesheet" />
 	<link rel="shortcut icon" th:href="@{/images/easy_query.jpg}" type="image/x-icon">
-	<script type="text/javascript">
+	<!--<script type="text/javascript">
 		const preventBack = () => {
 			window.history.forward();
 		}
 		setTimeout(preventBack, 0);
 		window.onunload = function () {
 			null;
-		}
-	</script>
+		}-->
 </head>
 
 <body>
+
 
 	<input id="customer_email_id1" name="email" type="hidden" th:value="${c_email}" />
 	<div class="hero_area hero_area1">
@@ -63,6 +63,7 @@
 					</span>
 				</a>-->
 			<div id="navbarSupportedContent1">
+
 				<div class="logo33">
 					<img class="logo13" th:src="@{/images/easy_query2.png}" alt="no image" />
 					<!--<img class="logo2" th:src="@{/images/logo2.png}" alt="no image" />-->
@@ -116,11 +117,7 @@
 							Why Us
 						</a>
 					</li>
-					<li class="nav-item m_menu1">
-						<a class="nav-link" href="#testimonial" onclick="close_menu()">
-							Testimonial
-						</a>
-					</li>
+
 					<li class="nav-item m_menu1">
 						<a class="nav-link" href="#contact" onclick="close_menu()">Contact Us</a>
 					</li>
@@ -184,11 +181,7 @@
 							Why Us
 						</a>
 					</li>
-					<li class="nav-item m_menu1">
-						<a class="nav-link" href="#testimonial" onclick="close_menu()">
-							Testimonial
-						</a>
-					</li>
+
 					<li class="nav-item m_menu1">
 						<a class="nav-link" href="#contact" onclick="close_menu()">Contact Us</a>
 					</li>
@@ -230,7 +223,7 @@
 			<br />
 			<h4>Name</h4>
 			<h4>Quantity</h4>
-			<h4>Price</h4>
+			<h4 class="price_h4">Price</h4>
 
 			<hr />
 			<div class="items_in_cart">
@@ -282,15 +275,18 @@
 			<hr />
 			<div class="container">
 				<div class="row">
-					<div class="col-md-6">
+					<div class="col-6">
 						<button class="checkout_btn">Proceed to checkout</button>
 					</div>
-					<div class="col-md-6">
-						<h5>Total : Rs.<span th:text="${totalPrice}">2050</span>/-</h5>
+					<div class="col-6">
+						<h5><b><u>Total :</u></b> Rs.<span th:text="${totalPrice}">2050</span>/-</h5>
 					</div>
 
 				</div>
 			</div>
+		</div>
+		<div class="container fixed-top bottom_menu_content">
+
 		</div>
 		<div class="search_area search_item">
 			<input type="text" class="search_input" id="in_search_item"
@@ -302,15 +298,25 @@
 				<!--<span th:if="${products}" th:each="p:${products}" th:text="${p.p_name}"></span><br />-->
 			</div>
 			<button class="search_btn" onclick="show_searched_item()">Search</button>
+
+			<th:block th:if="${enableSearch}">
+				<div class="container fixed-top item_top_div no_item_top_div" th:unless="${products}">
+					<i class="fa-solid fa-xmark item_close_cross text-right" onclick="close_item(this)"></i>
+					<h4>No such item available</h4>
+				</div>
+			</th:block>
 			<!--<form th:action="@{/item/find_item}" style="display:none;">
 				<input type="hidden" id="finding_item_id" name="findingItem" />
 				<input type="hidden" name="page" value="index" />
 				<button id="search_item_submit" type="submit"></button>
 			</form>-->
+			<input type="hidden" id="start_search_status_id" th:value="${startSearch}" />
 			<form th:action="@{/item/show_product}">
 				<!--<span class="pro_name" onclick="submit_pro(this)">${product.p_name}</span>-->
-				<input type="hidden" name="page" value="index" />
+				<input type="hidden" name="page" value="customer_index" />
+				<input name="c_email" type="hidden" th:value="${c_email}" />
 				<input id="product_name_id" type="hidden" name="name" />
+				<input type="hidden" id="start_search_id" name="startSearch" value="value1" />
 				<button class="pro_submit1" type="submit" style="display: none;"></button>
 			</form>
 			<form th:action="@{/item/show_product}">
@@ -333,8 +339,8 @@
 			<!--<i class="fa-solid fa-xmark close_btn" onclick="close_search()"></i>
 
 			<h1>Search Your Item</h1>-->
-			<input type="text" class="search_input" placeholder="----------Search your item-----------" />
-			<button class="search_btn">Search</button>
+			<!--<input type="text" class="search_input" placeholder="----------Search your item-----------" />
+			<button class="search_btn">Search</button>-->
 		</div>
 		<!--<div class="search_sec fixed-top">
 			<div class="bottom_menu">
@@ -497,7 +503,8 @@
 
 		<!-- end header section -->
 		<!-- slider section -->
-
+		<a class="jump_to_home_top" href="#home_top"></a>
+		<div id="home_top"></div>
 		<section class="slider_section">
 			<div class="slider_container slider_section1">
 				<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
@@ -507,15 +514,21 @@
 								<div class="row">
 									<div class="col-md-7">
 										<div class="detail-box">
+											<br />
 											<h1>
-												Welcome To Our <br>
-												Shopping Centre
+												Welcome To <br>
+												easy query
 											</h1>
 											<p>
-												Sequi perspiciatis nulla reiciendis, rem, tenetur impedit, eveniet non
-												necessitatibus error distinctio mollitia suscipit. Nostrum fugit
-												doloribus consequatur distinctio esse, possimus maiores aliquid repellat
-												beatae cum, perspiciatis enim, accusantium perferendis.
+												Easy Query is an online platform where buyers and sellers can connect to
+												trade goods and services. It provides a wide range of products from
+												various categories such as electronics medicines and home decor. Sellers
+												can create their profiles and list their products for potential buyers
+												to browse and purchase. Buyers can search for specific items or browse
+												through different categories to find what they are looking for.
+												Easy Query is a convenient and efficient way for businesses to reach a
+												larger audience and for customers to find a variety of products in one
+												place.
 											</p>
 											<a href="">
 												Contact Us
@@ -536,14 +549,20 @@
 									<div class="col-md-7">
 										<div class="detail-box">
 											<h1>
-												Welcome To Our <br>
-												Shopping Centre
+												<br />
+												Welcome To <br>
+												easy query
 											</h1>
 											<p>
-												Sequi perspiciatis nulla reiciendis, rem, tenetur impedit, eveniet non
-												necessitatibus error distinctio mollitia suscipit. Nostrum fugit
-												doloribus consequatur distinctio esse, possimus maiores aliquid repellat
-												beatae cum, perspiciatis enim, accusantium perferendis.
+												Easy Query is a well-known website where people who want to buy and sell
+												things can connect and make deals. It gives a place for small and
+												medium-sized businesses to display their products and communicate with
+												possible customers. Easy Query has many different types of products like
+												electronics machinery apparel and more. There is something for everyone
+												on Easy Query. Companies can gain advantages from being more visible and
+												reaching more people while customers can discover a range of products
+												all in one location. Easy Query is important for helping businesses
+												trade easily and effectively.
 											</p>
 											<a href="">
 												Contact Us
@@ -564,14 +583,17 @@
 									<div class="col-md-7">
 										<div class="detail-box">
 											<h1>
-												Welcome To Our <br>
-												Shopping Centre
+												Welcome To <br>
+												easy query
 											</h1>
 											<p>
-												Sequi perspiciatis nulla reiciendis, rem, tenetur impedit, eveniet non
-												necessitatibus error distinctio mollitia suscipit. Nostrum fugit
-												doloribus consequatur distinctio esse, possimus maiores aliquid repellat
-												beatae cum, perspiciatis enim, accusantium perferendis.
+												Easy Query is a popular online marketplace where buyers and sellers can
+												connect to buy and sell products. It provides a platform for businesses
+												to reach a wider audience and increase their sales. Many companies use
+												Easy Query to showcase their products and services to potential
+												customers. By joining Easy Query businesses can expand their reach and
+												grow their customer base. It is a convenient and efficient way to
+												conduct business transactions online.
 											</p>
 											<a href="">
 												Contact Us
@@ -626,11 +648,13 @@
 						<input name="c_email" type="hidden" th:value="${c_email}" />
 						<input type="hidden" name="page" value="customer_index" />
 						<input type="hidden" name="cat_name" value="Hardware" />
+						<input type="hidden" class="cat_start_search_id" name="startSearch" value="value3" />
 						<i class="fa-solid fa-screwdriver-wrench" style="color: #a62695;"></i><br />
+						<h6 class="cat_name">Hardware</h6>
 						<!--<img class="cat_img" th:src="@{/images/construction.png}" alt="no image">-->
-						<span id="build_const" class="cat_name">
+						<!--<span id="build_const" class="cat_name">
 							Hardware
-						</span>
+						</span>-->
 						<button class="view_cat1" type="submit" style="display: none;">View</button>
 					</form>
 				</div>
@@ -671,6 +695,7 @@
 						<input name="c_email" type="hidden" th:value="${c_email}" />
 						<input type="hidden" name="page" value="customer_index" />
 						<input type="hidden" name="cat_name" value="Raw Materials" />
+						<input type="hidden" class="cat_start_search_id" name="startSearch" value="value3" />
 						<i class="fa-solid fa-truck-ramp-box" style="color: #4c7f29;"></i>
 						<h6 class="cat_name">
 							Raw Materials
@@ -717,6 +742,7 @@
 						<input name="c_email" type="hidden" th:value="${c_email}" />
 						<input type="hidden" name="page" value="customer_index" />
 						<input type="hidden" name="cat_name" value="Electronics" />
+						<input type="hidden" class="cat_start_search_id" name="startSearch" value="value3" />
 						<i class="fa-solid fa-plug-circle-xmark" style="color: #b5480d;"></i>
 						<h6 class="cat_name">
 							Electronics
@@ -761,6 +787,7 @@
 						<input name="c_email" type="hidden" th:value="${c_email}" />
 						<input type="hidden" name="page" value="customer_index" />
 						<input type="hidden" name="cat_name" value="Furniture" />
+						<input type="hidden" class="cat_start_search_id" name="startSearch" value="value3" />
 						<i class="fa-solid fa-couch" style="color: #5a16da;"></i>
 						<h6 class="cat_name">
 							Furniture
@@ -804,6 +831,7 @@
 						<input name="c_email" type="hidden" th:value="${c_email}" />
 						<input type="hidden" name="page" value="customer_index" />
 						<input type="hidden" name="cat_name" value="Fashion" />
+						<input type="hidden" class="cat_start_search_id" name="startSearch" value="value3" />
 						<i class="fa-solid fa-glasses" style="color: #105ada;"></i>
 						<h6 class="cat_name">
 							Fashion
@@ -847,6 +875,7 @@
 						<input name="c_email" type="hidden" th:value="${c_email}" />
 						<input type="hidden" name="page" value="customer_index" />
 						<input type="hidden" name="cat_name" value="Automobile" />
+						<input type="hidden" class="cat_start_search_id" name="startSearch" value="value3" />
 						<i class="fa-solid fa-car" style="color: #63E6BE;"></i>
 						<h6 class="cat_name">
 							Automobile
@@ -890,6 +919,7 @@
 						<input name="c_email" type="hidden" th:value="${c_email}" />
 						<input type="hidden" name="page" value="customer_index" />
 						<input type="hidden" name="cat_name" value="Kitchen Application" />
+						<input type="hidden" class="cat_start_search_id" name="startSearch" value="value3" />
 						<i class="fa-solid fa-kitchen-set" style="color: #FFD43B;"></i>
 						<h6 style="cursor:pointer;z-index: 100;" class="cat_name">
 							Kitchen <br />Application
@@ -933,6 +963,7 @@
 						<input name="c_email" type="hidden" th:value="${c_email}" />
 						<input type="hidden" name="page" value="customer_index" />
 						<input type="hidden" name="cat_name" value="Architect & Designer" />
+						<input type="hidden" class="cat_start_search_id" name="startSearch" value="value3" />
 						<i class="fa-solid fa-bridge" style="color: #3c0283;"></i>
 						<h6 class="cat_name">
 							Architect & <br />Designer
@@ -976,6 +1007,7 @@
 						<input name="c_email" type="hidden" th:value="${c_email}" />
 						<input type="hidden" name="page" value="customer_index" />
 						<input type="hidden" name="cat_name" value="Call Services" />
+						<input type="hidden" class="cat_start_search_id" name="startSearch" value="value3" />
 						<i class="fa-solid fa-headset" style="color: #63E6BE;"></i>
 						<h6 class="cat_name">
 							Call Services
@@ -1020,6 +1052,7 @@
 						<input name="c_email" type="hidden" th:value="${c_email}" />
 						<input type="hidden" name="page" value="customer_index" />
 						<input type="hidden" name="cat_name" value="Machineries" />
+						<input type="hidden" class="cat_start_search_id" name="startSearch" value="value3" />
 						<i class="fa-solid fa-truck-monster" style="color: #f56200;"></i>
 						<h6 class="cat_name">
 							Machineries
@@ -1060,12 +1093,26 @@
 					</div>
 				</div>-->
 			</div>
-			<a href="#show_cat_id" id="link_show_cat"></a>
+			<div class="conatiner">
+				<div class="posters poster1"></div>
+				<div class="posters poster2"></div>
+			</div>
+			<span id="build_const" class="cat_name">
+
+			</span>
+			<!--<th:block th:if="${enableSearch}">
+				<div class="container fixed-top item_top_div no_item_top_div" th:unless="${products}">
+					<i class="fa-solid fa-xmark item_close_cross text-right" onclick="close_item(this)"></i>
+					<h4>No such item available</h4>
+				</div>
+			</th:block>-->
+			<a href="#_id" id="link_"></a>
+
 			<div class="cat_top_div" th:if="${category}">
 				<div class="container">
 
 					<th:block>
-						<div id="show_cat_id" class="show_cat_items">
+						<div id="_id" class="_items">
 							<i class="fa-solid fa-xmark item_close_cross1" onclick="close_item_list()"></i>
 							<!--<th:block th:unless="${p_list1} a">
 						<h4 th:text="'Category : '+${category}"></h4>
@@ -1099,10 +1146,10 @@
 					</th:block>
 				</div>
 			</div>
-			<div class="container fixed-top item_top_div" th:if="${product}">
+			<div class="container fixed-top item_top_div" th:if="${products}">
 
 				<!--<span class="rem_span">Remove item</span>-->
-				<div class="box">
+				<div class="box" th:each="p:${products}">
 					<i class="fa-solid fa-xmark item_close_cross" onclick="close_item(this)"></i>
 					<!--<form th:action="@{/seller/remove_product}" method="post">
 							<input name="id" type="hidden" th:value="${p.p_id}" />
@@ -1116,15 +1163,15 @@
 					<span>
 						<th:block>
 							<div class="img-box">
-								<img class="cat_p_img" th:src="@{'/images/'+${product.mainImage}}" alt="no image">
+								<img class="cat_p_img" th:src="@{'/images/'+${p.mainImage}}" alt="no image">
 							</div>
 							<div class="detail-box">
-								<h6 th:text="${product.p_name}">
+								<h6 th:text="${p.p_name}">
 									Ring
 								</h6>
 								<h6>
 									Price
-									<span th:text="'Rs.'+${product.price}">
+									<span th:text="'Rs.'+${p.price}">
 										$200
 									</span>
 								</h6>
@@ -1139,7 +1186,7 @@
 										<!--<input type="hidden" name="manage_cart" id="manage_cart_id" th:value="${manage_cart}"/>-->
 										<input type="hidden" name="page" value="customer_index" />
 										<input name="c_email" type="hidden" th:value="${c_email}" />
-										<input type="hidden" name="id" th:value="${product.p_id}" />
+										<input type="hidden" name="id" th:value="${p.p_id}" />
 										<span class="view_span" onclick="p_submit(this)">View</span>
 										<button style="display : none;" class="p_submit_btn" type="submit"></button>
 									</form>
@@ -1204,7 +1251,7 @@
 	<!--end category area-->
 	<!-- shop section -->
 
-	<section class="shop_section layout_padding">
+	<!--<section class="shop_section layout_padding">
 		<div class="container">
 			<div class="heading_container heading_center">
 				<h2>
@@ -1635,7 +1682,7 @@
 				</a>
 			</div>
 		</div>
-	</section>
+	</section>-->
 
 	<!-- end shop section -->
 
@@ -1659,11 +1706,11 @@
 								</h2>
 							</div>
 							<p>
-								Qui ex dolore at repellat, quia neque doloribus omnis adipisci, ipsum eos odio fugit
-								ut
-								eveniet blanditiis praesentium totam non nostrum dignissimos nihil eius facere et
-								eaque.
-								Qui, animi obcaecati.
+								There is a discount on new products available for a limited time. This means that you
+								can buy these items at a lower price than usual. It is a great opportunity to save money
+								while getting something new. Make sure to take advantage of this offer before it ends.
+								Check out the new products and see if there is anything you would like to purchase with
+								the discount.
 							</p>
 							<div class="btn-box btn-box1">
 								<a href="#" class="btn1">
@@ -1690,18 +1737,21 @@
 				<div class="col-md-4 cat1">
 					<img th:src="@{/images/hardware.jpg}" />
 					<button class="view_all_btn">View All</button>
+					<h3 class="text-center p_com_soon_mo">New Products comming soon ....</h3>
 				</div>
+
 				<div class="col-md-8 cat_products">
 					<h1 class="text-center heading_large">Hardware</h1>
 
 					<!--<h5 style="margin-left:20%;">Product 1</h5>-->
 					<div class="row">
-						<div class="col-md-4 product">
+						<h3 class="text-center p_com_soon">New Products comming soon ....</h3>
+						<!--<div class="col-md-4 product">
 							<div class="row">
 
 
 								<div class="col-md-4 img_top1">
-									<!--<h5>Product 1</h5>-->
+									<h5>Product 1</h5>
 									<h5>Product 1</h5>
 									<img th:src="@{/images/grocery1.jpg}" />
 									<hr />
@@ -1709,20 +1759,21 @@
 								</div>
 								<div class="col-md-8 features_top">
 									<h5>Product 1</h5>
-									<!--<ul style="list-style-type: none;" class="features_top">-->
-									<!--<div class="features_top">-->
+									<ul style="list-style-type: none;" class="features_top">
+									<div class="features_top">
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<button class="view_btn_small">View</button>
-									<!--<hr />
-										<span>sit amet consectetur adipisicing elit.</span>-->
-									<!--</div>
--->
-
-									<!--</ul>-->
+								<hr />
+										<span>sit amet consectetur adipisicing elit.</span>
 								</div>
+
+
+								</ul>
+								</div>
+								
 							</div>
 						</div>
 						<div class="col-md-4 product">
@@ -1730,7 +1781,7 @@
 
 
 								<div class="col-md-4 img_top1">
-									<!--<h5>Product 1</h5>-->
+									<h5>Product 1</h5>
 									<h5>Product 2</h5>
 									<img th:src="@{/images/grocery2.jpg}" />
 									<hr />
@@ -1738,19 +1789,19 @@
 								</div>
 								<div class="col-md-8 features_top">
 									<h5>Product 2</h5>
-									<!--<ul style="list-style-type: none;" class="features_top">-->
-									<!--<div class="features_top">-->
+									<ul style="list-style-type: none;" class="features_top">
+									<div class="features_top">
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<button class="view_btn_small">View</button>
-									<!--<hr />
-										<span>sit amet consectetur adipisicing elit.</span>-->
-									<!--</div>
--->
+									<hr />
+										<span>sit amet consectetur adipisicing elit.</span>
+									</div>
 
-									<!--</ul>-->
+
+									</ul>
 								</div>
 							</div>
 						</div>
@@ -1759,7 +1810,7 @@
 
 
 								<div class="col-md-4 img_top1">
-									<!--<h5>Product 1</h5>-->
+									<h5>Product 1</h5>
 									<h5>Product 3</h5>
 									<img th:src="@{/images/grocery3.jpg}" />
 									<hr />
@@ -1767,19 +1818,19 @@
 								</div>
 								<div class="col-md-8 features_top">
 									<h5>Product 3</h5>
-									<!--<ul style="list-style-type: none;" class="features_top">-->
-									<!--<div class="features_top">-->
+									<ul style="list-style-type: none;" class="features_top">
+									<div class="features_top">
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<button class="view_btn_small">View</button>
-									<!--<hr />
-										<span>sit amet consectetur adipisicing elit.</span>-->
-									<!--</div>
--->
+									<hr />
+										<span>sit amet consectetur adipisicing elit.</span>
+									</div>
 
-									<!--</ul>-->
+
+									</ul>
 								</div>
 							</div>
 						</div>
@@ -1788,7 +1839,7 @@
 
 
 								<div class="col-md-4 img_top1">
-									<!--<h5>Product 1</h5>-->
+									<h5>Product 1</h5>
 									<h5>Product 4</h5>
 									<img th:src="@{/images/grocery4.jpg}" />
 									<hr />
@@ -1796,19 +1847,19 @@
 								</div>
 								<div class="col-md-8 features_top">
 									<h5>Product 4</h5>
-									<!--<ul style="list-style-type: none;" class="features_top">-->
-									<!--<div class="features_top">-->
+									<ul style="list-style-type: none;" class="features_top">
+									<div class="features_top">
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<button class="view_btn_small">View</button>
-									<!--<hr />
-										<span>sit amet consectetur adipisicing elit.</span>-->
-									<!--</div>
--->
+									<hr />
+										<span>sit amet consectetur adipisicing elit.</span>
+									</div>
 
-									<!--</ul>-->
+
+									</ul>
 								</div>
 							</div>
 						</div>
@@ -1817,7 +1868,7 @@
 
 
 								<div class="col-md-4 img_top1">
-									<!--<h5>Product 1</h5>-->
+									<h5>Product 1</h5>
 									<h5>Product 5</h5>
 									<img th:src="@{/images/grocery5.jpg}" />
 									<hr />
@@ -1825,19 +1876,19 @@
 								</div>
 								<div class="col-md-8 features_top">
 									<h5>Product 5</h5>
-									<!--<ul style="list-style-type: none;" class="features_top">-->
-									<!--<div class="features_top">-->
+									<ul style="list-style-type: none;" class="features_top">
+									<div class="features_top">
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<button class="view_btn_small">View</button>
-									<!--<hr />
-										<span>sit amet consectetur adipisicing elit.</span>-->
-									<!--</div>
--->
+									<hr />
+										<span>sit amet consectetur adipisicing elit.</span>
+									</div>
 
-									<!--</ul>-->
+
+									</ul>
 								</div>
 							</div>
 						</div>
@@ -1846,7 +1897,7 @@
 
 
 								<div class="col-md-4 img_top1">
-									<!--<h5>Product 1</h5>-->
+									<h5>Product 1</h5>
 									<h5>Product 6</h5>
 									<img th:src="@{/images/grocery6.jpg}" />
 									<hr />
@@ -1854,46 +1905,51 @@
 								</div>
 								<div class="col-md-8 features_top">
 									<h5>Product 6</h5>
-									<!--<ul style="list-style-type: none;" class="features_top">-->
-									<!--<div class="features_top">-->
+									<ul style="list-style-type: none;" class="features_top">
+									<div class="features_top">
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<button class="view_btn_small">View</button>
-									<!--<hr />
-										<span>sit amet consectetur adipisicing elit.</span>-->
-									<!--</div>
--->
+									<hr />
+										<span>sit amet consectetur adipisicing elit.</span>
+									</div>
 
-									<!--</ul>-->
+
+									</ul>
 								</div>
 							</div>
 						</div>
 
 					</div>
+				</div>-->
+					</div>
 				</div>
 			</div>
 		</div>
+
 		<div class="container-fluid cat_trailer">
 			<!--<h1 class="text-center">Hardware</h1>-->
 			<div class="row">
-				<h1 class="rm_heading_small">Raw Materials</h1>
+				<h1 class="heading_small">Raw Materials</h1>
 				<div class="col-md-4 cat1">
 					<img th:src="@{/images/raw_materials.jpg}" />
 					<button class="view_all_btn">View All</button>
+					<h3 class="text-center p_com_soon_mo">New Products comming soon ....</h3>
 				</div>
 				<div class="col-md-8 cat_products">
 					<h1 class="text-center heading_large">Raw Materials</h1>
 
 					<!--<h5 style="margin-left:20%;">Product 1</h5>-->
 					<div class="row">
-						<div class="col-md-4 product">
+						<h3 class="text-center p_com_soon">New Products comming soon ....</h3>
+						<!--<div class="col-md-4 product">
 							<div class="row">
 
 
 								<div class="col-md-4 img_top1">
-									<!--<h5>Product 1</h5>-->
+									<h5>Product 1</h5>
 									<h5>Product 1</h5>
 									<img th:src="@{/images/grocery1.jpg}" />
 									<hr />
@@ -1901,19 +1957,19 @@
 								</div>
 								<div class="col-md-8 features_top">
 									<h5>Product 1</h5>
-									<!--<ul style="list-style-type: none;" class="features_top">-->
-									<!--<div class="features_top">-->
+									<ul style="list-style-type: none;" class="features_top">
+									<div class="features_top">
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<button class="view_btn_small">View</button>
-									<!--<hr />
-										<span>sit amet consectetur adipisicing elit.</span>-->
-									<!--</div>
--->
+									<hr />
+										<span>sit amet consectetur adipisicing elit.</span>
+									</div>
 
-									<!--</ul>-->
+
+									</ul>
 								</div>
 							</div>
 						</div>
@@ -1922,7 +1978,7 @@
 
 
 								<div class="col-md-4 img_top1">
-									<!--<h5>Product 1</h5>-->
+									<h5>Product 1</h5>
 									<h5>Product 2</h5>
 									<img th:src="@{/images/grocery2.jpg}" />
 									<hr />
@@ -1930,19 +1986,19 @@
 								</div>
 								<div class="col-md-8 features_top">
 									<h5>Product 2</h5>
-									<!--<ul style="list-style-type: none;" class="features_top">-->
-									<!--<div class="features_top">-->
+									<ul style="list-style-type: none;" class="features_top">
+									<div class="features_top">
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<button class="view_btn_small">View</button>
-									<!--<hr />
-										<span>sit amet consectetur adipisicing elit.</span>-->
-									<!--</div>
--->
+									<hr />
+										<span>sit amet consectetur adipisicing elit.</span>
+									</div>
 
-									<!--</ul>-->
+
+									</ul>
 								</div>
 							</div>
 						</div>
@@ -1951,7 +2007,7 @@
 
 
 								<div class="col-md-4 img_top1">
-									<!--<h5>Product 1</h5>-->
+									<h5>Product 1</h5>
 									<h5>Product 3</h5>
 									<img th:src="@{/images/grocery3.jpg}" />
 									<hr />
@@ -1959,19 +2015,19 @@
 								</div>
 								<div class="col-md-8 features_top">
 									<h5>Product 3</h5>
-									<!--<ul style="list-style-type: none;" class="features_top">-->
-									<!--<div class="features_top">-->
+									<ul style="list-style-type: none;" class="features_top">
+									<div class="features_top">
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<button class="view_btn_small">View</button>
-									<!--<hr />
-										<span>sit amet consectetur adipisicing elit.</span>-->
-									<!--</div>
--->
+									<hr />
+										<span>sit amet consectetur adipisicing elit.</span>
+									</div>
 
-									<!--</ul>-->
+
+									</ul>
 								</div>
 							</div>
 						</div>
@@ -1980,7 +2036,7 @@
 
 
 								<div class="col-md-4 img_top1">
-									<!--<h5>Product 1</h5>-->
+									<h5>Product 1</h5>
 									<h5>Product 4</h5>
 									<img th:src="@{/images/grocery4.jpg}" />
 									<hr />
@@ -1988,19 +2044,19 @@
 								</div>
 								<div class="col-md-8 features_top">
 									<h5>Product 4</h5>
-									<!--<ul style="list-style-type: none;" class="features_top">-->
-									<!--<div class="features_top">-->
+									<ul style="list-style-type: none;" class="features_top">
+									<div class="features_top">
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<button class="view_btn_small">View</button>
-									<!--<hr />
-										<span>sit amet consectetur adipisicing elit.</span>-->
-									<!--</div>
--->
+									<hr />
+										<span>sit amet consectetur adipisicing elit.</span>
+									</div>
 
-									<!--</ul>-->
+
+									</ul>
 								</div>
 							</div>
 						</div>
@@ -2009,7 +2065,7 @@
 
 
 								<div class="col-md-4 img_top1">
-									<!--<h5>Product 1</h5>-->
+									<h5>Product 1</h5>
 									<h5>Product 5</h5>
 									<img th:src="@{/images/grocery5.jpg}" />
 									<hr />
@@ -2017,19 +2073,19 @@
 								</div>
 								<div class="col-md-8 features_top">
 									<h5>Product 5</h5>
-									<!--<ul style="list-style-type: none;" class="features_top">-->
-									<!--<div class="features_top">-->
+									<ul style="list-style-type: none;" class="features_top">
+									<div class="features_top">
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<button class="view_btn_small">View</button>
-									<!--<hr />
-										<span>sit amet consectetur adipisicing elit.</span>-->
-									<!--</div>
--->
+									<hr />
+										<span>sit amet consectetur adipisicing elit.</span>
+									</div>
 
-									<!--</ul>-->
+
+									</ul>
 								</div>
 							</div>
 						</div>
@@ -2038,7 +2094,7 @@
 
 
 								<div class="col-md-4 img_top1">
-									<!--<h5>Product 1</h5>-->
+									<h5>Product 1</h5>
 									<h5>Product 6</h5>
 									<img th:src="@{/images/grocery6.jpg}" />
 									<hr />
@@ -2046,22 +2102,22 @@
 								</div>
 								<div class="col-md-8 features_top">
 									<h5>Product 6</h5>
-									<!--<ul style="list-style-type: none;" class="features_top">-->
-									<!--<div class="features_top">-->
+									<ul style="list-style-type: none;" class="features_top">
+									<div class="features_top">
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<button class="view_btn_small">View</button>
-									<!--<hr />
-										<span>sit amet consectetur adipisicing elit.</span>-->
-									<!--</div>
--->
+									<hr />
+										<span>sit amet consectetur adipisicing elit.</span>
+									</div>
 
-									<!--</ul>-->
+
+									</ul>
 								</div>
 							</div>
-						</div>
+						</div>-->
 
 					</div>
 				</div>
@@ -2074,18 +2130,20 @@
 				<div class="col-md-4 cat1">
 					<img th:src="@{/images/electronics.jpg}" />
 					<button class="view_all_btn">View All</button>
+					<h3 class="text-center p_com_soon_mo">New Products comming soon ....</h3>
 				</div>
 				<div class="col-md-8 cat_products">
 					<h1 class="text-center heading_large">Electronics</h1>
 
 					<!--<h5 style="margin-left:20%;">Product 1</h5>-->
 					<div class="row">
-						<div class="col-md-4 product">
+						<h3 class="text-center p_com_soon">New Products comming soon ....</h3>
+						<!--<div class="col-md-4 product">
 							<div class="row">
 
 
 								<div class="col-md-4 img_top1">
-									<!--<h5>Product 1</h5>-->
+									<h5>Product 1</h5>
 									<h5>Product 1</h5>
 									<img th:src="@{/images/grocery1.jpg}" />
 									<hr />
@@ -2093,19 +2151,19 @@
 								</div>
 								<div class="col-md-8 features_top">
 									<h5>Product 1</h5>
-									<!--<ul style="list-style-type: none;" class="features_top">-->
-									<!--<div class="features_top">-->
+									<ul style="list-style-type: none;" class="features_top">
+									<div class="features_top">
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<button class="view_btn_small">View</button>
-									<!--<hr />
-										<span>sit amet consectetur adipisicing elit.</span>-->
-									<!--</div>
--->
+									<hr />
+										<span>sit amet consectetur adipisicing elit.</span>
+									</div>
 
-									<!--</ul>-->
+
+									</ul>
 								</div>
 							</div>
 						</div>
@@ -2114,7 +2172,7 @@
 
 
 								<div class="col-md-4 img_top1">
-									<!--<h5>Product 1</h5>-->
+									<h5>Product 1</h5>
 									<h5>Product 2</h5>
 									<img th:src="@{/images/grocery2.jpg}" />
 									<hr />
@@ -2122,19 +2180,19 @@
 								</div>
 								<div class="col-md-8 features_top">
 									<h5>Product 2</h5>
-									<!--<ul style="list-style-type: none;" class="features_top">-->
-									<!--<div class="features_top">-->
+									<ul style="list-style-type: none;" class="features_top">
+									<div class="features_top">
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<button class="view_btn_small">View</button>
-									<!--<hr />
-										<span>sit amet consectetur adipisicing elit.</span>-->
-									<!--</div>
--->
+									<hr />
+										<span>sit amet consectetur adipisicing elit.</span>
+									</div>
 
-									<!--</ul>-->
+
+									</ul>
 								</div>
 							</div>
 						</div>
@@ -2143,7 +2201,7 @@
 
 
 								<div class="col-md-4 img_top1">
-									<!--<h5>Product 1</h5>-->
+									<h5>Product 1</h5>
 									<h5>Product 3</h5>
 									<img th:src="@{/images/grocery3.jpg}" />
 									<hr />
@@ -2151,19 +2209,19 @@
 								</div>
 								<div class="col-md-8 features_top">
 									<h5>Product 3</h5>
-									<!--<ul style="list-style-type: none;" class="features_top">-->
-									<!--<div class="features_top">-->
+									<ul style="list-style-type: none;" class="features_top">
+									<div class="features_top">
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<button class="view_btn_small">View</button>
-									<!--<hr />
-										<span>sit amet consectetur adipisicing elit.</span>-->
-									<!--</div>
--->
+									<hr />
+										<span>sit amet consectetur adipisicing elit.</span>
+									</div>
 
-									<!--</ul>-->
+
+									</ul>
 								</div>
 							</div>
 						</div>
@@ -2172,7 +2230,7 @@
 
 
 								<div class="col-md-4 img_top1">
-									<!--<h5>Product 1</h5>-->
+									<h5>Product 1</h5>
 									<h5>Product 4</h5>
 									<img th:src="@{/images/grocery4.jpg}" />
 									<hr />
@@ -2180,19 +2238,19 @@
 								</div>
 								<div class="col-md-8 features_top">
 									<h5>Product 4</h5>
-									<!--<ul style="list-style-type: none;" class="features_top">-->
-									<!--<div class="features_top">-->
+									<ul style="list-style-type: none;" class="features_top">
+									<div class="features_top">
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<button class="view_btn_small">View</button>
-									<!--<hr />
-										<span>sit amet consectetur adipisicing elit.</span>-->
-									<!--</div>
--->
+									<hr />
+										<span>sit amet consectetur adipisicing elit.</span>
+									</div>
 
-									<!--</ul>-->
+
+									</ul>
 								</div>
 							</div>
 						</div>
@@ -2201,7 +2259,7 @@
 
 
 								<div class="col-md-4 img_top1">
-									<!--<h5>Product 1</h5>-->
+									<h5>Product 1</h5>
 									<h5>Product 5</h5>
 									<img th:src="@{/images/grocery5.jpg}" />
 									<hr />
@@ -2209,19 +2267,19 @@
 								</div>
 								<div class="col-md-8 features_top">
 									<h5>Product 5</h5>
-									<!--<ul style="list-style-type: none;" class="features_top">-->
-									<!--<div class="features_top">-->
+									<ul style="list-style-type: none;" class="features_top">
+									<div class="features_top">
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<button class="view_btn_small">View</button>
-									<!--<hr />
-										<span>sit amet consectetur adipisicing elit.</span>-->
-									<!--</div>
--->
+									<hr />
+										<span>sit amet consectetur adipisicing elit.</span>
+									</div>
 
-									<!--</ul>-->
+
+									</ul>
 								</div>
 							</div>
 						</div>
@@ -2230,7 +2288,7 @@
 
 
 								<div class="col-md-4 img_top1">
-									<!--<h5>Product 1</h5>-->
+									<h5>Product 1</h5>
 									<h5>Product 6</h5>
 									<img th:src="@{/images/grocery6.jpg}" />
 									<hr />
@@ -2238,23 +2296,23 @@
 								</div>
 								<div class="col-md-8 features_top">
 									<h5>Product 6</h5>
-									<!--<ul style="list-style-type: none;" class="features_top">-->
-									<!--<div class="features_top">-->
+									<ul style="list-style-type: none;" class="features_top">
+									<div class="features_top">
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<button class="view_btn_small">View</button>
-									<!--<hr />
-										<span>sit amet consectetur adipisicing elit.</span>-->
-									<!--</div>
--->
+									<hr />
+										<span>sit amet consectetur adipisicing elit.</span>
+									</div>
 
-									<!--</ul>-->
+
+									</ul>
 								</div>
 							</div>
 						</div>
-
+-->
 					</div>
 				</div>
 			</div>
@@ -2266,18 +2324,20 @@
 				<div class="col-md-4 cat1">
 					<img th:src="@{/images/furniture.jpg}" />
 					<button class="view_all_btn">View All</button>
+					<h3 class="text-center p_com_soon_mo">New Products comming soon ....</h3>
 				</div>
 				<div class="col-md-8 cat_products">
 					<h1 class="text-center heading_large">Furniture</h1>
 
 					<!--<h5 style="margin-left:20%;">Product 1</h5>-->
 					<div class="row">
-						<div class="col-md-4 product">
+						<h3 class="text-center p_com_soon">New Products comming soon ....</h3>
+						<!--<div class="col-md-4 product">
 							<div class="row">
 
 
 								<div class="col-md-4 img_top1">
-									<!--<h5>Product 1</h5>-->
+									<h5>Product 1</h5>
 									<h5>Product 1</h5>
 									<img th:src="@{/images/grocery1.jpg}" />
 									<hr />
@@ -2285,19 +2345,19 @@
 								</div>
 								<div class="col-md-8 features_top">
 									<h5>Product 1</h5>
-									<!--<ul style="list-style-type: none;" class="features_top">-->
-									<!--<div class="features_top">-->
+									<ul style="list-style-type: none;" class="features_top">
+									<div class="features_top">
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<button class="view_btn_small">View</button>
-									<!--<hr />
-										<span>sit amet consectetur adipisicing elit.</span>-->
-									<!--</div>
--->
+									<hr />
+										<span>sit amet consectetur adipisicing elit.</span>
+									</div>
 
-									<!--</ul>-->
+
+									</ul>
 								</div>
 							</div>
 						</div>
@@ -2306,7 +2366,7 @@
 
 
 								<div class="col-md-4 img_top1">
-									<!--<h5>Product 1</h5>-->
+									<h5>Product 1</h5>
 									<h5>Product 2</h5>
 									<img th:src="@{/images/grocery2.jpg}" />
 									<hr />
@@ -2314,19 +2374,19 @@
 								</div>
 								<div class="col-md-8 features_top">
 									<h5>Product 2</h5>
-									<!--<ul style="list-style-type: none;" class="features_top">-->
-									<!--<div class="features_top">-->
+									<ul style="list-style-type: none;" class="features_top">
+									<div class="features_top">
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<button class="view_btn_small">View</button>
-									<!--<hr />
-										<span>sit amet consectetur adipisicing elit.</span>-->
-									<!--</div>
--->
+									<hr />
+										<span>sit amet consectetur adipisicing elit.</span>
+									</div>
 
-									<!--</ul>-->
+
+									</ul>
 								</div>
 							</div>
 						</div>
@@ -2335,7 +2395,7 @@
 
 
 								<div class="col-md-4 img_top1">
-									<!--<h5>Product 1</h5>-->
+									<h5>Product 1</h5>
 									<h5>Product 3</h5>
 									<img th:src="@{/images/grocery3.jpg}" />
 									<hr />
@@ -2343,19 +2403,19 @@
 								</div>
 								<div class="col-md-8 features_top">
 									<h5>Product 3</h5>
-									<!--<ul style="list-style-type: none;" class="features_top">-->
-									<!--<div class="features_top">-->
+									<ul style="list-style-type: none;" class="features_top">
+									<div class="features_top">
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<button class="view_btn_small">View</button>
-									<!--<hr />
-										<span>sit amet consectetur adipisicing elit.</span>-->
-									<!--</div>
--->
+									<hr />
+										<span>sit amet consectetur adipisicing elit.</span>
+									</div>
 
-									<!--</ul>-->
+
+									</ul>
 								</div>
 							</div>
 						</div>
@@ -2364,7 +2424,7 @@
 
 
 								<div class="col-md-4 img_top1">
-									<!--<h5>Product 1</h5>-->
+									<h5>Product 1</h5>
 									<h5>Product 4</h5>
 									<img th:src="@{/images/grocery4.jpg}" />
 									<hr />
@@ -2372,19 +2432,19 @@
 								</div>
 								<div class="col-md-8 features_top">
 									<h5>Product 4</h5>
-									<!--<ul style="list-style-type: none;" class="features_top">-->
-									<!--<div class="features_top">-->
+									<ul style="list-style-type: none;" class="features_top">
+									<div class="features_top">
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<button class="view_btn_small">View</button>
-									<!--<hr />
-										<span>sit amet consectetur adipisicing elit.</span>-->
-									<!--</div>
--->
+									<hr />
+										<span>sit amet consectetur adipisicing elit.</span>
+									</div>
 
-									<!--</ul>-->
+
+									</ul>
 								</div>
 							</div>
 						</div>
@@ -2393,7 +2453,7 @@
 
 
 								<div class="col-md-4 img_top1">
-									<!--<h5>Product 1</h5>-->
+									<h5>Product 1</h5>
 									<h5>Product 5</h5>
 									<img th:src="@{/images/grocery5.jpg}" />
 									<hr />
@@ -2401,19 +2461,19 @@
 								</div>
 								<div class="col-md-8 features_top">
 									<h5>Product 5</h5>
-									<!--<ul style="list-style-type: none;" class="features_top">-->
-									<!--<div class="features_top">-->
+									<ul style="list-style-type: none;" class="features_top">
+									<div class="features_top">
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<button class="view_btn_small">View</button>
-									<!--<hr />
-										<span>sit amet consectetur adipisicing elit.</span>-->
-									<!--</div>
--->
+									<hr />
+										<span>sit amet consectetur adipisicing elit.</span>
+									</div>
 
-									<!--</ul>-->
+
+									</ul>
 								</div>
 							</div>
 						</div>
@@ -2422,7 +2482,7 @@
 
 
 								<div class="col-md-4 img_top1">
-									<!--<h5>Product 1</h5>-->
+									<h5>Product 1</h5>
 									<h5>Product 6</h5>
 									<img th:src="@{/images/grocery6.jpg}" />
 									<hr />
@@ -2430,22 +2490,22 @@
 								</div>
 								<div class="col-md-8 features_top">
 									<h5>Product 6</h5>
-									<!--<ul style="list-style-type: none;" class="features_top">-->
-									<!--<div class="features_top">-->
+									<ul style="list-style-type: none;" class="features_top">
+									<div class="features_top">
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<button class="view_btn_small">View</button>
-									<!--<hr />
-										<span>sit amet consectetur adipisicing elit.</span>-->
-									<!--</div>
--->
+									<hr />
+										<span>sit amet consectetur adipisicing elit.</span>
+									</div>
 
-									<!--</ul>-->
+
+									</ul>
 								</div>
 							</div>
-						</div>
+						</div>-->
 
 					</div>
 				</div>
@@ -2458,18 +2518,20 @@
 				<div class="col-md-4 cat1">
 					<img th:src="@{/images/fashion.jpg}" />
 					<button class="view_all_btn">View All</button>
+					<h3 class="text-center p_com_soon_mo">New Products comming soon ....</h3>
 				</div>
 				<div class="col-md-8 cat_products">
 					<h1 class="text-center heading_large">Fashion</h1>
 
 					<!--<h5 style="margin-left:20%;">Product 1</h5>-->
 					<div class="row">
-						<div class="col-md-4 product">
+						<h3 class="text-center p_com_soon">New Products comming soon ....</h3>
+						<!--<div class="col-md-4 product">
 							<div class="row">
 
 
 								<div class="col-md-4 img_top1">
-									<!--<h5>Product 1</h5>-->
+									<h5>Product 1</h5>
 									<h5>Product 1</h5>
 									<img th:src="@{/images/grocery1.jpg}" />
 									<hr />
@@ -2477,19 +2539,19 @@
 								</div>
 								<div class="col-md-8 features_top">
 									<h5>Product 1</h5>
-									<!--<ul style="list-style-type: none;" class="features_top">-->
-									<!--<div class="features_top">-->
+									<ul style="list-style-type: none;" class="features_top">
+									<div class="features_top">
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<button class="view_btn_small">View</button>
-									<!--<hr />
-										<span>sit amet consectetur adipisicing elit.</span>-->
-									<!--</div>
--->
+									<hr />
+										<span>sit amet consectetur adipisicing elit.</span>
+									</div>
 
-									<!--</ul>-->
+
+									</ul>
 								</div>
 							</div>
 						</div>
@@ -2498,7 +2560,7 @@
 
 
 								<div class="col-md-4 img_top1">
-									<!--<h5>Product 1</h5>-->
+									<h5>Product 1</h5>
 									<h5>Product 2</h5>
 									<img th:src="@{/images/grocery2.jpg}" />
 									<hr />
@@ -2506,19 +2568,19 @@
 								</div>
 								<div class="col-md-8 features_top">
 									<h5>Product 2</h5>
-									<!--<ul style="list-style-type: none;" class="features_top">-->
-									<!--<div class="features_top">-->
+									<ul style="list-style-type: none;" class="features_top">
+									<div class="features_top">
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<button class="view_btn_small">View</button>
-									<!--<hr />
-										<span>sit amet consectetur adipisicing elit.</span>-->
-									<!--</div>
--->
+									<hr />
+										<span>sit amet consectetur adipisicing elit.</span>
+									</div>
 
-									<!--</ul>-->
+
+									</ul>
 								</div>
 							</div>
 						</div>
@@ -2527,7 +2589,7 @@
 
 
 								<div class="col-md-4 img_top1">
-									<!--<h5>Product 1</h5>-->
+									<h5>Product 1</h5>
 									<h5>Product 3</h5>
 									<img th:src="@{/images/grocery3.jpg}" />
 									<hr />
@@ -2535,19 +2597,19 @@
 								</div>
 								<div class="col-md-8 features_top">
 									<h5>Product 3</h5>
-									<!--<ul style="list-style-type: none;" class="features_top">-->
-									<!--<div class="features_top">-->
+									<ul style="list-style-type: none;" class="features_top">
+									<div class="features_top">
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<button class="view_btn_small">View</button>
-									<!--<hr />
-										<span>sit amet consectetur adipisicing elit.</span>-->
-									<!--</div>
--->
+									<hr />
+										<span>sit amet consectetur adipisicing elit.</span>
+									</div>
 
-									<!--</ul>-->
+
+									</ul>
 								</div>
 							</div>
 						</div>
@@ -2556,7 +2618,7 @@
 
 
 								<div class="col-md-4 img_top1">
-									<!--<h5>Product 1</h5>-->
+									<h5>Product 1</h5>
 									<h5>Product 4</h5>
 									<img th:src="@{/images/grocery4.jpg}" />
 									<hr />
@@ -2564,19 +2626,19 @@
 								</div>
 								<div class="col-md-8 features_top">
 									<h5>Product 4</h5>
-									<!--<ul style="list-style-type: none;" class="features_top">-->
-									<!--<div class="features_top">-->
+									<ul style="list-style-type: none;" class="features_top">
+									<div class="features_top">
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<button class="view_btn_small">View</button>
-									<!--<hr />
-										<span>sit amet consectetur adipisicing elit.</span>-->
-									<!--</div>
--->
+									<hr />
+										<span>sit amet consectetur adipisicing elit.</span>
+									</div>
 
-									<!--</ul>-->
+
+									</ul>
 								</div>
 							</div>
 						</div>
@@ -2585,7 +2647,7 @@
 
 
 								<div class="col-md-4 img_top1">
-									<!--<h5>Product 1</h5>-->
+									<h5>Product 1</h5>
 									<h5>Product 5</h5>
 									<img th:src="@{/images/grocery5.jpg}" />
 									<hr />
@@ -2593,19 +2655,19 @@
 								</div>
 								<div class="col-md-8 features_top">
 									<h5>Product 5</h5>
-									<!--<ul style="list-style-type: none;" class="features_top">-->
-									<!--<div class="features_top">-->
+									<ul style="list-style-type: none;" class="features_top">
+									<div class="features_top">
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<button class="view_btn_small">View</button>
-									<!--<hr />
-										<span>sit amet consectetur adipisicing elit.</span>-->
-									<!--</div>
--->
+									<hr />
+										<span>sit amet consectetur adipisicing elit.</span>
+									</div>
 
-									<!--</ul>-->
+
+									</ul>
 								</div>
 							</div>
 						</div>
@@ -2614,7 +2676,7 @@
 
 
 								<div class="col-md-4 img_top1">
-									<!--<h5>Product 1</h5>-->
+									<h5>Product 1</h5>
 									<h5>Product 6</h5>
 									<img th:src="@{/images/grocery6.jpg}" />
 									<hr />
@@ -2622,23 +2684,23 @@
 								</div>
 								<div class="col-md-8 features_top">
 									<h5>Product 6</h5>
-									<!--<ul style="list-style-type: none;" class="features_top">-->
-									<!--<div class="features_top">-->
+									<ul style="list-style-type: none;" class="features_top">
+									<div class="features_top">
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<button class="view_btn_small">View</button>
-									<!--<hr />
-										<span>sit amet consectetur adipisicing elit.</span>-->
-									<!--</div>
--->
+									<hr />
+										<span>sit amet consectetur adipisicing elit.</span>
+									</div>
 
-									<!--</ul>-->
+
+									</ul>
 								</div>
 							</div>
 						</div>
-
+-->
 					</div>
 				</div>
 			</div>
@@ -2647,21 +2709,23 @@
 			<!--<h1 class="text-center">Hardware</h1>-->
 			<div class="row">
 				<h1 class="heading_small">Automobile</h1>
-				<div class="col-md-4 cat1">
+				<div class="col-md-4 cat1 cat1_auto">
 					<img th:src="@{/images/automobile.jpg}" />
 					<button class="view_all_btn">View All</button>
+					<h3 class="text-center p_com_soon_mo">New Products comming soon ....</h3>
 				</div>
 				<div class="col-md-8 cat_products">
 					<h1 class="text-center heading_large">Automobile</h1>
 
 					<!--<h5 style="margin-left:20%;">Product 1</h5>-->
 					<div class="row">
-						<div class="col-md-4 product">
+						<h3 class="text-center p_com_soon">New Products comming soon ....</h3>
+						<!--<div class="col-md-4 product">
 							<div class="row">
 
 
 								<div class="col-md-4 img_top1">
-									<!--<h5>Product 1</h5>-->
+									<h5>Product 1</h5>
 									<h5>Product 1</h5>
 									<img th:src="@{/images/grocery1.jpg}" />
 									<hr />
@@ -2669,19 +2733,19 @@
 								</div>
 								<div class="col-md-8 features_top">
 									<h5>Product 1</h5>
-									<!--<ul style="list-style-type: none;" class="features_top">-->
-									<!--<div class="features_top">-->
+									<ul style="list-style-type: none;" class="features_top">
+									<div class="features_top">
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<button class="view_btn_small">View</button>
-									<!--<hr />
-										<span>sit amet consectetur adipisicing elit.</span>-->
-									<!--</div>
--->
+									<hr />
+										<span>sit amet consectetur adipisicing elit.</span>
+									</div>
 
-									<!--</ul>-->
+
+									</ul>
 								</div>
 							</div>
 						</div>
@@ -2690,7 +2754,7 @@
 
 
 								<div class="col-md-4 img_top1">
-									<!--<h5>Product 1</h5>-->
+									<h5>Product 1</h5>
 									<h5>Product 2</h5>
 									<img th:src="@{/images/grocery2.jpg}" />
 									<hr />
@@ -2698,19 +2762,19 @@
 								</div>
 								<div class="col-md-8 features_top">
 									<h5>Product 2</h5>
-									<!--<ul style="list-style-type: none;" class="features_top">-->
-									<!--<div class="features_top">-->
+									<ul style="list-style-type: none;" class="features_top">
+									<div class="features_top">
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<button class="view_btn_small">View</button>
-									<!--<hr />
-										<span>sit amet consectetur adipisicing elit.</span>-->
-									<!--</div>
--->
+									<hr />
+										<span>sit amet consectetur adipisicing elit.</span>
+									</div>
 
-									<!--</ul>-->
+
+									</ul>
 								</div>
 							</div>
 						</div>
@@ -2719,7 +2783,7 @@
 
 
 								<div class="col-md-4 img_top1">
-									<!--<h5>Product 1</h5>-->
+									<h5>Product 1</h5>
 									<h5>Product 3</h5>
 									<img th:src="@{/images/grocery3.jpg}" />
 									<hr />
@@ -2727,19 +2791,19 @@
 								</div>
 								<div class="col-md-8 features_top">
 									<h5>Product 3</h5>
-									<!--<ul style="list-style-type: none;" class="features_top">-->
-									<!--<div class="features_top">-->
+									<ul style="list-style-type: none;" class="features_top">
+									<div class="features_top">
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<button class="view_btn_small">View</button>
-									<!--<hr />
-										<span>sit amet consectetur adipisicing elit.</span>-->
-									<!--</div>
--->
+									<hr />
+										<span>sit amet consectetur adipisicing elit.</span>
+									</div>
 
-									<!--</ul>-->
+
+									</ul>
 								</div>
 							</div>
 						</div>
@@ -2748,7 +2812,7 @@
 
 
 								<div class="col-md-4 img_top1">
-									<!--<h5>Product 1</h5>-->
+									<h5>Product 1</h5>
 									<h5>Product 4</h5>
 									<img th:src="@{/images/grocery4.jpg}" />
 									<hr />
@@ -2756,19 +2820,19 @@
 								</div>
 								<div class="col-md-8 features_top">
 									<h5>Product 4</h5>
-									<!--<ul style="list-style-type: none;" class="features_top">-->
-									<!--<div class="features_top">-->
+									<ul style="list-style-type: none;" class="features_top">
+									<div class="features_top">
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<button class="view_btn_small">View</button>
-									<!--<hr />
-										<span>sit amet consectetur adipisicing elit.</span>-->
-									<!--</div>
--->
+									<hr />
+										<span>sit amet consectetur adipisicing elit.</span>
+									</div>
 
-									<!--</ul>-->
+
+									</ul>
 								</div>
 							</div>
 						</div>
@@ -2777,7 +2841,7 @@
 
 
 								<div class="col-md-4 img_top1">
-									<!--<h5>Product 1</h5>-->
+									<h5>Product 1</h5>
 									<h5>Product 5</h5>
 									<img th:src="@{/images/grocery5.jpg}" />
 									<hr />
@@ -2785,19 +2849,19 @@
 								</div>
 								<div class="col-md-8 features_top">
 									<h5>Product 5</h5>
-									<!--<ul style="list-style-type: none;" class="features_top">-->
-									<!--<div class="features_top">-->
+									<ul style="list-style-type: none;" class="features_top">
+									<div class="features_top">
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<button class="view_btn_small">View</button>
-									<!--<hr />
-										<span>sit amet consectetur adipisicing elit.</span>-->
-									<!--</div>
--->
+									<hr />
+										<span>sit amet consectetur adipisicing elit.</span>
+									</div>
 
-									<!--</ul>-->
+
+									</ul>
 								</div>
 							</div>
 						</div>
@@ -2806,7 +2870,7 @@
 
 
 								<div class="col-md-4 img_top1">
-									<!--<h5>Product 1</h5>-->
+									<h5>Product 1</h5>
 									<h5>Product 6</h5>
 									<img th:src="@{/images/grocery6.jpg}" />
 									<hr />
@@ -2814,46 +2878,48 @@
 								</div>
 								<div class="col-md-8 features_top">
 									<h5>Product 6</h5>
-									<!--<ul style="list-style-type: none;" class="features_top">-->
-									<!--<div class="features_top">-->
+									<ul style="list-style-type: none;" class="features_top">
+									<div class="features_top">
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<button class="view_btn_small">View</button>
-									<!--<hr />
-										<span>sit amet consectetur adipisicing elit.</span>-->
-									<!--</div>
--->
+									<hr />
+										<span>sit amet consectetur adipisicing elit.</span>
+									</div>
 
-									<!--</ul>-->
+
+									</ul>
 								</div>
 							</div>
-						</div>
+						</div>-->
 
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="container-fluid cat_trailer">
+		<div class="container-fluid cat_trailer cat_trailer_sp">
 			<!--<h1 class="text-center">Hardware</h1>-->
 			<div class="row">
-				<h1 class="rm_heading_small">Kitchen Application</h1>
+				<h1 class="heading_small">Kitchen Application</h1>
 				<div class="col-md-4 cat1">
 					<img th:src="@{/images/kitchen_application.jpg}" />
 					<button class="view_all_btn">View All</button>
+					<h3 class="text-center p_com_soon_mo">New Products comming soon ....</h3>
 				</div>
 				<div class="col-md-8 cat_products">
 					<h1 class="text-center heading_large">Kitchen Application</h1>
 
 					<!--<h5 style="margin-left:20%;">Product 1</h5>-->
 					<div class="row">
-						<div class="col-md-4 product">
+						<h3 class="text-center p_com_soon">New Products comming soon ....</h3>
+						<!--<div class="col-md-4 product">
 							<div class="row">
 
-
+								<h3 class="text-center">New Products comming soon ....</h3>
 								<div class="col-md-4 img_top1">
-									<!--<h5>Product 1</h5>-->
+									<h5>Product 1</h5>
 									<h5>Product 1</h5>
 									<img th:src="@{/images/grocery1.jpg}" />
 									<hr />
@@ -2861,19 +2927,19 @@
 								</div>
 								<div class="col-md-8 features_top">
 									<h5>Product 1</h5>
-									<!--<ul style="list-style-type: none;" class="features_top">-->
-									<!--<div class="features_top">-->
+									<ul style="list-style-type: none;" class="features_top">
+									<div class="features_top">
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<button class="view_btn_small">View</button>
-									<!--<hr />
-										<span>sit amet consectetur adipisicing elit.</span>-->
-									<!--</div>
--->
+									<hr />
+										<span>sit amet consectetur adipisicing elit.</span>
+									</div>
 
-									<!--</ul>-->
+
+									</ul>
 								</div>
 							</div>
 						</div>
@@ -2882,7 +2948,7 @@
 
 
 								<div class="col-md-4 img_top1">
-									<!--<h5>Product 1</h5>-->
+									<h5>Product 1</h5>
 									<h5>Product 2</h5>
 									<img th:src="@{/images/grocery2.jpg}" />
 									<hr />
@@ -2890,19 +2956,19 @@
 								</div>
 								<div class="col-md-8 features_top">
 									<h5>Product 2</h5>
-									<!--<ul style="list-style-type: none;" class="features_top">-->
-									<!--<div class="features_top">-->
+									<ul style="list-style-type: none;" class="features_top">
+									<div class="features_top">
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<button class="view_btn_small">View</button>
-									<!--<hr />
-										<span>sit amet consectetur adipisicing elit.</span>-->
-									<!--</div>
--->
+									<hr />
+										<span>sit amet consectetur adipisicing elit.</span>
+									</div>
 
-									<!--</ul>-->
+
+									</ul>
 								</div>
 							</div>
 						</div>
@@ -2911,7 +2977,7 @@
 
 
 								<div class="col-md-4 img_top1">
-									<!--<h5>Product 1</h5>-->
+									<h5>Product 1</h5>
 									<h5>Product 3</h5>
 									<img th:src="@{/images/grocery3.jpg}" />
 									<hr />
@@ -2919,19 +2985,19 @@
 								</div>
 								<div class="col-md-8 features_top">
 									<h5>Product 3</h5>
-									<!--<ul style="list-style-type: none;" class="features_top">-->
-									<!--<div class="features_top">-->
+									<ul style="list-style-type: none;" class="features_top">
+									<div class="features_top">
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<button class="view_btn_small">View</button>
-									<!--<hr />
-										<span>sit amet consectetur adipisicing elit.</span>-->
-									<!--</div>
--->
+									<hr />
+										<span>sit amet consectetur adipisicing elit.</span>
+									</div>
 
-									<!--</ul>-->
+
+									</ul>
 								</div>
 							</div>
 						</div>
@@ -2940,7 +3006,7 @@
 
 
 								<div class="col-md-4 img_top1">
-									<!--<h5>Product 1</h5>-->
+									<h5>Product 1</h5>
 									<h5>Product 4</h5>
 									<img th:src="@{/images/grocery4.jpg}" />
 									<hr />
@@ -2948,19 +3014,19 @@
 								</div>
 								<div class="col-md-8 features_top">
 									<h5>Product 4</h5>
-									<!--<ul style="list-style-type: none;" class="features_top">-->
-									<!--<div class="features_top">-->
+									<ul style="list-style-type: none;" class="features_top">
+									<div class="features_top">
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<button class="view_btn_small">View</button>
-									<!--<hr />
-										<span>sit amet consectetur adipisicing elit.</span>-->
-									<!--</div>
--->
+									<hr />
+										<span>sit amet consectetur adipisicing elit.</span>
+									</div>
 
-									<!--</ul>-->
+
+									</ul>
 								</div>
 							</div>
 						</div>
@@ -2969,7 +3035,7 @@
 
 
 								<div class="col-md-4 img_top1">
-									<!--<h5>Product 1</h5>-->
+									<h5>Product 1</h5>
 									<h5>Product 5</h5>
 									<img th:src="@{/images/grocery5.jpg}" />
 									<hr />
@@ -2977,19 +3043,19 @@
 								</div>
 								<div class="col-md-8 features_top">
 									<h5>Product 5</h5>
-									<!--<ul style="list-style-type: none;" class="features_top">-->
-									<!--<div class="features_top">-->
+									<ul style="list-style-type: none;" class="features_top">
+									<div class="features_top">
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<button class="view_btn_small">View</button>
-									<!--<hr />
-										<span>sit amet consectetur adipisicing elit.</span>-->
-									<!--</div>
--->
+									<hr />
+										<span>sit amet consectetur adipisicing elit.</span>
+									</div>
 
-									<!--</ul>-->
+
+									</ul>
 								</div>
 							</div>
 						</div>
@@ -2998,7 +3064,7 @@
 
 
 								<div class="col-md-4 img_top1">
-									<!--<h5>Product 1</h5>-->
+									<h5>Product 1</h5>
 									<h5>Product 6</h5>
 									<img th:src="@{/images/grocery6.jpg}" />
 									<hr />
@@ -3006,407 +3072,409 @@
 								</div>
 								<div class="col-md-8 features_top">
 									<h5>Product 6</h5>
-									<!--<ul style="list-style-type: none;" class="features_top">-->
-									<!--<div class="features_top">-->
+									<ul style="list-style-type: none;" class="features_top">
+									<div class="features_top">
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<span>sit amet consectetur adipisicing elit.</span>
 									<hr />
 									<button class="view_btn_small">View</button>
-									<!--<hr />
-										<span>sit amet consectetur adipisicing elit.</span>-->
-									<!--</div>
--->
+									<hr />
+										<span>sit amet consectetur adipisicing elit.</span>
+									</div>
 
-									<!--</ul>-->
+
+									</ul>
 								</div>
 							</div>
-						</div>
+						</div>-->
 
 					</div>
 				</div>
 			</div>
 		</div>
 		<!--<div class="container-fluid cat_trailer">
-			<h1 class="text-center">Hardware</h1>
-			<div class="row">
-				<h1 class="rm_heading_small">Architect & Design</h1>
-				<div class="col-md-4 cat1">
-					<img th:src="@{/images/architect.jpg}" />
-					<button class="view_all_btn">View All</button>
-				</div>
-				<div class="col-md-8 cat_products">
-					<h1 class="text-center heading_large">Architect & Design</h1>
-
-					<h5 style="margin-left:20%;">Product 1</h5>
+					<h1 class="text-center">Hardware</h1>
 					<div class="row">
-						<div class="col-md-4 product">
+						<h1 class="rm_heading_small">Architect & Design</h1>
+						<div class="col-md-4 cat1">
+							<img th:src="@{/images/architect.jpg}" />
+							<button class="view_all_btn">View All</button>
+						</div>
+						<div class="col-md-8 cat_products">
+							<h1 class="text-center heading_large">Architect & Design</h1>
+
+							<h5 style="margin-left:20%;">Product 1</h5>
 							<div class="row">
+								<div class="col-md-4 product">
+									<div class="row">
 
 
-								<div class="col-md-4 img_top1">
-									<h5>Product 1</h5>
-									<h5>Product 1</h5>
-									<img th:src="@{/images/grocery1.jpg}" />
-									<hr />
-									<button class="view_btn_large">View</button>
-								</div>
-								<div class="col-md-8 features_top">
-									<h5>Product 1</h5>
-									<ul style="list-style-type: none;" class="features_top">
-									<div class="features_top">
-									<span>sit amet consectetur adipisicing elit.</span>
-									<hr />
-									<span>sit amet consectetur adipisicing elit.</span>
-									<hr />
-									<button class="view_btn_small">View</button>
-									<hr />
-										<span>sit amet consectetur adipisicing elit.</span>
+										<div class="col-md-4 img_top1">
+											<h5>Product 1</h5>
+											<h5>Product 1</h5>
+											<img th:src="@{/images/grocery1.jpg}" />
+											<hr />
+											<button class="view_btn_large">View</button>
+										</div>
+										<div class="col-md-8 features_top">
+											<h5>Product 1</h5>
+											<ul style="list-style-type: none;" class="features_top">
+												<div class="features_top">
+													<span>sit amet consectetur adipisicing elit.</span>
+													<hr />
+													<span>sit amet consectetur adipisicing elit.</span>
+													<hr />
+													<button class="view_btn_small">View</button>
+													<hr />
+													<span>sit amet consectetur adipisicing elit.</span>
+												</div>
+
+
+											</ul>
+										</div>
 									</div>
-
-
-									</ul>
 								</div>
+								<div class="col-md-4 product">
+									<div class="row">
+
+
+										<div class="col-md-4 img_top1">
+											<h5>Product 1</h5>
+											<h5>Product 2</h5>
+											<img th:src="@{/images/grocery2.jpg}" />
+											<hr />
+											<button class="view_btn_large">View</button>
+										</div>
+										<div class="col-md-8 features_top">
+											<h5>Product 2</h5>
+											<ul style="list-style-type: none;" class="features_top">
+												<div class="features_top">
+													<span>sit amet consectetur adipisicing elit.</span>
+													<hr />
+													<span>sit amet consectetur adipisicing elit.</span>
+													<hr />
+													<button class="view_btn_small">View</button>
+													<hr />
+													<span>sit amet consectetur adipisicing elit.</span>
+												</div>
+
+
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-4 product">
+									<div class="row">
+
+
+										<div class="col-md-4 img_top1">
+											<h5>Product 1</h5>
+											<h5>Product 3</h5>
+											<img th:src="@{/images/grocery3.jpg}" />
+											<hr />
+											<button class="view_btn_large">View</button>
+										</div>
+										<div class="col-md-8 features_top">
+											<h5>Product 3</h5>
+											<ul style="list-style-type: none;" class="features_top">
+												<div class="features_top">
+													<span>sit amet consectetur adipisicing elit.</span>
+													<hr />
+													<span>sit amet consectetur adipisicing elit.</span>
+													<hr />
+													<button class="view_btn_small">View</button>
+													<hr />
+													<span>sit amet consectetur adipisicing elit.</span>
+												</div>
+
+
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-4 product no_display">
+									<div class="row">
+
+
+										<div class="col-md-4 img_top1">
+											<h5>Product 1</h5>
+											<h5>Product 4</h5>
+											<img th:src="@{/images/grocery4.jpg}" />
+											<hr />
+											<button class="view_btn_large">View</button>
+										</div>
+										<div class="col-md-8 features_top">
+											<h5>Product 4</h5>
+											<ul style="list-style-type: none;" class="features_top">
+												<div class="features_top">
+													<span>sit amet consectetur adipisicing elit.</span>
+													<hr />
+													<span>sit amet consectetur adipisicing elit.</span>
+													<hr />
+													<button class="view_btn_small">View</button>
+													<hr />
+													<span>sit amet consectetur adipisicing elit.</span>
+												</div>
+
+
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-4 product no_display">
+									<div class="row">
+
+
+										<div class="col-md-4 img_top1">
+											<h5>Product 1</h5>
+											<h5>Product 5</h5>
+											<img th:src="@{/images/grocery5.jpg}" />
+											<hr />
+											<button class="view_btn_large">View</button>
+										</div>
+										<div class="col-md-8 features_top">
+											<h5>Product 5</h5>
+											<ul style="list-style-type: none;" class="features_top">
+												<div class="features_top">
+													<span>sit amet consectetur adipisicing elit.</span>
+													<hr />
+													<span>sit amet consectetur adipisicing elit.</span>
+													<hr />
+													<button class="view_btn_small">View</button>
+													<hr />
+													<span>sit amet consectetur adipisicing elit.</span>
+												</div>
+
+
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-4 product no_display">
+									<div class="row">
+
+
+										<div class="col-md-4 img_top1">
+											<h5>Product 1</h5>
+											<h5>Product 6</h5>
+											<img th:src="@{/images/grocery6.jpg}" />
+											<hr />
+											<button class="view_btn_large">View</button>
+										</div>
+										<div class="col-md-8 features_top">
+											<h5>Product 6</h5>
+											<ul style="list-style-type: none;" class="features_top">
+												<div class="features_top">
+													<span>sit amet consectetur adipisicing elit.</span>
+													<hr />
+													<span>sit amet consectetur adipisicing elit.</span>
+													<hr />
+													<button class="view_btn_small">View</button>
+													<hr />
+													<span>sit amet consectetur adipisicing elit.</span>
+												</div>
+
+
+											</ul>
+										</div>
+									</div>
+								</div>
+
 							</div>
 						</div>
-						<div class="col-md-4 product">
-							<div class="row">
-
-
-								<div class="col-md-4 img_top1">
-									<h5>Product 1</h5>
-									<h5>Product 2</h5>
-									<img th:src="@{/images/grocery2.jpg}" />
-									<hr />
-									<button class="view_btn_large">View</button>
-								</div>
-								<div class="col-md-8 features_top">
-									<h5>Product 2</h5>
-									<ul style="list-style-type: none;" class="features_top">
-									<div class="features_top">
-									<span>sit amet consectetur adipisicing elit.</span>
-									<hr />
-									<span>sit amet consectetur adipisicing elit.</span>
-									<hr />
-									<button class="view_btn_small">View</button>
-									<hr />
-										<span>sit amet consectetur adipisicing elit.</span>
-									</div>
-
-
-									</ul>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4 product">
-							<div class="row">
-
-
-								<div class="col-md-4 img_top1">
-									<h5>Product 1</h5>
-									<h5>Product 3</h5>
-									<img th:src="@{/images/grocery3.jpg}" />
-									<hr />
-									<button class="view_btn_large">View</button>
-								</div>
-								<div class="col-md-8 features_top">
-									<h5>Product 3</h5>
-									<ul style="list-style-type: none;" class="features_top">
-									<div class="features_top">
-									<span>sit amet consectetur adipisicing elit.</span>
-									<hr />
-									<span>sit amet consectetur adipisicing elit.</span>
-									<hr />
-									<button class="view_btn_small">View</button>
-									<hr />
-										<span>sit amet consectetur adipisicing elit.</span>
-									</div>
-
-
-									</ul>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4 product no_display">
-							<div class="row">
-
-
-								<div class="col-md-4 img_top1">
-									<h5>Product 1</h5>
-									<h5>Product 4</h5>
-									<img th:src="@{/images/grocery4.jpg}" />
-									<hr />
-									<button class="view_btn_large">View</button>
-								</div>
-								<div class="col-md-8 features_top">
-									<h5>Product 4</h5>
-									<ul style="list-style-type: none;" class="features_top">
-									<div class="features_top">
-									<span>sit amet consectetur adipisicing elit.</span>
-									<hr />
-									<span>sit amet consectetur adipisicing elit.</span>
-									<hr />
-									<button class="view_btn_small">View</button>
-									<hr />
-										<span>sit amet consectetur adipisicing elit.</span>
-									</div>
-
-
-									</ul>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4 product no_display">
-							<div class="row">
-
-
-								<div class="col-md-4 img_top1">
-									<h5>Product 1</h5>
-									<h5>Product 5</h5>
-									<img th:src="@{/images/grocery5.jpg}" />
-									<hr />
-									<button class="view_btn_large">View</button>
-								</div>
-								<div class="col-md-8 features_top">
-									<h5>Product 5</h5>
-									<ul style="list-style-type: none;" class="features_top">
-									<div class="features_top">
-									<span>sit amet consectetur adipisicing elit.</span>
-									<hr />
-									<span>sit amet consectetur adipisicing elit.</span>
-									<hr />
-									<button class="view_btn_small">View</button>
-									<hr />
-										<span>sit amet consectetur adipisicing elit.</span>
-									</div>
-
-
-									</ul>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4 product no_display">
-							<div class="row">
-
-
-								<div class="col-md-4 img_top1">
-									<h5>Product 1</h5>
-									<h5>Product 6</h5>
-									<img th:src="@{/images/grocery6.jpg}" />
-									<hr />
-									<button class="view_btn_large">View</button>
-								</div>
-								<div class="col-md-8 features_top">
-									<h5>Product 6</h5>
-									<ul style="list-style-type: none;" class="features_top">
-									<div class="features_top">
-									<span>sit amet consectetur adipisicing elit.</span>
-									<hr />
-									<span>sit amet consectetur adipisicing elit.</span>
-									<hr />
-									<button class="view_btn_small">View</button>
-									<hr />
-										<span>sit amet consectetur adipisicing elit.</span>
-									</div>
-
-
-									</ul>
-								</div>
-							</div>
-						</div>
-
 					</div>
-				</div>
-			</div>
-		</div>-->
+				</div>-->
 
-		<div class="container-fluid cat_trailer">
+		<div class="container-fluid cat_trailer cat_trailer_sp">
 			<!--<h1 class="text-center">Hardware</h1>-->
 			<div class="row">
-				<h1 class="rm_heading_small">Architect & Design</h1>
+				<h1 class="heading_small">Architect & Design</h1>
 				<div class="col-md-4 cat1">
 					<img th:src="@{/images/architect.jpg}" />
 					<button class="view_all_btn">View All</button>
+					<h3 class="text-center p_com_soon_mo">New Products comming soon ....</h3>
 				</div>
 				<div class="col-md-8 cat_products">
 					<h1 class="text-center heading_large">Architect & Design</h1>
 
 					<!--<h5 style="margin-left:20%;">Product 1</h5>-->
 					<div class="row">
-						<div class="col-md-4 product">
-							<div class="row">
+						<h3 class="text-center p_com_soon">New Products comming soon ....</h3>
+						<!--<div class="col-md-4 product">
+									<div class="row">
 
 
-								<div class="col-md-4 img_top1">
-									<!--<h5>Product 1</h5>-->
-									<h5>Product 1</h5>
-									<img th:src="@{/images/grocery1.jpg}" />
-									<hr />
-									<button class="view_btn_large">View</button>
+										<div class="col-md-4 img_top1">
+											<h5>Product 1</h5>
+											<h5>Product 1</h5>
+											<img th:src="@{/images/grocery1.jpg}" />
+											<hr />
+											<button class="view_btn_large">View</button>
+										</div>
+										<div class="col-md-8 features_top">
+											<h5>Product 1</h5>
+											<ul style="list-style-type: none;" class="features_top">
+											<div class="features_top">
+											<span>sit amet consectetur adipisicing elit.</span>
+											<hr />
+											<span>sit amet consectetur adipisicing elit.</span>
+											<hr />
+											<button class="view_btn_small">View</button>
+											<hr />
+										<span>sit amet consectetur adipisicing elit.</span>
+											</div>
+
+
+											</ul>
+										</div>
+									</div>
 								</div>
-								<div class="col-md-8 features_top">
-									<h5>Product 1</h5>
-									<!--<ul style="list-style-type: none;" class="features_top">-->
-									<!--<div class="features_top">-->
-									<span>sit amet consectetur adipisicing elit.</span>
-									<hr />
-									<span>sit amet consectetur adipisicing elit.</span>
-									<hr />
-									<button class="view_btn_small">View</button>
-									<!--<hr />
-										<span>sit amet consectetur adipisicing elit.</span>-->
-									<!--</div>
--->
+								<div class="col-md-4 product">
+									<div class="row">
 
-									<!--</ul>-->
+
+										<div class="col-md-4 img_top1">
+											<h5>Product 1</h5>
+											<h5>Product 2</h5>
+											<img th:src="@{/images/grocery2.jpg}" />
+											<hr />
+											<button class="view_btn_large">View</button>
+										</div>
+										<div class="col-md-8 features_top">
+											<h5>Product 2</h5>
+											<ul style="list-style-type: none;" class="features_top">
+											<div class="features_top">
+											<span>sit amet consectetur adipisicing elit.</span>
+											<hr />
+											<span>sit amet consectetur adipisicing elit.</span>
+											<hr />
+											<button class="view_btn_small">View</button>
+											<hr />
+										<span>sit amet consectetur adipisicing elit.</span>
+											</div>
+
+
+											</ul>
+										</div>
+									</div>
 								</div>
-							</div>
-						</div>
-						<div class="col-md-4 product">
-							<div class="row">
+								<div class="col-md-4 product">
+									<div class="row">
 
 
-								<div class="col-md-4 img_top1">
-									<!--<h5>Product 1</h5>-->
-									<h5>Product 2</h5>
-									<img th:src="@{/images/grocery2.jpg}" />
-									<hr />
-									<button class="view_btn_large">View</button>
+										<div class="col-md-4 img_top1">
+											<h5>Product 1</h5>
+											<h5>Product 3</h5>
+											<img th:src="@{/images/grocery3.jpg}" />
+											<hr />
+											<button class="view_btn_large">View</button>
+										</div>
+										<div class="col-md-8 features_top">
+											<h5>Product 3</h5>
+											<ul style="list-style-type: none;" class="features_top">
+											<div class="features_top">
+											<span>sit amet consectetur adipisicing elit.</span>
+											<hr />
+											<span>sit amet consectetur adipisicing elit.</span>
+											<hr />
+											<button class="view_btn_small">View</button>
+											<hr />
+										<span>sit amet consectetur adipisicing elit.</span>
+											</div>
+
+
+											</ul>
+										</div>
+									</div>
 								</div>
-								<div class="col-md-8 features_top">
-									<h5>Product 2</h5>
-									<!--<ul style="list-style-type: none;" class="features_top">-->
-									<!--<div class="features_top">-->
-									<span>sit amet consectetur adipisicing elit.</span>
-									<hr />
-									<span>sit amet consectetur adipisicing elit.</span>
-									<hr />
-									<button class="view_btn_small">View</button>
-									<!--<hr />
-										<span>sit amet consectetur adipisicing elit.</span>-->
-									<!--</div>
--->
+								<div class="col-md-4 product no_display">
+									<div class="row">
 
-									<!--</ul>-->
+
+										<div class="col-md-4 img_top1">
+											<h5>Product 1</h5>
+											<h5>Product 4</h5>
+											<img th:src="@{/images/grocery4.jpg}" />
+											<hr />
+											<button class="view_btn_large">View</button>
+										</div>
+										<div class="col-md-8 features_top">
+											<h5>Product 4</h5>
+											<ul style="list-style-type: none;" class="features_top">
+											<div class="features_top">
+											<span>sit amet consectetur adipisicing elit.</span>
+											<hr />
+											<span>sit amet consectetur adipisicing elit.</span>
+											<hr />
+											<button class="view_btn_small">View</button>
+											<hr />
+										<span>sit amet consectetur adipisicing elit.</span>
+											</div>
+
+
+											</ul>
+										</div>
+									</div>
 								</div>
-							</div>
-						</div>
-						<div class="col-md-4 product">
-							<div class="row">
+								<div class="col-md-4 product no_display">
+									<div class="row">
 
 
-								<div class="col-md-4 img_top1">
-									<!--<h5>Product 1</h5>-->
-									<h5>Product 3</h5>
-									<img th:src="@{/images/grocery3.jpg}" />
-									<hr />
-									<button class="view_btn_large">View</button>
+										<div class="col-md-4 img_top1">
+											<h5>Product 1</h5>
+											<h5>Product 5</h5>
+											<img th:src="@{/images/grocery5.jpg}" />
+											<hr />
+											<button class="view_btn_large">View</button>
+										</div>
+										<div class="col-md-8 features_top">
+											<h5>Product 5</h5>
+											<ul style="list-style-type: none;" class="features_top">
+											<div class="features_top">
+											<span>sit amet consectetur adipisicing elit.</span>
+											<hr />
+											<span>sit amet consectetur adipisicing elit.</span>
+											<hr />
+											<button class="view_btn_small">View</button>
+											<hr />
+										<span>sit amet consectetur adipisicing elit.</span>
+											</div>
+
+
+											</ul>
+										</div>
+									</div>
 								</div>
-								<div class="col-md-8 features_top">
-									<h5>Product 3</h5>
-									<!--<ul style="list-style-type: none;" class="features_top">-->
-									<!--<div class="features_top">-->
-									<span>sit amet consectetur adipisicing elit.</span>
-									<hr />
-									<span>sit amet consectetur adipisicing elit.</span>
-									<hr />
-									<button class="view_btn_small">View</button>
-									<!--<hr />
-										<span>sit amet consectetur adipisicing elit.</span>-->
-									<!--</div>
--->
-
-									<!--</ul>-->
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4 product no_display">
-							<div class="row">
+								<div class="col-md-4 product no_display">
+									<div class="row">
 
 
-								<div class="col-md-4 img_top1">
-									<!--<h5>Product 1</h5>-->
-									<h5>Product 4</h5>
-									<img th:src="@{/images/grocery4.jpg}" />
-									<hr />
-									<button class="view_btn_large">View</button>
-								</div>
-								<div class="col-md-8 features_top">
-									<h5>Product 4</h5>
-									<!--<ul style="list-style-type: none;" class="features_top">-->
-									<!--<div class="features_top">-->
-									<span>sit amet consectetur adipisicing elit.</span>
-									<hr />
-									<span>sit amet consectetur adipisicing elit.</span>
-									<hr />
-									<button class="view_btn_small">View</button>
-									<!--<hr />
-										<span>sit amet consectetur adipisicing elit.</span>-->
-									<!--</div>
--->
-
-									<!--</ul>-->
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4 product no_display">
-							<div class="row">
+										<div class="col-md-4 img_top1">
+											<h5>Product 1</h5>
+											<h5>Product 6</h5>
+											<img th:src="@{/images/grocery6.jpg}" />
+											<hr />
+											<button class="view_btn_large">View</button>
+										</div>
+										<div class="col-md-8 features_top">
+											<h5>Product 6</h5>
+											<ul style="list-style-type: none;" class="features_top">
+											<div class="features_top">
+											<span>sit amet consectetur adipisicing elit.</span>
+											<hr />
+											<span>sit amet consectetur adipisicing elit.</span>
+											<hr />
+											<button class="view_btn_small">View</button>
+											<hr />
+										<span>sit amet consectetur adipisicing elit.</span>
+											</div>
 
 
-								<div class="col-md-4 img_top1">
-									<!--<h5>Product 1</h5>-->
-									<h5>Product 5</h5>
-									<img th:src="@{/images/grocery5.jpg}" />
-									<hr />
-									<button class="view_btn_large">View</button>
-								</div>
-								<div class="col-md-8 features_top">
-									<h5>Product 5</h5>
-									<!--<ul style="list-style-type: none;" class="features_top">-->
-									<!--<div class="features_top">-->
-									<span>sit amet consectetur adipisicing elit.</span>
-									<hr />
-									<span>sit amet consectetur adipisicing elit.</span>
-									<hr />
-									<button class="view_btn_small">View</button>
-									<!--<hr />
-										<span>sit amet consectetur adipisicing elit.</span>-->
-									<!--</div>
--->
-
-									<!--</ul>-->
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4 product no_display">
-							<div class="row">
-
-
-								<div class="col-md-4 img_top1">
-									<!--<h5>Product 1</h5>-->
-									<h5>Product 6</h5>
-									<img th:src="@{/images/grocery6.jpg}" />
-									<hr />
-									<button class="view_btn_large">View</button>
-								</div>
-								<div class="col-md-8 features_top">
-									<h5>Product 6</h5>
-									<!--<ul style="list-style-type: none;" class="features_top">-->
-									<!--<div class="features_top">-->
-									<span>sit amet consectetur adipisicing elit.</span>
-									<hr />
-									<span>sit amet consectetur adipisicing elit.</span>
-									<hr />
-									<button class="view_btn_small">View</button>
-									<!--<hr />
-										<span>sit amet consectetur adipisicing elit.</span>-->
-									<!--</div>
--->
-
-									<!--</ul>-->
-								</div>
-							</div>
-						</div>
+											</ul>
+										</div>
+									</div>
+								</div>-->
 
 					</div>
 				</div>
@@ -3415,191 +3483,193 @@
 		<div class="container-fluid cat_trailer">
 			<!--<h1 class="text-center">Hardware</h1>-->
 			<div class="row">
-				<h1 class="rm_heading_small">Call Services</h1>
+				<h1 class="heading_small">Call Services</h1>
 				<div class="col-md-4 cat1">
 					<img th:src="@{/images/call_services.jpg}" />
 					<button class="view_all_btn">View All</button>
+					<h3 class="text-center p_com_soon_mo">New Products comming soon ....</h3>
 				</div>
 				<div class="col-md-8 cat_products">
 					<h1 class="text-center heading_large">Call Services</h1>
 
 					<!--<h5 style="margin-left:20%;">Product 1</h5>-->
 					<div class="row">
-						<div class="col-md-4 product">
-							<div class="row">
+						<h3 class="text-center p_com_soon">New Products comming soon ....</h3>
+						<!--<div class="col-md-4 product">
+									<div class="row">
 
 
-								<div class="col-md-4 img_top1">
-									<!--<h5>Product 1</h5>-->
-									<h5>Product 1</h5>
-									<img th:src="@{/images/grocery1.jpg}" />
-									<hr />
-									<button class="view_btn_large">View</button>
+										<div class="col-md-4 img_top1">
+											<h5>Product 1</h5>
+											<h5>Product 1</h5>
+											<img th:src="@{/images/grocery1.jpg}" />
+											<hr />
+											<button class="view_btn_large">View</button>
+										</div>
+										<div class="col-md-8 features_top">
+											<h5>Product 1</h5>
+											<ul style="list-style-type: none;" class="features_top">
+											<div class="features_top">
+											<span>sit amet consectetur adipisicing elit.</span>
+											<hr />
+											<span>sit amet consectetur adipisicing elit.</span>
+											<hr />
+											<button class="view_btn_small">View</button>
+											<hr />
+										<span>sit amet consectetur adipisicing elit.</span>
+											</div>
+
+
+											</ul>
+										</div>
+									</div>
 								</div>
-								<div class="col-md-8 features_top">
-									<h5>Product 1</h5>
-									<!--<ul style="list-style-type: none;" class="features_top">-->
-									<!--<div class="features_top">-->
-									<span>sit amet consectetur adipisicing elit.</span>
-									<hr />
-									<span>sit amet consectetur adipisicing elit.</span>
-									<hr />
-									<button class="view_btn_small">View</button>
-									<!--<hr />
-										<span>sit amet consectetur adipisicing elit.</span>-->
-									<!--</div>
+								<div class="col-md-4 product">
+									<div class="row">
+
+
+										<div class="col-md-4 img_top1">
+											<h5>Product 1</h5>
+											<h5>Product 2</h5>
+											<img th:src="@{/images/grocery2.jpg}" />
+											<hr />
+											<button class="view_btn_large">View</button>
+										</div>
+										<div class="col-md-8 features_top">
+											<h5>Product 2</h5>
+											<ul style="list-style-type: none;" class="features_top">
+											<div class="features_top">
+											<span>sit amet consectetur adipisicing elit.</span>
+											<hr />
+											<span>sit amet consectetur adipisicing elit.</span>
+											<hr />
+											<button class="view_btn_small">View</button>
+											<hr />
+										<span>sit amet consectetur adipisicing elit.</span>
+											</div>
+
+
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-4 product">
+									<div class="row">
+
+
+										<div class="col-md-4 img_top1">
+											<h5>Product 1</h5>
+											<h5>Product 3</h5>
+											<img th:src="@{/images/grocery3.jpg}" />
+											<hr />
+											<button class="view_btn_large">View</button>
+										</div>
+										<div class="col-md-8 features_top">
+											<h5>Product 3</h5>
+											<ul style="list-style-type: none;" class="features_top">
+											<div class="features_top">
+											<span>sit amet consectetur adipisicing elit.</span>
+											<hr />
+											<span>sit amet consectetur adipisicing elit.</span>
+											<hr />
+											<button class="view_btn_small">View</button>
+											<hr />
+										<span>sit amet consectetur adipisicing elit.</span>
+											</div>
+
+
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-4 product no_display">
+									<div class="row">
+
+
+										<div class="col-md-4 img_top1">
+											<h5>Product 1</h5>
+											<h5>Product 4</h5>
+											<img th:src="@{/images/grocery4.jpg}" />
+											<hr />
+											<button class="view_btn_large">View</button>
+										</div>
+										<div class="col-md-8 features_top">
+											<h5>Product 4</h5>
+											<ul style="list-style-type: none;" class="features_top">
+											<div class="features_top">
+											<span>sit amet consectetur adipisicing elit.</span>
+											<hr />
+											<span>sit amet consectetur adipisicing elit.</span>
+											<hr />
+											<button class="view_btn_small">View</button>
+											<hr />
+										<span>sit amet consectetur adipisicing elit.</span>
+											</div>
+
+
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-4 product no_display">
+									<div class="row">
+
+
+										<div class="col-md-4 img_top1">
+											<h5>Product 1</h5>
+											<h5>Product 5</h5>
+											<img th:src="@{/images/grocery5.jpg}" />
+											<hr />
+											<button class="view_btn_large">View</button>
+										</div>
+										<div class="col-md-8 features_top">
+											<h5>Product 5</h5>
+											<ul style="list-style-type: none;" class="features_top">
+											<div class="features_top">
+											<span>sit amet consectetur adipisicing elit.</span>
+											<hr />
+											<span>sit amet consectetur adipisicing elit.</span>
+											<hr />
+											<button class="view_btn_small">View</button>
+											<hr />
+										<span>sit amet consectetur adipisicing elit.</span>
+											</div>
+
+
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-4 product no_display">
+									<div class="row">
+
+
+										<div class="col-md-4 img_top1">
+											<h5>Product 1</h5>
+											<h5>Product 6</h5>
+											<img th:src="@{/images/grocery6.jpg}" />
+											<hr />
+											<button class="view_btn_large">View</button>
+										</div>
+										<div class="col-md-8 features_top">
+											<h5>Product 6</h5>
+											<ul style="list-style-type: none;" class="features_top">
+											<div class="features_top">
+											<span>sit amet consectetur adipisicing elit.</span>
+											<hr />
+											<span>sit amet consectetur adipisicing elit.</span>
+											<hr />
+											<button class="view_btn_small">View</button>
+											<hr />
+										<span>sit amet consectetur adipisicing elit.</span>
+											</div>
+
+
+											</ul>
+										</div>
+									</div>
+								</div>
 -->
-
-									<!--</ul>-->
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4 product">
-							<div class="row">
-
-
-								<div class="col-md-4 img_top1">
-									<!--<h5>Product 1</h5>-->
-									<h5>Product 2</h5>
-									<img th:src="@{/images/grocery2.jpg}" />
-									<hr />
-									<button class="view_btn_large">View</button>
-								</div>
-								<div class="col-md-8 features_top">
-									<h5>Product 2</h5>
-									<!--<ul style="list-style-type: none;" class="features_top">-->
-									<!--<div class="features_top">-->
-									<span>sit amet consectetur adipisicing elit.</span>
-									<hr />
-									<span>sit amet consectetur adipisicing elit.</span>
-									<hr />
-									<button class="view_btn_small">View</button>
-									<!--<hr />
-										<span>sit amet consectetur adipisicing elit.</span>-->
-									<!--</div>
--->
-
-									<!--</ul>-->
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4 product">
-							<div class="row">
-
-
-								<div class="col-md-4 img_top1">
-									<!--<h5>Product 1</h5>-->
-									<h5>Product 3</h5>
-									<img th:src="@{/images/grocery3.jpg}" />
-									<hr />
-									<button class="view_btn_large">View</button>
-								</div>
-								<div class="col-md-8 features_top">
-									<h5>Product 3</h5>
-									<!--<ul style="list-style-type: none;" class="features_top">-->
-									<!--<div class="features_top">-->
-									<span>sit amet consectetur adipisicing elit.</span>
-									<hr />
-									<span>sit amet consectetur adipisicing elit.</span>
-									<hr />
-									<button class="view_btn_small">View</button>
-									<!--<hr />
-										<span>sit amet consectetur adipisicing elit.</span>-->
-									<!--</div>
--->
-
-									<!--</ul>-->
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4 product no_display">
-							<div class="row">
-
-
-								<div class="col-md-4 img_top1">
-									<!--<h5>Product 1</h5>-->
-									<h5>Product 4</h5>
-									<img th:src="@{/images/grocery4.jpg}" />
-									<hr />
-									<button class="view_btn_large">View</button>
-								</div>
-								<div class="col-md-8 features_top">
-									<h5>Product 4</h5>
-									<!--<ul style="list-style-type: none;" class="features_top">-->
-									<!--<div class="features_top">-->
-									<span>sit amet consectetur adipisicing elit.</span>
-									<hr />
-									<span>sit amet consectetur adipisicing elit.</span>
-									<hr />
-									<button class="view_btn_small">View</button>
-									<!--<hr />
-										<span>sit amet consectetur adipisicing elit.</span>-->
-									<!--</div>
--->
-
-									<!--</ul>-->
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4 product no_display">
-							<div class="row">
-
-
-								<div class="col-md-4 img_top1">
-									<!--<h5>Product 1</h5>-->
-									<h5>Product 5</h5>
-									<img th:src="@{/images/grocery5.jpg}" />
-									<hr />
-									<button class="view_btn_large">View</button>
-								</div>
-								<div class="col-md-8 features_top">
-									<h5>Product 5</h5>
-									<!--<ul style="list-style-type: none;" class="features_top">-->
-									<!--<div class="features_top">-->
-									<span>sit amet consectetur adipisicing elit.</span>
-									<hr />
-									<span>sit amet consectetur adipisicing elit.</span>
-									<hr />
-									<button class="view_btn_small">View</button>
-									<!--<hr />
-										<span>sit amet consectetur adipisicing elit.</span>-->
-									<!--</div>
--->
-
-									<!--</ul>-->
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4 product no_display">
-							<div class="row">
-
-
-								<div class="col-md-4 img_top1">
-									<!--<h5>Product 1</h5>-->
-									<h5>Product 6</h5>
-									<img th:src="@{/images/grocery6.jpg}" />
-									<hr />
-									<button class="view_btn_large">View</button>
-								</div>
-								<div class="col-md-8 features_top">
-									<h5>Product 6</h5>
-									<!--<ul style="list-style-type: none;" class="features_top">-->
-									<!--<div class="features_top">-->
-									<span>sit amet consectetur adipisicing elit.</span>
-									<hr />
-									<span>sit amet consectetur adipisicing elit.</span>
-									<hr />
-									<button class="view_btn_small">View</button>
-									<!--<hr />
-										<span>sit amet consectetur adipisicing elit.</span>-->
-									<!--</div>
--->
-
-									<!--</ul>-->
-								</div>
-							</div>
-						</div>
-
 					</div>
 				</div>
 			</div>
@@ -3611,187 +3681,189 @@
 				<div class="col-md-4 cat1">
 					<img th:src="@{/images/machinery.jpg}" />
 					<button class="view_all_btn">View All</button>
+					<h3 class="text-center p_com_soon_mo">New Products comming soon ....</h3>
 				</div>
 				<div class="col-md-8 cat_products">
 					<h1 class="text-center heading_large">Machinery</h1>
 
 					<!--<h5 style="margin-left:20%;">Product 1</h5>-->
 					<div class="row">
-						<div class="col-md-4 product">
-							<div class="row">
+						<h3 class="text-center p_com_soon">New Products comming soon ....</h3>
+						<!--<div class="col-md-4 product">
+									<div class="row">
 
 
-								<div class="col-md-4 img_top1">
-									<!--<h5>Product 1</h5>-->
-									<h5>Product 1</h5>
-									<img th:src="@{/images/grocery1.jpg}" />
-									<hr />
-									<button class="view_btn_large">View</button>
+										<div class="col-md-4 img_top1">
+											<h5>Product 1</h5>
+											<h5>Product 1</h5>
+											<img th:src="@{/images/grocery1.jpg}" />
+											<hr />
+											<button class="view_btn_large">View</button>
+										</div>
+										<div class="col-md-8 features_top">
+											<h5>Product 1</h5>
+											<ul style="list-style-type: none;" class="features_top">
+											<div class="features_top">
+											<span>sit amet consectetur adipisicing elit.</span>
+											<hr />
+											<span>sit amet consectetur adipisicing elit.</span>
+											<hr />
+											<button class="view_btn_small">View</button>
+											<hr />
+										<span>sit amet consectetur adipisicing elit.</span>
+											</div>
+
+
+											</ul>
+										</div>
+									</div>
 								</div>
-								<div class="col-md-8 features_top">
-									<h5>Product 1</h5>
-									<!--<ul style="list-style-type: none;" class="features_top">-->
-									<!--<div class="features_top">-->
-									<span>sit amet consectetur adipisicing elit.</span>
-									<hr />
-									<span>sit amet consectetur adipisicing elit.</span>
-									<hr />
-									<button class="view_btn_small">View</button>
-									<!--<hr />
-										<span>sit amet consectetur adipisicing elit.</span>-->
-									<!--</div>
+								<div class="col-md-4 product">
+									<div class="row">
+
+
+										<div class="col-md-4 img_top1">
+											<h5>Product 1</h5>
+											<h5>Product 2</h5>
+											<img th:src="@{/images/grocery2.jpg}" />
+											<hr />
+											<button class="view_btn_large">View</button>
+										</div>
+										<div class="col-md-8 features_top">
+											<h5>Product 2</h5>
+											<ul style="list-style-type: none;" class="features_top">
+											<div class="features_top">
+											<span>sit amet consectetur adipisicing elit.</span>
+											<hr />
+											<span>sit amet consectetur adipisicing elit.</span>
+											<hr />
+											<button class="view_btn_small">View</button>
+											<hr />
+										<span>sit amet consectetur adipisicing elit.</span>
+											</div>
+
+
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-4 product">
+									<div class="row">
+
+
+										<div class="col-md-4 img_top1">
+											<h5>Product 1</h5>
+											<h5>Product 3</h5>
+											<img th:src="@{/images/grocery3.jpg}" />
+											<hr />
+											<button class="view_btn_large">View</button>
+										</div>
+										<div class="col-md-8 features_top">
+											<h5>Product 3</h5>
+											<ul style="list-style-type: none;" class="features_top">
+											<div class="features_top">
+											<span>sit amet consectetur adipisicing elit.</span>
+											<hr />
+											<span>sit amet consectetur adipisicing elit.</span>
+											<hr />
+											<button class="view_btn_small">View</button>
+											<hr />
+										<span>sit amet consectetur adipisicing elit.</span>
+											</div>
+
+
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-4 product no_display">
+									<div class="row">
+
+
+										<div class="col-md-4 img_top1">
+											<h5>Product 1</h5>
+											<h5>Product 4</h5>
+											<img th:src="@{/images/grocery4.jpg}" />
+											<hr />
+											<button class="view_btn_large">View</button>
+										</div>
+										<div class="col-md-8 features_top">
+											<h5>Product 4</h5>
+											<ul style="list-style-type: none;" class="features_top">
+											<div class="features_top">
+											<span>sit amet consectetur adipisicing elit.</span>
+											<hr />
+											<span>sit amet consectetur adipisicing elit.</span>
+											<hr />
+											<button class="view_btn_small">View</button>
+											<hr />
+										<span>sit amet consectetur adipisicing elit.</span>
+											</div>
+
+
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-4 product no_display">
+									<div class="row">
+
+
+										<div class="col-md-4 img_top1">
+											<h5>Product 1</h5>
+											<h5>Product 5</h5>
+											<img th:src="@{/images/grocery5.jpg}" />
+											<hr />
+											<button class="view_btn_large">View</button>
+										</div>
+										<div class="col-md-8 features_top">
+											<h5>Product 5</h5>
+											<ul style="list-style-type: none;" class="features_top">
+											<div class="features_top">
+											<span>sit amet consectetur adipisicing elit.</span>
+											<hr />
+											<span>sit amet consectetur adipisicing elit.</span>
+											<hr />
+											<button class="view_btn_small">View</button>
+											<hr />
+										<span>sit amet consectetur adipisicing elit.</span>
+											</div>
+
+
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-4 product no_display">
+									<div class="row">
+
+
+										<div class="col-md-4 img_top1">
+											<h5>Product 1</h5>
+											<h5>Product 6</h5>
+											<img th:src="@{/images/grocery6.jpg}" />
+											<hr />
+											<button class="view_btn_large">View</button>
+										</div>
+										<div class="col-md-8 features_top">
+											<h5>Product 6</h5>
+											<ul style="list-style-type: none;" class="features_top">
+											<div class="features_top">
+											<span>sit amet consectetur adipisicing elit.</span>
+											<hr />
+											<span>sit amet consectetur adipisicing elit.</span>
+											<hr />
+											<button class="view_btn_small">View</button>
+											<hr />
+										<span>sit amet consectetur adipisicing elit.</span>
+											</div>
+
+
+											</ul>
+										</div>
+									</div>
+								</div>
 -->
-
-									<!--</ul>-->
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4 product">
-							<div class="row">
-
-
-								<div class="col-md-4 img_top1">
-									<!--<h5>Product 1</h5>-->
-									<h5>Product 2</h5>
-									<img th:src="@{/images/grocery2.jpg}" />
-									<hr />
-									<button class="view_btn_large">View</button>
-								</div>
-								<div class="col-md-8 features_top">
-									<h5>Product 2</h5>
-									<!--<ul style="list-style-type: none;" class="features_top">-->
-									<!--<div class="features_top">-->
-									<span>sit amet consectetur adipisicing elit.</span>
-									<hr />
-									<span>sit amet consectetur adipisicing elit.</span>
-									<hr />
-									<button class="view_btn_small">View</button>
-									<!--<hr />
-										<span>sit amet consectetur adipisicing elit.</span>-->
-									<!--</div>
--->
-
-									<!--</ul>-->
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4 product">
-							<div class="row">
-
-
-								<div class="col-md-4 img_top1">
-									<!--<h5>Product 1</h5>-->
-									<h5>Product 3</h5>
-									<img th:src="@{/images/grocery3.jpg}" />
-									<hr />
-									<button class="view_btn_large">View</button>
-								</div>
-								<div class="col-md-8 features_top">
-									<h5>Product 3</h5>
-									<!--<ul style="list-style-type: none;" class="features_top">-->
-									<!--<div class="features_top">-->
-									<span>sit amet consectetur adipisicing elit.</span>
-									<hr />
-									<span>sit amet consectetur adipisicing elit.</span>
-									<hr />
-									<button class="view_btn_small">View</button>
-									<!--<hr />
-										<span>sit amet consectetur adipisicing elit.</span>-->
-									<!--</div>
--->
-
-									<!--</ul>-->
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4 product no_display">
-							<div class="row">
-
-
-								<div class="col-md-4 img_top1">
-									<!--<h5>Product 1</h5>-->
-									<h5>Product 4</h5>
-									<img th:src="@{/images/grocery4.jpg}" />
-									<hr />
-									<button class="view_btn_large">View</button>
-								</div>
-								<div class="col-md-8 features_top">
-									<h5>Product 4</h5>
-									<!--<ul style="list-style-type: none;" class="features_top">-->
-									<!--<div class="features_top">-->
-									<span>sit amet consectetur adipisicing elit.</span>
-									<hr />
-									<span>sit amet consectetur adipisicing elit.</span>
-									<hr />
-									<button class="view_btn_small">View</button>
-									<!--<hr />
-										<span>sit amet consectetur adipisicing elit.</span>-->
-									<!--</div>
--->
-
-									<!--</ul>-->
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4 product no_display">
-							<div class="row">
-
-
-								<div class="col-md-4 img_top1">
-									<!--<h5>Product 1</h5>-->
-									<h5>Product 5</h5>
-									<img th:src="@{/images/grocery5.jpg}" />
-									<hr />
-									<button class="view_btn_large">View</button>
-								</div>
-								<div class="col-md-8 features_top">
-									<h5>Product 5</h5>
-									<!--<ul style="list-style-type: none;" class="features_top">-->
-									<!--<div class="features_top">-->
-									<span>sit amet consectetur adipisicing elit.</span>
-									<hr />
-									<span>sit amet consectetur adipisicing elit.</span>
-									<hr />
-									<button class="view_btn_small">View</button>
-									<!--<hr />
-										<span>sit amet consectetur adipisicing elit.</span>-->
-									<!--</div>
--->
-
-									<!--</ul>-->
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4 product no_display">
-							<div class="row">
-
-
-								<div class="col-md-4 img_top1">
-									<!--<h5>Product 1</h5>-->
-									<h5>Product 6</h5>
-									<img th:src="@{/images/grocery6.jpg}" />
-									<hr />
-									<button class="view_btn_large">View</button>
-								</div>
-								<div class="col-md-8 features_top">
-									<h5>Product 6</h5>
-									<!--<ul style="list-style-type: none;" class="features_top">-->
-									<!--<div class="features_top">-->
-									<span>sit amet consectetur adipisicing elit.</span>
-									<hr />
-									<span>sit amet consectetur adipisicing elit.</span>
-									<hr />
-									<button class="view_btn_small">View</button>
-									<!--<hr />
-										<span>sit amet consectetur adipisicing elit.</span>-->
-									<!--</div>
--->
-
-									<!--</ul>-->
-								</div>
-							</div>
-						</div>
-
 					</div>
 				</div>
 			</div>
@@ -3986,9 +4058,9 @@
 
 	<!--end services section-->
 	<!-- why section -->
-	<form method="post" th:action="@{/seller/create_account}" enctype="multipart/form-data">
+	<!--<form method="post" th:action="@{/seller/create_account}" enctype="multipart/form-data">
 		<button type="submit">create</button>
-	</form>
+	</form>-->
 	<section id="why_us" class="why_section layout_padding">
 		<div class="container-fluid">
 			<div class="heading_container heading_center">
@@ -4000,7 +4072,7 @@
 				<div class="col-md-4 img_top">
 					<div class="box ">
 						<div class="img-box">
-							<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+							<!--<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
 								xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512"
 								style="enable-background:new 0 0 512 512;" xml:space="preserve">
 								<g>
@@ -4086,17 +4158,16 @@
 								</g>
 								<g>
 								</g>
-							</svg>
+							</svg>-->
+							<img class="why_us_img" th:src="@{/images/concierge-icon.png}" />
 						</div>
 						<div class="detail-box">
 							<h5>
-								Fast Delivery
+								Best Services
 							</h5>
 							<p>
-								With our website, you can enjoy fast and reliable delivery of your products. Whether
-								you're shopping
-								for everyday essentials or unique gifts, our website makes it easy to get what you need
-								quickly and conveniently.
+								Our website offers a range of excellent services that cater to various needs of sellers
+								and buyres.
 							</p>
 						</div>
 					</div>
@@ -4104,7 +4175,7 @@
 				<div class="col-md-4 img_top">
 					<div class="box ">
 						<div class="img-box">
-							<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+							<!--<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
 								xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 490.667 490.667"
 								style="enable-background:new 0 0 490.667 490.667;" xml:space="preserve">
 								<g>
@@ -4207,14 +4278,15 @@
 								</g>
 								<g>
 								</g>
-							</svg>
+							</svg>-->
+							<img class="why_us_img" th:src="@{/images/businessman-icon.png}" />
 						</div>
 						<div class="detail-box">
 							<h5>
-								Free Shiping
+								Professionalism
 							</h5>
 							<p>
-								zero or optimal shipping charges.
+								We maintain a high degree of professionalism in providing our services to our customers.
 							</p>
 						</div>
 					</div>
@@ -4313,8 +4385,12 @@
 				<div class="col-lg-7 col-md-6 px-0">
 					<div class="map_container">
 						<div class="map-responsive">
-							<iframe
+							<!--<iframe
 								src="https://www.google.com/maps/embed/v1/place?key=AIzaSyA0s1a7phLN0iaD6-UE7m4qP-z21pH0eSc&q=Eiffel+Tower+Paris+France"
+								width="600" height="300" frameborder="0" style="border:0; width: 100%; height:100%"
+								allowfullscreen></iframe>-->
+							<iframe
+								src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d57296.142930948656!2d91.81303649681607!3d26.163838537644494!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x375af7c0c2677f31%3A0x8441f0a8732b65e7!2sNarengi%20Tinali%2C%20Guwahati%2C%20Assam!5e0!3m2!1sen!2sin!4v1724951088126!5m2!1sen!2sin"
 								width="600" height="300" frameborder="0" style="border:0; width: 100%; height:100%"
 								allowfullscreen></iframe>
 						</div>
@@ -4348,11 +4424,11 @@
 	<!-- end contact section -->
 
 	<!-- client section -->
-	<section id="testimonial" class="client_section layout_padding">
+	<!--<section id="testimonial" class="client_section layout_padding">
 		<div class="container">
 			<div class="heading_container heading_center">
 				<h2>
-					Testimonial
+					Our Motto
 				</h2>
 			</div>
 		</div>
@@ -4427,9 +4503,21 @@
 				</div>
 			</div>
 		</div>
-	</section>
+	</section>-->
 	<!-- end client section -->
-
+	<hr />
+	<section class="container our_motto">
+		<h1 class="text-center">Our Motto</h1>
+		<hr />
+		<p>
+			It's our prime motive to ensure that every customer has a positive experience with our products or services.
+		</p>
+		<p>
+			Satisfying customers is indeed a key part of our duty as service providers. It's about understanding their
+			needs and expectations, and going the extra mile to ensure they have a positive experience.
+		</p>
+	</section>
+	<hr />
 	<!-- info section -->
 
 	<section class="info_section  layout_padding2-top section2">
@@ -4457,8 +4545,11 @@
 							ABOUT US
 						</h6>
 						<p>
-							it amet consectetur adipisicing elit. Architecto enim tempore quam placeat rerum laudantium
-							unde.
+							Easy Query is an online store where you can buy a variety of things like groceries clothes
+							and household items. They have many aisles filled with products for you to choose from.
+							Easy Query is convenient because you can find everything you need in one place. It
+							also often has sales and discounts to help you save money. Overall Easy Query make
+							shopping easy and efficient for busy people.
 						</p>
 					</div>
 					<div class="col-md-6 col-lg-3">
@@ -4479,8 +4570,7 @@
 							NEED HELP
 						</h6>
 						<p>
-							it amet consectetur adipisicing elit. Architecto enim tempore quam placeat rerum laudantium
-							unde.
+							If you need help feel free to contact our 24/7 customer care..
 						</p>
 					</div>
 					<div class="col-md-6 col-lg-3">
@@ -4490,15 +4580,15 @@
 						<div class="info_link-box">
 							<a href="">
 								<i class="fa fa-map-marker" aria-hidden="true"></i>
-								<span> Gb road 123 london Uk </span>
+								<span> Guwahati,Narengi </span>
 							</a>
 							<a href="">
 								<i class="fa fa-phone" aria-hidden="true"></i>
-								<span>+01 12345678901</span>
+								<span>+91 7896927729</span>
 							</a>
 							<a href="">
 								<i class="fa fa-envelope" aria-hidden="true"></i>
-								<span> abc@gmail.com</span>
+								<span> Easyquery1@gmail.com</span>
 							</a>
 						</div>
 					</div>
@@ -4522,27 +4612,27 @@
 	<div class="bottom_menu fixed-bottom">
 		<div class="container">
 			<div class="row">
-				<div class="col-2">
+				<div class="col-2" onclick="b_menu_item(this)">
 					<i class="fa-solid fa-house fa-home text-center"></i><br />
 					<span>Home</span>
 				</div>
-				<div class="col-2">
+				<div class="col-2" onclick="b_menu_item(this)">
 					<i class="fa-regular fa-envelope"></i><br />
 					<span>Leads</span>
 				</div>
-				<div class="col-2">
+				<div class="col-2" onclick="b_menu_item(this)">
 					<i class="fa-regular fa-handshake"></i><br />
 					<span>B2B</span>
 				</div>
-				<div class="col-2">
+				<div class="col-2" onclick="b_menu_item(this)">
 					<i class="fa-regular fa-credit-card"></i><br />
 					<span>Pay</span>
 				</div>
-				<div class="col-2">
+				<div class="col-2" onclick="b_menu_item(this)">
 					<i class="fa-regular fa-newspaper"></i><br />
 					<span>News</span>
 				</div>
-				<div class="col-2">
+				<div class="col-2" onclick="b_menu_item(this)">
 					<i class="fa-solid fa-bars"></i><br />
 					<span>More</span>
 				</div>
@@ -4564,7 +4654,7 @@
 		//if (mq.matches) {
 		window.addEventListener("hashchange", function () {
 			console.log(window.location.hash);
-			if (window.location.hash === "#contact") {
+			if (window.location.hash === "#contact" || window.location.hash === "#build_const") {
 				console.log("hello1");
 
 				window.scrollTo(window.scrollX, window.scrollY - 100);

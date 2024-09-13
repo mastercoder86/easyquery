@@ -66,7 +66,9 @@ public class HomeController {
 	public String home(Model model) {
 		Seller seller = new Seller();
 		model.addAttribute("seller", seller);
-		return "index";
+		model.addAttribute("customer", new Customer());
+		model.addAttribute("bankAccount", new BankAccount());
+		return "login_form";
 	}
 
 	/*

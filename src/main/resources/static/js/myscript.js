@@ -1177,8 +1177,10 @@ const displaySellerRegistration = () => {
 
 		window.location.href = $("#phonepe_checkout_id").val();
 	}
-	if($(".no_item_top_div").length)
-		$("#in_search_item").prop("disabled",true);
+	if ($(".no_item_top_div").length)
+		$("#in_search_item").prop("disabled", true);
+	if ($("#start_search_id").length)
+		console.log($("#start_search_id").val());
 	/*if ($(".pin_code").length) {
 		if ($(".pin_code").val() === "") {
 			$(".cAddress_container").hide();
@@ -1751,9 +1753,14 @@ const view_cat_click = (el) => {
 	//var viewCat2 = document.getElementById("view_cat2");
 	var viewCat1 = document.getElementsByClassName("view_cat1");
 	console.log("view click");
+
 	for (let i = 0; i < viewCat.length; i++) {
 		if (viewCat[i] === element) {
 			console.log("view click");
+			if ($("#start_search_status_id").val() === "value3")
+				$(".cat_start_search_id").eq(i).val("value4");
+			else if ($("#start_search_status_id").val() === "value4")
+				$(".cat_start_search_id").eq(i).val("value3");
 			viewCat1[i].click();
 			//showCatItems.style.cssText = "display:block!important";
 			/*showCatItems.setAttribute("style","display:block!important");*/
@@ -2031,7 +2038,7 @@ const close_item = (el) => {
 	console.log("hello");
 	console.log(itemTopDiv.length);
 	console.log(itemClose.length);
-	$("#in_search_item").prop("disabled",false);
+	$("#in_search_item").prop("disabled", false);
 	for (let i = 0; i < itemClose.length; i++) {
 		console.log("hello1");
 		if (itemClose[i] === element) {
@@ -2331,6 +2338,7 @@ const search = () => {
 		/*$(".search_result").each(function(){
 			$(this).html("<h5>hello</h5>");
 		});*/
+
 		if (mq.matches) {
 			$(".search_item").css("height", "120px");
 		}
@@ -2341,13 +2349,24 @@ const search = () => {
 	}
 	else {
 		$(".search_result").removeClass("no_display_important");
-		$(".search_item").css("height", "auto");
+		/*$(".search_item").css("height", "auto");*/
 		let url = `http://localhost:8000/item/search/${query}`;
 		fetch(url)
 			.then((response) => {
 				return response.json();
 			}).then((data) => {
 				//data = JSON.parse(data);
+				if (data.length === 0) {
+					if (mq.matches) {
+						$(".search_item").css("height", "120px");
+					}
+					else {
+						$(".search_item").css("height", "100px");
+					}
+				}
+				else {
+					$(".search_item").css("height", "auto");
+				}
 				let text = `<ul class="list-group list-group-flush">`;
 				data.forEach(product => {
 					text += `<a style='cursor:pointer;' class='searched_item'>
@@ -2458,8 +2477,15 @@ const show_searched_item = () => {
 	else{
 		$(".pro_submit")[0].click();
 	}*/
-	
+
 	$("#product_name_id").val($("#in_search_item").val());
+	if ($("#start_search_status_id").val() === "value1")
+		$("#start_search_id").val("value2");
+	else if ($("#start_search_status_id").val() === "value2")
+		$("#start_search_id").val("value1");
+
+
+	console.log("clicked");
 	$(".pro_submit1").click();
 }
 const cAddress_search = () => {
@@ -2645,14 +2671,141 @@ const phonepeTransact = () => {
 	});
 
 }
-const submit_otp = () =>{
+const submit_otp = () => {
 	$(".submitting_details_area").show();
+}
+var interval = 500;
+var id;
+const sliderAnimation = () => {
+	let j = 0;
+	id = setInterval(subSliderAnimation, interval);
+
+}
+var j = 1;
+function subSliderAnimation() {
+	if (j === 2)
+		j = 0;
+	console.log(j);
+	$(".posters").each(function(i, item) {
+		if (i === j) {
+
+			if (!($(this).hasClass("animation5"))) {
+				console.log("hello");
+				$(this).addClass("animation5");
+				$(this).show();
+			}
+		}
+		else {
+			$(this).hide();
+			if ($(this).hasClass("animation5")) {
+				$(this).removeClass("animation5");
+			}
+		}
+
+
+	});
+	j++;
+	if (interval === 500) {
+		clearInterval(id);
+		interval = 4000;
+		sliderAnimation();
+	}
+
+}
+var interval2 = 500;
+var id2;
+const sliderAnimation2 = () => {
+
+	id2 = setInterval(subSliderAnimation2, interval2);
+
+}
+var j2 = 0;
+function subSliderAnimation2() {
+	if (j2 === 2)
+		j2 = 0;
+	console.log(j);
+
+	$(".our_motto p").each(function(i) {
+
+		if (i === j2) {
+
+			if (!($(this).hasClass("animation6"))) {
+				console.log("hello");
+				$(this).addClass("animation6");
+				$(this).show();
+			}
+		}
+		else {
+			$(this).hide();
+			if ($(this).hasClass("animation6")) {
+				$(this).removeClass("animation6");
+			}
+		}
+
+
+	});
+	j2++;
+	if (interval2 === 500) {
+		clearInterval(id2);
+		interval2 = 7000;
+		sliderAnimation2();
+	}
+
+}
+function start_search() {
+	console.log($("#start_search_id").val());
+	console.log("hello");
+	if ($("#start_search_id").val() === "yes") {
+		$("#start_search_id").val("yes11");
+		return true;
+	}
+
+	else
+		return false;
+}
+const b_menu_item = (el) => {
+
+	var element = el;
+	$(".bottom_menu .container .row div").each(function(i, item) {
+		console.log("hello");
+		if (element === item) {
+			if ($(this).html().includes("Home")) {
+				console.log("hello");
+				console.log($(".jump_to_home_top").text())
+
+				$(".jump_to_home_top").bind("click", function() {
+					window.location.href = $(this).attr("href");
+				})
+
+				$(".jump_to_home_top").trigger('click');
+				return;
+			}
+			else if ($(this).html().includes("Leads"))
+				$(".bottom_menu_content").html("<i class='fa-solid fa-xmark item_close_cross_bottom text-right' onclick='close_bottom_item()'></i><h1 class='text-center'>No leads</h1>");
+			else if ($(this).html().includes("B2B"))
+				$(".bottom_menu_content").html("<i class='fa-solid fa-xmark item_close_cross_bottom text-right' onclick='close_bottom_item()'></i><h1 class='text-center'>No contacts</h1>");
+			else if ($(this).html().includes("Pay")) {
+				$(".ma_shopping").click();
+				$(".a_shopping").click();
+			}
+
+			else if ($(this).html().includes("News"))
+				$(".bottom_menu_content").html("<i class='fa-solid fa-xmark item_close_cross_bottom text-right' onclick='close_bottom_item()'></i><h1 class='text-center'>News</h1><hr />" +
+					"<p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Possimus itaque accusantium totam odio nemo perferendis ea optio quis temporibus alias doloribus voluptas numquam eveniet consequatur ducimus, delectus nulla atque debitis.</p>");
+			$(".bottom_menu_content").show();
+
+
+		}
+	});
+}
+const close_bottom_item = () => {
+	$(".bottom_menu_content").hide();
 }
 document.addEventListener("DOMContentLoaded", function() {
 
 	displaySellerRegistration();
-
-
+	sliderAnimation();
+	sliderAnimation2();
 
 });
 /*end*/

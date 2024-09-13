@@ -49,12 +49,17 @@ public class Product {
 	private String exchangePolicy;
 	private String refundPolicy;
 
+	
+	  
+	  
+	  //@Column(length = 60000)
+	 
 	@Lob
-	@Column(length = 60000)
 	private List<String> subImages = new ArrayList<>();
 
+	
+	//@Column(length = 60000)
 	@Lob
-	@Column(length = 60000)
 	private List<String> features = new ArrayList<>();
 
 	@ManyToOne

@@ -387,6 +387,8 @@ public class CustomerController {
 		model.addAttribute("seller", new Seller());
 		model.addAttribute("bankAccount", new BankAccount());
 		if (customer1 != null) {
+			customer1.setStartSearch("logged_in");
+			customerRepository.save(customer1);
 			if(!customer1.isEmailVerification()) {
 				model.addAttribute("mo_verification", customer1.isMobileVerification());
 				model.addAttribute("credentials", "ma_verification_pending");
@@ -522,6 +524,7 @@ public class CustomerController {
 	@PostMapping("/logged_in")
 	public String customerLoggedIn(@RequestParam String email, Model model) {
 		Customer customer = customerRepository.findByEmail(email);
+		
 		String greetName;
 		// if (customer != null) {
 		try {
@@ -531,6 +534,7 @@ public class CustomerController {
 		}
 		model.addAttribute("greeting", greetName);
 		model.addAttribute("c_email", email);
+		model.addAttribute("enableSearch",true);
 		List<CustomerItem> customerItems = customerItemRepository.findByCustomerIdAndStatus(customer.getId(),
 				"added_to_cart");
 		List<Product> products = new ArrayList<>();
