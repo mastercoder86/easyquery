@@ -49,7 +49,7 @@ public class ItemController {
 		System.out.println(c_email);
 		model.addAttribute("product", product);
 		if (c_email.isPresent()) {
-			Customer customer = customerRepository.findByEmail(c_email.get());
+			Customer customer = customerRepository.findByPhone(c_email.get());
 			model.addAttribute("c_email", c_email.get());
 			String greetName;
 			try {
@@ -191,20 +191,24 @@ public class ItemController {
 		// model.addAttribute("s_list1", services);
 		model.addAttribute("category", cat_name);
 		model.addAttribute("seller", new Seller());
+		model.addAttribute("customer",new Customer());
+		model.addAttribute("logged_in",true);
+		//model.addAttribute("customer",new Customer());
 		model.addAttribute("show", "show");System.out.println("start searc : "+startSearch);
 		if (!(c_email.isEmpty())) {
 			System.out.println("mail233 :" + c_email.get());
-			Customer customer = customerRepository.findByEmail(c_email.get());
-			model.addAttribute("c_email", customer.getEmail());
+			Customer customer = customerRepository.findByPhone(c_email.get());
+			model.addAttribute("c_email", customer.getPhone());
 			if (!(customer.getStartSearch().equals(startSearch))) {
 				//model.addAttribute("enableSearch1", true);
 				customer.setStartSearch(startSearch);
 				customerRepository.save(customer);
-				model.addAttribute("startSearch", customer.getStartSearch());
+				
 			}
 			else {
 				model.addAttribute("category", null);
 			}
+			model.addAttribute("startSearch", customer.getStartSearch());
 			String greetName;
 			try {
 				greetName = customer.getName().substring(0, customer.getName().indexOf(" "));
@@ -212,6 +216,7 @@ public class ItemController {
 				greetName = customer.getName();
 			}
 			model.addAttribute("greeting", greetName);
+			
 			// model.addAttribute("c_email",c_email.get());
 		}
 		if (products != null) {
@@ -245,7 +250,7 @@ public class ItemController {
 	 * Seller()); model.addAttribute("show", "show"); model.addAttribute("category",
 	 * null); if (!(c_email.isEmpty())) { model.addAttribute("c_email",
 	 * c_email.get()); Customer customer =
-	 * customerRepository.findByEmail(c_email.get()); String greetName; try {
+	 * customerRepository.findByPhone(c_email.get()); String greetName; try {
 	 * greetName = customer.getName().substring(0, customer.getName().indexOf(" "));
 	 * } catch (StringIndexOutOfBoundsException se) { greetName =
 	 * customer.getName(); } model.addAttribute("greeting", greetName); } if
@@ -270,7 +275,7 @@ public class ItemController {
 		model.addAttribute("category", null);
 		if (!(c_email.isEmpty())) {
 			model.addAttribute("c_email", c_email.get());
-			Customer customer = customerRepository.findByEmail(c_email.get());
+			Customer customer = customerRepository.findByPhone(c_email.get());
 			if (customer.getStartSearch() == null) {
 				customer.setStartSearch("value3");
 				customerRepository.save(customer);
@@ -319,6 +324,8 @@ public class ItemController {
 			}
 			model.addAttribute("greeting", greetName);
 		}
+		model.addAttribute("customer",new Customer());
+		model.addAttribute("logged_in",true);
 		if (page.equals("index"))
 			return "index";
 		else
@@ -333,7 +340,7 @@ public class ItemController {
 	 * model.addAttribute("seller", new Seller()); model.addAttribute("show",
 	 * "show"); model.addAttribute("category", null); if (!(c_email.isEmpty())) {
 	 * model.addAttribute("c_email", c_email.get()); Customer customer =
-	 * customerRepository.findByEmail(c_email.get()); String greetName; try {
+	 * customerRepository.findByPhone(c_email.get()); String greetName; try {
 	 * greetName = customer.getName().substring(0, customer.getName().indexOf(" "));
 	 * } catch (StringIndexOutOfBoundsException se) { greetName =
 	 * customer.getName(); } model.addAttribute("greeting", greetName); } if
@@ -344,7 +351,7 @@ public class ItemController {
 	@GetMapping("/add_to_cart")
 	public String addToCart(@RequestParam String c_email, @RequestParam long p_id, Model model) {
 		System.out.println("mail " + c_email);
-		Customer customer = customerRepository.findByEmail(c_email);
+		Customer customer = customerRepository.findByPhone(c_email);
 		Product product = productRepository.findById(p_id).get();
 		System.out.println("pid : " + product.getP_id());
 		System.out.println("customer" + customer.getName());
@@ -434,7 +441,7 @@ public class ItemController {
 	public String updateCart(@RequestParam String c_email, @RequestParam long p_id, @RequestParam long product_id,
 			@RequestParam String qty, Model model) {
 		System.out.println("mail " + c_email);
-		Customer customer = customerRepository.findByEmail(c_email);
+		Customer customer = customerRepository.findByPhone(c_email);
 		Product product = productRepository.findById(p_id).get();
 		Product product1 = productRepository.findById(product_id).get();
 		System.out.println("pid : " + product.getP_id());
@@ -559,7 +566,7 @@ public class ItemController {
 			Model model) {
 		System.out.println("mail12 " + c_email);
 		// System.out.println("id12 " + p_id);
-		Customer customer = customerRepository.findByEmail(c_email);
+		Customer customer = customerRepository.findByPhone(c_email);
 		Product product = productRepository.findById(p_id).get();
 		Product product1 = productRepository.findById(product_id).get();
 		System.out.println("pid : " + product.getP_id());

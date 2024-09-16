@@ -68,7 +68,7 @@ public class HomeController {
 		model.addAttribute("seller", seller);
 		model.addAttribute("customer", new Customer());
 		model.addAttribute("bankAccount", new BankAccount());
-		return "login_form";
+		return "customer_index";
 	}
 
 	/*
@@ -189,7 +189,9 @@ public class HomeController {
 	 * 
 	 * }
 	 */
-
+	/*
+	 * @GetMapping("/login-form") public String loginForm() { return "login_form"; }
+	 */
 	@GetMapping("/phonepe-payment")
 	public String phonePePayment(Model model) throws IOException {
 
@@ -438,7 +440,8 @@ public class HomeController {
 			HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
 			httpConn.setRequestMethod("POST");
 
-			httpConn.setRequestProperty("authorization", "tlSRwnXvvicdGrlFCsnWG0sE6gn2AOIF8Z9hZEKuzLakuYdZX3yP19ctDwul");
+			httpConn.setRequestProperty("authorization",
+					"tlSRwnXvvicdGrlFCsnWG0sE6gn2AOIF8Z9hZEKuzLakuYdZX3yP19ctDwul");
 			httpConn.setRequestProperty("content-type", "application/x-www-form-urlencoded");
 
 			httpConn.setDoOutput(true);
@@ -448,8 +451,7 @@ public class HomeController {
 			writer.close();
 			httpConn.getOutputStream().close();
 
-			InputStream responseStream = httpConn.getResponseCode() / 100 == 2
-					? httpConn.getInputStream()
+			InputStream responseStream = httpConn.getResponseCode() / 100 == 2 ? httpConn.getInputStream()
 					: httpConn.getErrorStream();
 			Scanner s = new Scanner(responseStream).useDelimiter("\\A");
 			String response = s.hasNext() ? s.next() : "";

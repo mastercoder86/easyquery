@@ -85,13 +85,13 @@ const close_search = (el) => {
 			}
 		}
 	}
-	if (searchArea.length > 0) {
+	/*if (searchArea.length > 0) {
 		for (let i = 0; i < searchArea.length; i++) {
 			if (window.getComputedStyle(searchArea[i]).display === "block") {
 				searchArea[i].style.display = "none";
 			}
 		}
-	}
+	}*/
 	if (searchArea1.length > 0) {
 		for (let i = 0; i < searchArea1.length; i++) {
 			if (window.getComputedStyle(searchArea1[i]).display === "block") {
@@ -126,7 +126,14 @@ const close_search = (el) => {
 			}
 		}
 	}
+	if ($(".cu_login").length) {
+		if (!$(".cu_login").css("display") === "none") {
+			$(".cu_login").css("z-index", "0");
+			$(".cu_login").hide();
+		}
 
+	}
+	window.location.href = "/";
 }
 function login_opt() {
 
@@ -159,7 +166,7 @@ const close_menu = () => {
 
 
 }
-const show_register = (el) => {
+const show_register1 = (el) => {
 	var element = el;
 	var searchArea = document.getElementsByClassName("search_area");
 	var searchArea1 = document.getElementsByClassName("search_area1");
@@ -199,7 +206,15 @@ const show_register = (el) => {
 		}*/
 	}
 }
-
+const show_register = () => {
+	$(".sections").each(function() {
+		if ($(this).html().includes("Customer Registration"))
+			$(this).show();
+		else {
+			$(this).hide();
+		}
+	});
+}
 const show_add_product = (el) => {
 	var element = el;
 	var addProduct = document.getElementsByClassName("add_product");
@@ -792,11 +807,30 @@ const displaySellerRegistration = () => {
 	if (credChecker3 !== null) {
 		if (credChecker3.value === "bad") {
 			console.log("customer");
-			if (searchArea1.length > 0) {
+			if (localStorage.getItem("register_attempted") === null) {
+				$(".sections").each(function() {
+					if ($(this).text().includes("Customer Registration"))
+						$(this).show();
+				});
+				swal({
+					title: "Oops!",
+					text: "Please fill the fields correctly",
+					icon: "error",
+					button: "Try Again!",
+				})
+					.then(() => {
+						if (localStorage.getItem("register_attempted") === null)
+							localStorage.setItem("register_attempted", true);
+					});
+			}
+			else if (credChecker.value === "verification pending") {
+
+			}
+
+			/*if (searchArea1.length > 0) {
 
 				for (let i = 0; i < searchArea1.length; i++) {
 					if (searchArea1[i].innerHTML.includes("Customer Registration")) {
-						if (window.getComputedStyle(searchArea1[i]).display === "none") {
 							console.log("seller");
 							searchArea1[i].style.display = "block";
 						}
@@ -809,13 +843,8 @@ const displaySellerRegistration = () => {
 					}
 
 				}
-			}
-			swal({
-				title: "Oops!",
-				text: "Please fill the fields correctly",
-				icon: "error",
-				button: "Try Again!",
-			});
+			}*/
+
 		}
 		/*else if (credChecker3.value === "good") {
 			swal({
@@ -845,26 +874,72 @@ const displaySellerRegistration = () => {
 				button: "Try Again!",
 			});
 		}
-		else if (credChecker3.value === "verification pending") {
-			swal({
-				title: "Step 1/2 completed !",
-				text: "You have to verify your email and mobile to complete registration ! Are you ready ?",
-				icon: "warning",
-				buttons: true,
-				dangerMode: true,
-			})
-				.then((open) => {
-					if (open) {
-						for (let i = 0; i < searchArea1.length; i++) {
-							if (searchArea1[i].innerHTML.includes("Verify Email")) {
-								searchArea1[i].style.display = "block";
-							}
-							else {
-								searchArea1[i].style.display = "none";
-							}
+		else if (credChecker3.value === "good") {
+			localStorage.setItem("easyquery_customer_phone", $("#customer_email_id1").val());
+			console.log(localStorage.getItem("easyquery_customer_phone"));
+		}
+		else if (credChecker3.value === "mobile verification pending") {
+			if (localStorage.getItem("easyquery_customer_phone") === null) {
+				localStorage.setItem("easyquery_customer_phone", $("#customer_email_id1").val());
+			}
+			if (localStorage.getItem("verification_attempted") === null) {
+
+				swal({
+					title: "Step 1/2 completed !",
+					text: "You have to verify your mobile to complete registration ! Are you ready ?",
+					icon: "warning",
+					buttons: true,
+					dangerMode: true,
+				})
+					.then((open) => {
+						//if (localStorage.getItem("verification_attempted") === null)
+						localStorage.setItem("verification_attempted", true);
+						if (open) {
+							$(".cu_verification_area").show();
+							$(".cu_verification_area").each(function() {
+								if ($(this).text().includes("Verify Mobile Number"))
+									$(this).show();
+								else
+									$(this).hide();
+							});
+
+							/*for (let i = 0; i < searchArea1.length; i++) {
+								if (searchArea1[i].innerHTML.includes("Verify Email")) {
+									searchArea1[i].style.display = "block";
+								}
+								else {
+									searchArea1[i].style.display = "none";
+								}
+							}*/
 						}
-					}
+					});
+			}
+		}
+		else if (credChecker3.value === "mobile verified") {
+
+			console.log(localStorage.getItem("mobile_verification_attempted"));
+			if (localStorage.getItem("mobile_verification_attempted") === null) {
+				console.log("hello");
+				console.log("hello2");
+				swal({
+					title: "Registration Completed!",
+					text: "You have registered successfully!",
+					icon: "success",
+					button: "OK!",
+				}).then(() => {
+					console.log("mo");
+					localStorage.setItem("easyquery_customer_phone", $("#customer_email_id1").val());
+					console.log($("#customer_email_id1").val());
+					localStorage.setItem("mobile_verification_attempted", true);
+					console.log(localStorage.getItem("easyquery_customer_phone"));
+					/*$(".phone_input").val(localStorage.getItem("easyquery_customer_phone"));
+					$(".seller_login_btn").click();*/
+					window.location.href = "/";
+					//window.location.href = "/seller/add_item"
 				});
+				console.log("mo");
+			}
+
 		}
 	}
 	if (credChecker1 != null) {
@@ -899,6 +974,7 @@ const displaySellerRegistration = () => {
 	}
 	if (credChecker4 != null) {
 		if (credChecker4.value === "bad") {
+
 			if (s1.length > 0) {
 				for (let i = 0; i < s1.length; i++) {
 					if (s1[i].innerHTML === "Customer") {
@@ -917,20 +993,31 @@ const displaySellerRegistration = () => {
 			if (window.getComputedStyle(loginOpt).display === "block") {
 				loginOpt.style.display = "none";
 			}*/
-			swal({
-				title: "Oops!",
-				text: "Invalid username or password",
-				icon: "error",
-				button: "Try Again!",
-			});
+			if (localStorage.getItem("login_attempted") === null) {
+				swal({
+					title: "Oops!",
+					text: "Invalid username or password",
+					icon: "error",
+					button: "Try Again!",
+				})
+					.then(() => {
+						localStorage.setItem("login_attempted", true);
+					});
+			}
+
 
 		}
+		/*else {
+			console.log("hello");
+			if (localStorage.getItem("login_attempted") !== null)
+				localStorage.removeItem("login_attempted");
+		}*/
 
 	}
 	/*if (credChecker.value === "bad") {
 		console.log("seller");
 		if (searchArea1.length > 0) {
-	
+		
 			for (let i = 0; i < searchArea1.length; i++) {
 				if (window.getComputedStyle(searchArea1[i]).display === "none") {
 					console.log("seller");
@@ -955,12 +1042,12 @@ const displaySellerRegistration = () => {
 			window.location.href = "/"
 			window.location.href = "/seller/add_item"
 		});
-	
+		
 	}*/
 	/*else{
 		console.log("seller");
 		if (searchArea1.length > 0) {
-	
+		
 			for (let i = 0; i < searchArea1.length; i++) {
 				searchArea1[i].style.display = "none";
 				if (window.getComputedStyle(searchArea1[i]).display === "block") {
@@ -987,7 +1074,7 @@ const displaySellerRegistration = () => {
 		console.log(localStorage.getItem("location"));
 	}
 	else if (window.location.href.includes("do_login")) {
-	
+		
 		//if (!swal.isOpened()) {
 		var backB = document.getElementById("backB");
 		if (backB.value === "true") {
@@ -995,7 +1082,7 @@ const displaySellerRegistration = () => {
 			console.log(localStorage.getItem("location"));
 			console.log("no swal");
 		}
-	
+		
 		console.log(localStorage.getItem("location"));
 		//}
 	}
@@ -1172,6 +1259,15 @@ const displaySellerRegistration = () => {
 		$(".verification_area .verify_btns").hide();
 		$(".verification_area .mobile_otp_div").show();
 	}
+	if ($("#mobile_otp_id").length) {
+		$(".cu_verification_area").each(function() {
+			if ($(this).html().includes("Enter OTP sent to your mobile")) {
+				$(this).show();
+			}
+		});
+		$(".cu_verification_area .verify_btns").hide();
+		$(".cu_verification_area .mobile_otp_div").show();
+	}
 	//console.log($("#phonepe_checkout_id").val());
 	if ($("#phonepe_checkout_id").length) {
 
@@ -1181,6 +1277,32 @@ const displaySellerRegistration = () => {
 		$("#in_search_item").prop("disabled", true);
 	if ($("#start_search_id").length)
 		console.log($("#start_search_id").val());
+	console.log($("#success_login").length);
+	if ($("#success_login").length === 0) {
+		if ($("#mobile_otp_id").length === 0) {
+			if (localStorage.getItem("easyquery_customer_phone") !== null) {
+				//localStorage.removeItem("easyquery_customer_phone");
+				$(".phone_input").val(localStorage.getItem("easyquery_customer_phone"));
+				$(".seller_login_btn").click();
+			}
+		}
+		//if (!window.location.href.includes("verify-otp-mobile")) {
+		/*if (localStorage.getItem("easyquery_customer_phone") !== null) {
+			localStorage.removeItem("easyquery_customer_phone");
+		}*/
+		//localStorage.removeItem("easyquery_customer_phone");
+
+		//}
+
+	}
+	else {
+		if (localStorage.getItem("easyquery_customer_phone") === null) {
+			//console.log($("#customer_email_id1").val());
+			localStorage.setItem("easyquery_customer_phone", $("#customer_email_id1").val());
+		}
+	}
+
+	//console.log($("#start_search_status_id").val());
 	/*if ($(".pin_code").length) {
 		if ($(".pin_code").val() === "") {
 			$(".cAddress_container").hide();
@@ -1219,6 +1341,28 @@ const displaySellerRegistration = () => {
 				console.log('error:' + error);
 			}
 		});*/
+
+	//}
+	if (!window.location.href.includes("do_login"))
+		if (localStorage.getItem("login_attempted") !== null)
+			localStorage.removeItem("login_attempted");
+	if (!window.location.href.includes("do_register")) {
+		if (localStorage.getItem("register_attempted") !== null)
+			localStorage.removeItem("register_attempted");
+
+		if (localStorage.getItem("verification_attempted") !== null)
+			localStorage.removeItem("verification_attempted");
+	}
+	if (!window.location.href.includes("otp-to-mobile"))
+		if (localStorage.getItem("mobile_verification_attempted") !== null)
+			localStorage.removeItem("mobile_verification_attempted");
+	/*if (window.location.href.includes("verify-mobile-otp"))
+		localStorage.setItem("easyquery_customer_phone", $("#customer_email_id1").val());*/
+	//if ($("#customer_email_id1").length)
+	console.log($("#customer_email_id1").val());
+	console.log(localStorage.getItem("easyquery_customer_phone"));
+	/*console.log($("#cred_checker3").val());*/
+	//localStorage.removeItem("easyquery_customer_phone");
 }
 /*end display seller */
 //}
@@ -1747,12 +1891,15 @@ const click1 = (el) => {
 }
 
 const view_cat_click = (el) => {
+	if (login_to_search())
+		return;
 	var element = el;
 	//var showCatItems = document.getElementsByClassName("show_cat_items")[0];
 	var viewCat = document.getElementsByClassName("cat_div");
 	//var viewCat2 = document.getElementById("view_cat2");
 	var viewCat1 = document.getElementsByClassName("view_cat1");
 	console.log("view click");
+	console.log(viewCat1.length + ":" + $(".cat_start_search_id").length);
 
 	for (let i = 0; i < viewCat.length; i++) {
 		if (viewCat[i] === element) {
@@ -2083,6 +2230,7 @@ const display_mobile_menu = () => {
 const logout = () => {
 	console.log("logout");
 	localStorage.removeItem("user");
+	localStorage.removeItem("easyquery_customer_phone")
 	console.log("logout");
 	window.location.href = "/";
 	console.log(localStorage.getItem("user"));
@@ -2477,6 +2625,8 @@ const show_searched_item = () => {
 	else{
 		$(".pro_submit")[0].click();
 	}*/
+	if (login_to_search())
+		return;
 
 	$("#product_name_id").val($("#in_search_item").val());
 	if ($("#start_search_status_id").val() === "value1")
@@ -2623,6 +2773,11 @@ const otp_to_mail = () => {
 	$(".otp_to_mail_btn").click();
 };
 const otp_to_mobile = () => {
+	if (localStorage.getItem("mobile_verification_attempted") !== null) {
+		console.log("NuLl");
+		localStorage.removeItem("mobile_verification_attempted");
+	}
+
 	$('.search_area1').each(function() {
 		if ($(this).html().includes('Sending OTP to your mobile')) {
 			$(this).show();
@@ -2787,6 +2942,7 @@ const b_menu_item = (el) => {
 			else if ($(this).html().includes("Pay")) {
 				$(".ma_shopping").click();
 				$(".a_shopping").click();
+				return;
 			}
 
 			else if ($(this).html().includes("News"))
@@ -2801,6 +2957,111 @@ const b_menu_item = (el) => {
 const close_bottom_item = () => {
 	$(".bottom_menu_content").hide();
 }
+const login_to_search = () => {
+	if (localStorage.getItem("easyquery_customer_phone") === null) {
+		console.log("empty");
+		swal({
+			title: "Not logged in !",
+			text: "Please log in to continue",
+			icon: "info",
+			buttons: true,
+			dangerMode: true,
+		})
+			.then((open) => {
+				if (open) {
+					$(".sections").each(function() {
+						if ($(this).html().includes("Customer Login")) {
+							//$(this).attr("style","z-index:7 !important;");
+							$(this).show();
+
+						}
+						else {
+							$(this).hide();
+						}
+					});
+				}
+			});
+		return true;
+	}
+	else {
+		console.log($("#mo_verification_id").val());
+		if ($("#mo_verification_id").length)
+
+			if ($("#mo_verification_id").val() === "false") {
+
+				swal({
+					title: "Verification incomplete !",
+					text: "You have to verify your mobile number to continue !! Are you ready",
+					icon: "info",
+					buttons: true,
+					dangerMode: true,
+				})
+					.then((open) => {
+						if (open) {
+							$(".cu_verification_area").show();
+							$(".cu_verification_area").each(function() {
+								if ($(this).text().includes("Verify Mobile Number"))
+									$(this).show();
+								else
+									$(this).hide();
+							});
+							/*$(".cu_verification_area div").each(function() {
+								if ($(this).html().includes("Verify Mobile Number")) {
+									//$(this).attr("style","z-index:7 !important;");
+									$(this).show();
+
+								}
+								else {
+									$(this).hide();
+								}
+							});*/
+						}
+					});
+				return true;
+			}
+		return false;
+	}
+
+
+}
+const preCustomerLogin = () => {
+	if (localStorage.getItem("login_attempted") !== null)
+		localStorage.removeItem("login_attempted");
+}
+const preCustomerRegistration = () => {
+	if (localStorage.getItem("register_attempted") !== null)
+		localStorage.removeItem("register_attempted");
+	if (localStorage.getItem("verification_attempted") !== null)
+		localStorage.removeItem("verification_attempted");
+
+}
+const close_cu_registration = () => {
+	$(".sections").each(function() {
+		if ($(this).text().includes("Customer Registration"))
+			$(this).hide();
+	})
+
+}
+const cu_login_close = () => {
+	$(".cu_login").hide();
+}
+const close_mo_verify = () => {
+	$(".cu_verification_area").each(function() {
+		if ($(this).text().includes("Verify Mobile Number"))
+			$(this).hide();
+
+	});
+	window.location.href = "/";
+}
+const click_seller_login = () => {
+
+	$(".m_menu1 a").bind("click", function() {
+		window.location.href = $(this).attr("href");
+	});
+
+	$(".m_menu1 a").trigger('click');
+}
+
 document.addEventListener("DOMContentLoaded", function() {
 
 	displaySellerRegistration();

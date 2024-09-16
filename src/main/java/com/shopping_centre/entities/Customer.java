@@ -21,6 +21,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
+import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -32,28 +33,34 @@ public class Customer {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	@Column(unique = true)
-	@Email(regexp = "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$", message = "Please enter valid email address")
-	private String email;
+	/*
+	 * @Column(unique = true)
+	 * 
+	 * @Email(regexp = "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$", message =
+	 * "Please enter valid email address") private String email;
+	 */
 	@NotBlank(message = "Name field is required")
 	@Size(min = 2, max = 20, message = "name must be atleast 2 and maximum 20 characters long")
 	private String name;
-	@NotBlank(message = "Password field is required")
-	//@Column(columnDefinition = "varchar(255) default 'abc'")
-	private String password;
-	@Transient
-	private String confirmPassword;
+	/*
+	 * @NotBlank(message = "Password field is required") //@Column(columnDefinition
+	 * = "varchar(255) default 'abc'") private String password;
+	 * 
+	 * @Transient private String confirmPassword;
+	 */
+	@Column(unique = true)
 	@Size(min = 10, max = 10, message = "Please enter valid mobile number")
 	private String phone;
-	@NotBlank
-	private String address;
+	/*
+	 * @NotBlank private String address;
+	 */
 	//private String finalAddress;
 	
 	  //@NotBlank(message = "Password field is required")
 	  
-	  @Column(columnDefinition = "varchar(255) default 'abc'")
+	  //@Column(columnDefinition = "varchar(255) default 'abc'")
 	 
-	private String city="abc";
+		/* private String city="abc"; */
 	//@Size(min = 6, max = 6, message = "Please enter valid PIN Code")
 	//private String pinCode;
 	private boolean logIn;
@@ -68,7 +75,7 @@ public class Customer {
 	 * "customer_id"), inverseJoinColumns = @JoinColumn(name = "product_id"))
 	 * private List<Product> products = new ArrayList<>();
 	 */
-	private boolean emailVerification;
+	//private boolean emailVerification;
 	private boolean mobileVerification;
 	private boolean termsAndConditionsAgreed;
 	private String startSearch = "value3";
@@ -93,13 +100,7 @@ public class Customer {
 		this.id = id;
 	}
 
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
+	
 
 	public String getName() {
 		return name;
@@ -109,21 +110,7 @@ public class Customer {
 		this.name = name;
 	}
 
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getConfirmPassword() {
-		return confirmPassword;
-	}
-
-	public void setConfirmPassword(String confirmPassword) {
-		this.confirmPassword = confirmPassword;
-	}
+	
 
 	public String getPhone() {
 		return phone;
@@ -133,22 +120,7 @@ public class Customer {
 		this.phone = phone;
 	}
 
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public String getCity() {
-		return city;
-	}
-
-	public void setCity(String city) {
-		this.city = city;
-	}
-
+	
 	/*
 	 * public String getPinCode() { return pinCode; }
 	 * 
@@ -192,13 +164,7 @@ public class Customer {
 	 * public void setProducts(List<Product> products) { this.products = products; }
 	 */
 
-	public boolean isEmailVerification() {
-		return emailVerification;
-	}
-
-	public void setEmailVerification(boolean emailVerification) {
-		this.emailVerification = emailVerification;
-	}
+	
 
 	public boolean isMobileVerification() {
 		return mobileVerification;

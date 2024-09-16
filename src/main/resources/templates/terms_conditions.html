@@ -6,7 +6,11 @@
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<!-- Mobile Metas -->
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<!--<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />-->
+	<meta name="viewport" content="height=device-height, 
+                      width=device-width, initial-scale=1.0, 
+                      minimum-scale=1.0, maximum-scale=1.0, 
+                      user-scalable=no, target-densitydpi=device-dpi" />
 	<!-- Site Metas -->
 	<meta name="keywords" content="" />
 	<meta name="description" content="" />
@@ -31,45 +35,69 @@
 	<link th:href="@{/css/style1.css}" rel="stylesheet" />
 	<!-- responsive style -->
 	<link th:href="@{/css/responsive.css}" rel="stylesheet" />
-
+	<link rel="shortcut icon" th:href="@{/images/easy_query.jpg}" type="image/x-icon">
+	<!--<script type="text/javascript">
+		const preventBack = () => {
+			window.history.forward();
+		}
+		setTimeout(preventBack, 0);
+		window.onunload = function () {
+			null;
+		}-->
 </head>
 
 <body>
-	<h1 class="text-center">Terms and Conditions</h1>
-	<hr />
-	<h4 class="text-center">In case of dispute</h4>
-	<ul>
-		<li>This website shall not engage in or facilitate any conflicts or disagreements that may arise between the
-			seller and the buyer during their transaction process. </li>
-		<li>It is explicitly stated that this platform will remain neutral and uninvolved in any disputes, ensuring that
-			both parties are responsible for resolving their issues independently.</li>
-		<li>This website disclaims any responsibility for mediating or intervening in disputes, thereby maintaining its
-			role solely as a facilitator of transactions without taking sides.</li>
-	</ul>
-	<h4 class="text-center">Responsibility of sellers and buyers</h4>
-	<ul>
-		<li>The responsibility for the products listed on this website rests entirely with the sellers themselves,
-			ensuring that they are accountable for the quality and authenticity of their offerings.</li>
-		<li>
-			Each seller is tasked with the obligation to manage their inventory, including the accuracy of product
-			descriptions, pricing, and compliance with relevant regulations, thereby maintaining a standard of trust
-			with potential buyers.
-		</li>
-		<li>
-			This platform serves as a marketplace, facilitating transactions between buyers and sellers, but it does not
-			assume any liability for the products sold, emphasizing the importance of due diligence on the part of the
-			consumer.
-		</li>
-	</ul>
+	<div class="container">
+		<h1 class="text-center">Terms and Conditions</h1>
+		<hr />
+		<h3>In case of dispute</h3>
+		<ul>
+			<li>This website shall not engage in or facilitate any conflicts or disagreements that may arise between the
+				seller and the buyer during their transaction process.</li>
+			<li>It is explicitly stated that this platform will remain neutral and uninvolved in any disputes, ensuring
+				that both parties are responsible for resolving their issues independently.</li>
+			<li>This website disclaims any responsibility for mediating or intervening in disputes, thereby maintaining
+				its role solely as a facilitator of transactions without taking sides.</li>
+		</ul>
+		<br />
+		<h3>Responsibility of sellers and buyers</h3>
+		<ul>
+			<li>The responsibility for the products listed on this website rests entirely with the sellers themselves,
+				ensuring that they are accountable for the quality and authenticity of their offerings.</li>
+			<li>Each seller is tasked with the obligation to manage their inventory, including the accuracy of product
+				descriptions, pricing, and compliance with relevant regulations, thereby maintaining a standard of trust
+				with potential buyers.</li>
+			<li>This platform serves as a marketplace, facilitating transactions between buyers and sellers, but it does
+				not assume any liability for the products sold, emphasizing the importance of due diligence on the part
+				of the consumer.</li>
+		</ul>
+
+	</div>
+
+
+	<!-- end info section -->
+
+
 	<script th:src="@{/js/jquery-3.4.1.min.js}"></script>
 	<script th:src="@{/js/bootstrap.js}"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js}">
 	</script>
-	<!--<script th:src="@{/js/custom.js}"></script>-->
+	<script th:src="@{/js/custom.js}"></script>
 	<script th:src="@{/js/myscript.js}"></script>
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-	<script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCl30do4Fl45eUvhk6PQDFA7JMWIBhS0jk
-&loading=async&libraries=places&callback=initMap"></script>
+	<!--<script>
+		const mq = window.matchMedia("(max-width:600px)");
+		//if (mq.matches) {
+		window.addEventListener("hashchange", function () {
+			console.log(window.location.hash);
+			if (window.location.hash === "#contact" || window.location.hash === "#build_const") {
+				console.log("hello1");
+
+				window.scrollTo(window.scrollX, window.scrollY - 100);
+			}
+
+		});
+	</script>-->
 </body>
 
 </html>

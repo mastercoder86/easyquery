@@ -44,7 +44,7 @@
 
 <body>
 
-	<div class="container">
+	<!--<div class="container">
 		<button class="log_btn">Login</button>
 		<div class="submitting_details_top">
 			<div class="submitting_details">
@@ -52,16 +52,18 @@
 			</div>
 
 		</div>
-		<ul class="list-group login_list">
+		<hr />
+	</div>-->
+	<!--<ul class="list-group login_list">
 			<li class="list-group-item s1 text-center" onclick="show_search(this)">Seller</li>
 			<li class="list-group-item s1 cus_s1 text-center" onclick="show_search(this)">Customer</li>
 
-		</ul>
-		<hr />
-		<!--<a class="back2 text-center" th:href="@{/}">
+		</ul>-->
+
+	<!--<a class="back2 text-center" th:href="@{/}">
 			Back
 		</a>-->
-	</div>
+
 	<!--<div class="submit_top">
 		<div class="submitting_details">
 			<h5>Submitting details...please wait...</h5>
@@ -102,7 +104,7 @@
 				</div>
 			</div>
 		</div>-->
-		<section class="search_area1">
+		<section class="search_area1 se_search_area1">
 
 			<i class="fa-solid fa-xmark close_btn" onclick="close_search()"></i>
 			<form action="#" th:object="${seller}" method="post" th:action="@{/seller/do_register}" class="mt-2">
@@ -231,7 +233,7 @@
 			</form>
 		</section>
 
-		<section class="search_area1">
+		<!--<section class="search_area1">
 			<i class="fa-solid fa-xmark close_btn" onclick="close_search()"></i>
 			<form action="#" th:object="${customer}" method="post" th:action="@{/customer/do_register}" class="mt-2">
 				<h1>Customer Registration</h1>
@@ -268,34 +270,34 @@
 					<p class="inval" th:if="${phoneerror1}" th:text="${phoneerrormessage1}"></p>
 
 				</div>
-				<!--<input type="text" class="search_input" placeholder="----------Product/Service Name----------" />-->
+				<input type="text" class="search_input" placeholder="----------Product/Service Name----------" />
 
-				<!--<div class="file_chooser">
+				<div class="file_chooser">
 					<label for="file">Select your item image</label>
 					<input type="file" id="file" />
-				</div>-->
-				<!--<div class="input_container1">
+				</div>
+				<div class="input_container1">
 					<textarea id="cAddress_search_item" th:text="${customer.address}" name="address"
 						class="search_input1 cAddress_search_item" title="hello" style="height: auto;" rows="3"
 						placeholder="----------Address----------" th:onkeyup="|cAddress_search()|"></textarea>
 				</div>
 				<div class="cAddress_search_result mobile_searchh">
 					<span th:if="${products}" th:each="p:${products}" th:text="${p.p_name}"></span><br />
-				</div>-->
+				</div>
 
-				<!--<div class="input_container1">
+				<div class="input_container1">
 					<input th:value="${customer.city}" name="city" type="text" class="search_input1"
 						placeholder="----------City----------" />
-				</div>-->
-				<!--<div class="input_container1">
+				</div>
+				<div class="input_container1">
 					<input th:value="${customer.pinCode}" name="pinCode" type="text" class="search_input1 pin_code"
 						placeholder="----------Pin Code----------" th:onkeyup="|validatePin()|" />
 					<p class="inval" th:if="${pincodeerror1}" th:text="${pincodeerrormessage1}"></p>
-				</div>-->
+				</div>
 				<div class="input_container1 cAddress_container">
-					<!--<textarea id="cAddress_search_item" th:text="${customer.address}" name="address"
+					<textarea id="cAddress_search_item" th:text="${customer.address}" name="address"
 						class="search_input1 cAddress_search_item" title="hello" style="height: auto;" rows="3"
-						placeholder="----------Address----------" th:onkeyup="|cAddress_search()|"></textarea>-->
+						placeholder="----------Address----------" th:onkeyup="|cAddress_search()|"></textarea>
 					<textarea id="cAddress_search_item" th:text="${customer.address}" name="address"
 						class="search_input1 cAddress_search_item" title="hello" style="height: auto;" rows="3"
 						placeholder="----------Address----------" onkeyup="suggest1()"></textarea>
@@ -306,7 +308,7 @@
 				<div class="cAddress_search_result mobile_searchh">
 
 
-					<!--<span th:if="${products}" th:each="p:${products}" th:text="${p.p_name}"></span><br />-->
+					<span th:if="${products}" th:each="p:${products}" th:text="${p.p_name}"></span><br />
 				</div>
 
 				<hr />
@@ -320,8 +322,8 @@
 							conditions</a></label>
 				</div>
 				<hr />
-				<!--<button class="customer_login_btn" type="submit">Register</button>
--->
+				<button class="customer_login_btn" type="submit">Register</button>
+
 				<button class="customer_login_btn" type="submit">Register</button>
 
 			</form>
@@ -330,7 +332,7 @@
 				<input name="greeting" type="hidden" th:value="${greeting}" />
 				<button id="c_register_btn" type="submit"></button>
 			</form>
-		</section>
+		</section>-->
 		<section class="search_area1">
 			<i class="fa-solid fa-xmark close_btn" onclick="close_search()"></i>
 			<form action="#" th:object="${bankAccount}" method="post" th:action="@{/seller/do_register1}" class="mt-2">
@@ -383,13 +385,13 @@
 			<i class="fa-solid fa-xmark close_btn" onclick="close_search()"></i>
 			<div class="verify_btns">
 				<form style="display:none;" method="post" th:action="@{/verify/otp-to-mail}">
-					<input type="hidden" name="email" th:value="'seller:'+${s_email}" th:if="${s_email}"/>
-					<input type="hidden" name="email" th:value="'customer:'+${c_email}" th:if="${c_email}"/>
+					<input type="hidden" name="email" th:value="'seller:'+${s_email}" th:if="${s_email}" />
+					<input type="hidden" name="email" th:value="'customer:'+${c_email}" th:if="${c_email}" />
 					<button class="otp_to_mail_btn" type="submit"></button>
 				</form>
 				<form style="display:none;" method="post" th:action="@{/verify/otp-to-mobile}">
-					<input type="hidden" name="email" th:value="'seller:'+${s_email}" th:if="${s_email}"/>
-					<input type="hidden" name="email" th:value="'customer:'+${c_email}" th:if="${c_email}"/>
+					<input type="hidden" name="email" th:value="'seller:'+${s_email}" th:if="${s_email}" />
+					<input type="hidden" name="email" th:value="'customer:'+${c_email}" th:if="${c_email}" />
 					<button class="otp_to_mobile_btn" type="submit"></button>
 				</form>
 				<a class="btn1 text-center" onclick="otp_to_mail()">Verify Email</a>
@@ -398,8 +400,8 @@
 			<div class="input_container1 mail_otp_div">
 				<h4 style="color:white;">Enter OTP sent to your email</h4>
 				<form method="post" th:action="@{/verify/verify-otp-mail}">
-					<input type="hidden" name="email" th:value="'seller:'+${s_email}" th:if="${s_email}"/>
-					<input type="hidden" name="email" th:value="'customer:'+${c_email}" th:if="${c_email}"/>
+					<input type="hidden" name="email" th:value="'seller:'+${s_email}" th:if="${s_email}" />
+					<input type="hidden" name="email" th:value="'customer:'+${c_email}" th:if="${c_email}" />
 					<input type="text" name="otp" class="search_input1"
 						placeholder="-------------Enter Otp-------------" />
 					<button class="search_btn" onclick="submit_otp()">Submit</button>
@@ -410,8 +412,10 @@
 			<div class="input_container1 mobile_otp_div">
 				<h4 style="color:white;">Enter OTP sent to your mobile</h4>
 				<form method="post" th:action="@{/verify/verify-otp-mobile}">
-					<input id="s_email_present" type="hidden" name="email" th:value="'seller:'+${s_email}" th:if="${s_email}"/>
-					<input id="c_email_present" type="hidden" name="email" th:value="'customer:'+${c_email}" th:if="${c_email}"/>
+					<input id="s_email_present" type="hidden" name="email" th:value="'seller:'+${s_email}"
+						th:if="${s_email}" />
+					<input id="c_email_present" type="hidden" name="email" th:value="'customer:'+${c_email}"
+						th:if="${c_email}" />
 					<input type="text" name="otp" class="search_input1"
 						placeholder="-------------Enter Otp-------------" />
 					<button class="search_btn" onclick="submit_otp()">Submit</button>
@@ -435,14 +439,14 @@
 		</section>
 		<section class="search_area1 verification_area">
 			<h3 class="text-center">Sending OTP to your mail...Please wait...</h3>
-			
+
 		</section>
 		<section class="search_area1 verification_area">
-			
+
 			<h3 class="text-center">Sending OTP to your mobile...Please wait...</h3>
 		</section>
 		<section class="search_area1 submitting_details_area">
-			
+
 			<h3 class="text-center">Submitting details...Please wait...</h3>
 		</section>
 		<div id="s_login" class="search_area">
@@ -474,17 +478,17 @@
 				<span onclick="show_register()">Register</span>
 			</form>
 		</div>
-		<div id="c_login" class="search_area">
+		<!--<div id="c_login" class="search_area">
 			<i class="fa-solid fa-xmark close_btn" onclick="close_search()"></i>
 			<input id="cred_checker4" type="hidden" th:value="${login_credentials4}" />
 			<h1>Customer Login</h1>
-			<!--<div id="bad_cred1">
+			<div id="bad_cred1">
 				<h4>
 					Inavlid username or password !
 					<i class="fa-solid fa-xmark" onclick="close_search()"></i>
 
 				</h4>
-			</div>-->
+			</div>
 			<input id="c_backB" type="hidden" th:value="${backB}" />
 			<form action="#" th:object="${customer}" method="post" th:action="@{/customer/do_login}" class="mt-2">
 				<input name="email" type="email" class="search_input" placeholder="----------E-Mail-----------" />
@@ -494,15 +498,15 @@
 				<button class="seller_login_btn" type="submit">Login</button>
 				<span class="show_register" onclick="show_register(this)">Register</span>
 			</form>
-			<!--<form style="display: none;" action="#" method="post" th:action="@{/seller/do_login1}" class="mt-2">
+			<form style="display: none;" action="#" method="post" th:action="@{/seller/do_login1}" class="mt-2">
 				<input name="email" type="hidden" th:value="${s_email}" />
 				<input name="greeting" type="hidden" th:value="${greeting}" />
 				<input name="p_list" type="hidden" th:value="${p_list}" />
 				<hr />
 				<button class="seller_login_btn1" type="submit">Login</button>
 				<span onclick="show_register()">Register</span>
-			</form>-->
-		</div>
+			</form>
+		</div>-->
 		<!--<div class="search_area search_item">
 			<i class="fa-solid fa-xmark close_btn" onclick="close_search()"></i>
 

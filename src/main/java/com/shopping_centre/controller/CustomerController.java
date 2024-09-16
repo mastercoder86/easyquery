@@ -56,8 +56,9 @@ import jakarta.validation.Valid;
 public class CustomerController {
 	@Autowired
 	private CustomerRepository customerRepository;
-	@Autowired
-	private SellerRepository sellerRepository;
+	/*
+	 * @Autowired private SellerRepository sellerRepository;
+	 */
 	@Autowired
 	private CustomerItemRepository customerItemRepository;
 	@Autowired
@@ -72,7 +73,8 @@ public class CustomerController {
 
 	@RequestMapping(value = "/do_register", method = RequestMethod.POST)
 	public String register(@Valid @ModelAttribute("customer") Customer customer, BindingResult result1,
-			@RequestParam String cAddressStatus,@RequestParam(required=false) String agreement, Model model) {
+			@RequestParam(required = false) String cAddressStatus, @RequestParam(required = false) String agreement,
+			Model model) {
 		// model.addAttribute("clicked","yes");
 //		model.addAttribute("namerror1",null);
 		model.addAttribute("test1", "test1");
@@ -92,29 +94,31 @@ public class CustomerController {
 					model.addAttribute("namerror1", "namerror1");
 					model.addAttribute("namerrormessage1", error.getDefaultMessage());
 				}
-				if (error.getDefaultMessage().contains("email")) {
-					model.addAttribute("emailerror1", "emailerror1");
-					model.addAttribute("emailerrormessage1", error.getDefaultMessage());
-				}
-				if (error.getDefaultMessage().contains("Password")) {
-					model.addAttribute("passworderror1", "passworderror1");
-					model.addAttribute("passworderrormessage1", error.getDefaultMessage());
-				}
-				if (error.getDefaultMessage().contains("Please reenter your password")) {
-					model.addAttribute("confirmpassworderror1", "confirmpassworderror1");
-					model.addAttribute("confirmpassworderrormessage1", error.getDefaultMessage());
-				}
+				/*
+				 * if (error.getDefaultMessage().contains("email")) {
+				 * model.addAttribute("emailerror1", "emailerror1");
+				 * model.addAttribute("emailerrormessage1", error.getDefaultMessage()); }
+				 */
+				/*
+				 * if (error.getDefaultMessage().contains("Password")) {
+				 * model.addAttribute("passworderror1", "passworderror1");
+				 * model.addAttribute("passworderrormessage1", error.getDefaultMessage()); } if
+				 * (error.getDefaultMessage().contains("Please reenter your password")) {
+				 * model.addAttribute("confirmpassworderror1", "confirmpassworderror1");
+				 * model.addAttribute("confirmpassworderrormessage1",
+				 * error.getDefaultMessage()); }
+				 */
 				if (error.getDefaultMessage().contains("mobile")) {
 					model.addAttribute("phoneerror1", "phoneerror1");
 					model.addAttribute("phoneerrormessage1", error.getDefaultMessage());
 				}
-				if (error.getDefaultMessage().contains("PIN")) {
-					model.addAttribute("pincodeerror1", "pincodeerror1");
-					model.addAttribute("pincodeerrormessage1", error.getDefaultMessage());
-				}
-				if (error.getField().equals("address")) {
-					model.addAttribute("addressError", "This field is required");
-				}
+				/*
+				 * if (error.getDefaultMessage().contains("PIN")) {
+				 * model.addAttribute("pincodeerror1", "pincodeerror1");
+				 * model.addAttribute("pincodeerrormessage1", error.getDefaultMessage()); } if
+				 * (error.getField().equals("address")) { model.addAttribute("addressError",
+				 * "This field is required"); }
+				 */
 				/*
 				 * if (error.getDefaultMessage().contains("address")) {
 				 * model.addAttribute("addresserror1", "addresserror1");
@@ -126,11 +130,12 @@ public class CustomerController {
 				 */
 
 			}
-			if (cAddressStatus.equals("show")) {
-				model.addAttribute("cAddress", "show");
-			}
+			/*
+			 * if (cAddressStatus.equals("show")) { model.addAttribute("cAddress", "show");
+			 * }
+			 */
 			model.addAttribute("customer", customer);
-			return "login_form";
+			return "customer_index";
 			// return "index";
 
 		} else {
@@ -143,23 +148,21 @@ public class CustomerController {
 			 * 
 			 * return "index"; }
 			 */
-			if (customer.getPassword().compareTo(customer.getConfirmPassword()) != 0) {
-				/*
-				 * model.addAttribute("credentials3", "passwordproblem");
-				 * model.addAttribute("seller", seller); System.out.println("don't match");
-				 */
-				/* return "index"; */
-				model.addAttribute("confirmpassworderror1", "confirmpassworderror1");
-				model.addAttribute("confirmpassworderrormessage1",
-						"Password entered don't match with above entered password");
-				model.addAttribute("credentials3", "bad");
-				model.addAttribute("customer", customer);
-				model.addAttribute("seller", new Seller());
-				flag = false;
-				return "login_form";
-				// return "index";
-
-			}
+			/*
+			 * if (customer.getPassword().compareTo(customer.getConfirmPassword()) != 0) {
+			 * 
+			 * model.addAttribute("credentials3", "passwordproblem");
+			 * model.addAttribute("seller", seller); System.out.println("don't match");
+			 * 
+			 * return "index"; model.addAttribute("confirmpassworderror1",
+			 * "confirmpassworderror1"); model.addAttribute("confirmpassworderrormessage1",
+			 * "Password entered don't match with above entered password");
+			 * model.addAttribute("credentials3", "bad"); model.addAttribute("customer",
+			 * customer); model.addAttribute("seller", new Seller()); flag = false; return
+			 * "customer_index"; // return "index";
+			 * 
+			 * }
+			 */
 			try {
 				Double.parseDouble(customer.getPhone());
 			} catch (NumberFormatException e) {
@@ -170,7 +173,7 @@ public class CustomerController {
 				model.addAttribute("customer", customer);
 				model.addAttribute("seller", new Seller());
 				flag = false;
-				return "login_form";
+				return "customer_index";
 				// return "index";
 
 			}
@@ -189,7 +192,7 @@ public class CustomerController {
 				model.addAttribute("customer", customer);
 				model.addAttribute("seller", new Seller());
 				flag = false;
-				return "login_form";
+				return "customer_index";
 				// return "index";
 
 			}
@@ -207,16 +210,18 @@ public class CustomerController {
 			// seller.setAddCheck("add1");
 			if (flag) {
 				customer.setLogIn(true);
-				model.addAttribute("seller",new Seller());
+				model.addAttribute("seller", new Seller());
 				try {
 					customer.setTermsAndConditionsAgreed(true);
 					customerRepository.save(customer);
-					model.addAttribute("credentials3", "verification pending");
+					model.addAttribute("credentials3", "mobile verification pending");
 				} catch (DataIntegrityViolationException e) {
-					model.addAttribute("cvError", "This email is already registered");
+					System.out.println(e.getMessage());
+					model.addAttribute("cvError", "This Mobile Number is already registered");
+
 					model.addAttribute("customer", customer);
 					model.addAttribute("credentials3", "bad");
-					return "login_form";
+					return "customer_index";
 				}
 				/*
 				 * String address = customer.getAddress(); String api_key =
@@ -270,12 +275,14 @@ public class CustomerController {
 			greetName = customer.getName();
 		}
 
-		model.addAttribute("c_email", customer.getEmail());
+		// model.addAttribute("c_email", customer.getEmail());
+		model.addAttribute("c_email", customer.getPhone());
 		model.addAttribute("greeting", greetName);
 		model.addAttribute("customer", new Customer());
 		model.addAttribute("seller", new Seller());
+		model.addAttribute("logged_in",true);
 		// model.addAttribute("add_check", seller.getAddCheck());
-		return "login_form";
+		return "customer_index";
 		/* return "add_item"; */
 	}
 
@@ -285,7 +292,7 @@ public class CustomerController {
 		model.addAttribute("greeting", greeting);
 		model.addAttribute("bankAccount", new BankAccount());
 
-		Customer customer = customerRepository.findByEmail(c_email);
+		Customer customer = customerRepository.findByPhone(c_email);
 		List<CustomerItem> customerItems = customerItemRepository.findByCustomerIdAndStatus(customer.getId(),
 				"added_to_cart");
 		List<Product> products = new ArrayList<>();
@@ -383,30 +390,43 @@ public class CustomerController {
 	@PostMapping("/do_login")
 	public String login(@ModelAttribute Customer customer, Model model) {
 		System.out.println("inside login");
-		Customer customer1 = customerRepository.findByEmailAndPassword(customer.getEmail(), customer.getPassword());
+		/*
+		 * Customer customer1 =
+		 * customerRepository.findByEmailAndPassword(customer.getEmail(),
+		 * customer.getPassword());
+		 */
+		Customer customer1 = customerRepository.findByPhone(customer.getPhone());
 		model.addAttribute("seller", new Seller());
 		model.addAttribute("bankAccount", new BankAccount());
+		model.addAttribute("login_attempted", "true");
 		if (customer1 != null) {
+			model.addAttribute("mo_verification",customer1.isMobileVerification());
+			/*
+			 * if(!customer.isMobileVerification()) {
+			 * model.addAttribute("credentials3","mobile verification pending");
+			 * return" customer_index"; }
+			 */
 			customer1.setStartSearch("logged_in");
 			customerRepository.save(customer1);
-			if(!customer1.isEmailVerification()) {
-				model.addAttribute("mo_verification", customer1.isMobileVerification());
-				model.addAttribute("credentials", "ma_verification_pending");
-				model.addAttribute("c_email",customer1.getEmail());
-				return "login_form";
-			} else if (!customer1.isMobileVerification()) {
-				model.addAttribute("ma_verification", customer1.isEmailVerification());
-				model.addAttribute("credentials","mo_verification_pending");
-				model.addAttribute("c_email",customer1.getEmail());
-				return "login_form";
-			}
+			model.addAttribute("logged_in", true);
+
+			/*
+			 * if (!customer1.isEmailVerification()) { model.addAttribute("mo_verification",
+			 * customer1.isMobileVerification()); model.addAttribute("credentials",
+			 * "ma_verification_pending"); model.addAttribute("c_email",
+			 * customer1.getEmail()); return "login_form"; } else if
+			 * (!customer1.isMobileVerification()) { model.addAttribute("ma_verification",
+			 * customer1.isEmailVerification()); model.addAttribute("credentials",
+			 * "mo_verification_pending"); model.addAttribute("c_email",
+			 * customer1.getEmail()); return "login_form"; }
+			 */
 			String greetName;
 			try {
 				greetName = customer1.getName().substring(0, customer1.getName().indexOf(" "));
 			} catch (StringIndexOutOfBoundsException se) {
 				greetName = customer1.getName();
 			}
-			model.addAttribute("c_email", customer1.getEmail());
+			model.addAttribute("c_email", customer1.getPhone());
 			model.addAttribute("greeting", greetName);
 
 			// model.addAttribute("add_check", seller1.getAddCheck());
@@ -515,7 +535,7 @@ public class CustomerController {
 		} else {
 			model.addAttribute("login_credentials4", "bad");
 			// model.addAttribute("backB", "false");
-			return "login_form";
+			return "customer_index";
 		}
 		// System.out.println("size:" + .getProducts().size());
 		return "customer_index";
@@ -523,8 +543,8 @@ public class CustomerController {
 
 	@PostMapping("/logged_in")
 	public String customerLoggedIn(@RequestParam String email, Model model) {
-		Customer customer = customerRepository.findByEmail(email);
-		
+		Customer customer = customerRepository.findByPhone(email);
+
 		String greetName;
 		// if (customer != null) {
 		try {
@@ -534,7 +554,7 @@ public class CustomerController {
 		}
 		model.addAttribute("greeting", greetName);
 		model.addAttribute("c_email", email);
-		model.addAttribute("enableSearch",true);
+		model.addAttribute("enableSearch", true);
 		List<CustomerItem> customerItems = customerItemRepository.findByCustomerIdAndStatus(customer.getId(),
 				"added_to_cart");
 		List<Product> products = new ArrayList<>();
@@ -621,7 +641,7 @@ public class CustomerController {
 	public String createOrder(@RequestBody Map<String, Object> data, Principal principal) {
 		System.out.println("Hey order function ex");
 		System.out.println(data);
-		Customer customer = customerRepository.findByEmail(data.get("email").toString());
+		Customer customer = customerRepository.findByPhone(data.get("email").toString());
 		List<CustomerItem> customerItems = customerItemRepository.findByCustomerIdAndStatus(customer.getId(),
 				"added_to_cart");
 		// List<String> p_ids = (List<String>) data.get("products");
@@ -667,7 +687,7 @@ public class CustomerController {
 			myOrder.setOrderId(order.get("id"));
 			myOrder.setPaymentId(null);
 			myOrder.setStatus("created");
-			myOrder.setCustomer(customerRepository.findByEmail(data.get("email").toString()));
+			myOrder.setCustomer(customerRepository.findByPhone(data.get("email").toString()));
 			myOrder.setReceipt(order.get("receipt"));
 
 			myOrderRepository.save(myOrder);
@@ -699,7 +719,7 @@ public class CustomerController {
 	@PostMapping("/update_order")
 	public ResponseEntity<?> updateOrder(@RequestBody Map<String, Object> data) {
 		System.out.println(data);
-		Customer customer = customerRepository.findByEmail(data.get("email").toString());
+		Customer customer = customerRepository.findByPhone(data.get("email").toString());
 		List<CustomerItem> customerItems = customerItemRepository.findByCustomerIdAndStatus(customer.getId(),
 				"added_to_cart");
 		MyOrder myOrder = myOrderRepository.findByOrderId(data.get("razorpay_order_id").toString());
@@ -786,80 +806,53 @@ public class CustomerController {
 		return ResponseEntity.ok(Map.of("msg", "updated"));
 	}
 
-	@GetMapping("/distance")
-	public String distance() {
-		String address = sellerRepository.findByEmail("budhakumar21@gmail.com").getStreet1();
-		// String address = "Narengi,Assam";
-		String address1 = null;
-		String api_key = "AIzaSyCl30do4Fl45eUvhk6PQDFA7JMWIBhS0jk";
-		if (address.contains("  ")) {
-			address1 = address.replace("  ", " ");
-
-		}
-		String address2 = null;
-		if (address1 != null)
-			address2 = address1.replace(" ", "%20").replace(",", "%2C%20");
-		else
-			address2 = address.replace(" ", "%20").replace(",", "%2C%20");
-		address = customerRepository.findByEmail("budhakumar22@gmail.com").getAddress();
-		if (address.contains("  ")) {
-			address1 = address.replace("  ", " ");
-
-		}
-		String address3 = null;
-		if (address1 != null)
-			address3 = address1.replace(" ", "%20").replace(",", "%2C%20");
-		else
-			address3 = address.replace(" ", "%20").replace(",", "%2C%20");
-		// String api_key = "AIzaSyCl30do4Fl45eUvhk6PQDFA7JMWIBhS0jk";
-		System.out.println("address2: " + address2);
-		System.out.println("address3: " + address3);
-		URL url = null;
-		try {
-			url = new URL("https://maps.googleapis.com/maps/api/distancematrix/json?destinations=" + address2
-					+ "&origins=" + address3 + "&key=" + api_key);
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		HttpURLConnection httpConn = null;
-		try {
-			httpConn = (HttpURLConnection) url.openConnection();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			httpConn.setRequestMethod("GET");
-		} catch (ProtocolException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		InputStream responseStream = null;
-		try {
-			responseStream = httpConn.getResponseCode() / 100 == 2 ? httpConn.getInputStream()
-					: httpConn.getErrorStream();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		Scanner s = new Scanner(responseStream).useDelimiter("\\A");
-		String response = s.hasNext() ? s.next() : "";
-		System.out.println(response);
-		/*
-		 * try { JSONObject myResponse = new JSONObject(response); JSONArray predictions
-		 * = (JSONArray) myResponse.get("predictions"); List<String> desciptions = new
-		 * ArrayList<>(); for (int i = 0; i < predictions.length(); i++) {
-		 * desciptions.add(predictions.getJSONObject(i).getString("description")); }
-		 * String choosenAddress = ""; for (String description : desciptions) { if
-		 * (description.length() > choosenAddress.length()) choosenAddress =
-		 * description;
-		 * 
-		 * } System.out.println("Address : " + choosenAddress); } catch (JSONException
-		 * e) { e.printStackTrace(); }
-		 */
-		return "index";
-	}
+	/*
+	 * @GetMapping("/distance") public String distance() { String address =
+	 * sellerRepository.findByEmail("budhakumar21@gmail.com").getStreet1(); //
+	 * String address = "Narengi,Assam"; String address1 = null; String api_key =
+	 * "AIzaSyCl30do4Fl45eUvhk6PQDFA7JMWIBhS0jk"; if (address.contains("  ")) {
+	 * address1 = address.replace("  ", " ");
+	 * 
+	 * } String address2 = null; if (address1 != null) address2 =
+	 * address1.replace(" ", "%20").replace(",", "%2C%20"); else address2 =
+	 * address.replace(" ", "%20").replace(",", "%2C%20"); address =
+	 * customerRepository.findByEmail("budhakumar22@gmail.com").getAddress(); if
+	 * (address.contains("  ")) { address1 = address.replace("  ", " ");
+	 * 
+	 * } String address3 = null; if (address1 != null) address3 =
+	 * address1.replace(" ", "%20").replace(",", "%2C%20"); else address3 =
+	 * address.replace(" ", "%20").replace(",", "%2C%20"); // String api_key =
+	 * "AIzaSyCl30do4Fl45eUvhk6PQDFA7JMWIBhS0jk"; System.out.println("address2: " +
+	 * address2); System.out.println("address3: " + address3); URL url = null; try {
+	 * url = new
+	 * URL("https://maps.googleapis.com/maps/api/distancematrix/json?destinations="
+	 * + address2 + "&origins=" + address3 + "&key=" + api_key); } catch
+	 * (MalformedURLException e) { // TODO Auto-generated catch block
+	 * e.printStackTrace(); } HttpURLConnection httpConn = null; try { httpConn =
+	 * (HttpURLConnection) url.openConnection(); } catch (IOException e) { // TODO
+	 * Auto-generated catch block e.printStackTrace(); } try {
+	 * httpConn.setRequestMethod("GET"); } catch (ProtocolException e) { // TODO
+	 * Auto-generated catch block e.printStackTrace(); }
+	 * 
+	 * InputStream responseStream = null; try { responseStream =
+	 * httpConn.getResponseCode() / 100 == 2 ? httpConn.getInputStream() :
+	 * httpConn.getErrorStream(); } catch (IOException e) { // TODO Auto-generated
+	 * catch block e.printStackTrace(); } Scanner s = new
+	 * Scanner(responseStream).useDelimiter("\\A"); String response = s.hasNext() ?
+	 * s.next() : ""; System.out.println(response);
+	 * 
+	 * try { JSONObject myResponse = new JSONObject(response); JSONArray predictions
+	 * = (JSONArray) myResponse.get("predictions"); List<String> desciptions = new
+	 * ArrayList<>(); for (int i = 0; i < predictions.length(); i++) {
+	 * desciptions.add(predictions.getJSONObject(i).getString("description")); }
+	 * String choosenAddress = ""; for (String description : desciptions) { if
+	 * (description.length() > choosenAddress.length()) choosenAddress =
+	 * description;
+	 * 
+	 * } System.out.println("Address : " + choosenAddress); } catch (JSONException
+	 * e) { e.printStackTrace(); }
+	 * 
+	 * return "index"; }
+	 */
 
 }

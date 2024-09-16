@@ -185,14 +185,13 @@ public class VerificationController {
 					}
 
 				}
-			} else {
-				Customer customer = customerRepository.findByEmail(emailOriginal);
-				customer.setEmailVerification(true);
-				customerRepository.save(customer);
-				model.addAttribute("ma_verification", true);
-				model.addAttribute("mo_verification", customer.isMobileVerification());
-				// model.addAttribute("c_email", emailOriginal);
-			}
+			} /*
+				 * else { Customer customer = customerRepository.findByPhone(emailOriginal);
+				 * customer.setEmailVerification(true); customerRepository.save(customer);
+				 * model.addAttribute("ma_verification", true);
+				 * model.addAttribute("mo_verification", customer.isMobileVerification()); //
+				 * model.addAttribute("c_email", emailOriginal); }
+				 */
 			model.addAttribute("credentials", "email_verified");
 
 		} else {
@@ -223,7 +222,7 @@ public class VerificationController {
 			mobile = sellerRepository.findByEmail(emailOriginal).getPhone();
 			model.addAttribute("s_email", emailOriginal);
 		} else {
-			mobile = customerRepository.findByEmail(emailOriginal).getPhone();
+			mobile = customerRepository.findByPhone(emailOriginal).getPhone();
 			model.addAttribute("c_email", emailOriginal);
 			System.out.println(mobile);
 		}
@@ -249,6 +248,7 @@ public class VerificationController {
 		 * "mcoder70@gmail.com"; boolean mailSent = emailService.sendEmail(message,
 		 * subject, to, from);
 		 */
+
 		try {
 			URL url = new URL("https://www.fast2sms.com/dev/bulkV2");
 			HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
@@ -271,11 +271,11 @@ public class VerificationController {
 			String response = s.hasNext() ? s.next() : "";
 			System.out.println(response);
 			System.out.println(response);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
+		} catch (Exception e) { // TODO Auto-generated catch block
 			System.out.println("eror");
 			e.printStackTrace();
 		}
+
 		OtpDetails otpDetails = otpDetailsRepository.findByEmail(mobile);
 		if (otpDetails == null) {
 			otpDetails = new OtpDetails();
@@ -292,11 +292,18 @@ public class VerificationController {
 		model.addAttribute("customer", new Customer());
 		model.addAttribute("bankAccount", new BankAccount());
 		model.addAttribute("mobile_otp", "otp");
-		return "login_form";
+		model.addAttribute("mo_verification", false);
+
+		if (email.contains("seller"))
+			return "login_form";
+		else
+			return "customer_index";
+
 	}
 
 	@PostMapping("/verify-otp-mobile")
 	public String verifyOtpMobile(@RequestParam String email, @RequestParam String otp, Model model) {
+		System.out.println("eemail:" + email);
 		String emailOriginal = email.substring(email.indexOf(":") + 1);
 		String mobile = null;
 		// OtpDetails otpDetails = otpDetailsRepository.findByEmail(mobile);
@@ -350,7 +357,7 @@ public class VerificationController {
 								+ "\n            \"country\":\"IN\"\n         }\n      }\n   },\n   \"legal_info\":{"
 								+ "\n      \"pan\":\"AAACL1234C\",\n      \"gst\":\"18AABCU9603R1ZM\"\n   }\n}", mail,
 								phone, referenceId, seller.getBussinessName(), bussinessType, seller.getName(),
-								seller.getCity(),seller.getCity(), seller.getState()));
+								seller.getCity(), seller.getCity(), seller.getState()));
 
 						writer.flush();
 						writer.close();
@@ -393,21 +400,30 @@ public class VerificationController {
 				model.addAttribute("credentials", "mobile_mismatched");
 			}
 		} else {
-			mobile = customerRepository.findByEmail(emailOriginal).getPhone();
+			mobile = customerRepository.findByPhone(emailOriginal).getPhone();
 			OtpDetails otpDetails = otpDetailsRepository.findByEmail(mobile);
-			if (otpDetails.getOtp().equals(otp)) {
-				System.out.println("matched");
-				otpDetailsRepository.delete(otpDetails);
-				Customer customer = customerRepository.findByEmail(emailOriginal);
-				customer.setMobileVerification(true);
-				customerRepository.save(customer);
-				model.addAttribute("credentials", "mobile_verified");
-				model.addAttribute("mo_verification", true);
-				model.addAttribute("ma_verification", customer.isEmailVerification());
-			} else {
-				System.out.println("mis_matched");
-				model.addAttribute("credentials", "mobile_mismatched");
+			if (otpDetails != null) {
+				if (otpDetails.getOtp().equals(otp)) {
+					System.out.println("matched");
+					otpDetailsRepository.delete(otpDetails);
+					Customer customer = customerRepository.findByPhone(emailOriginal);
+					customer.setMobileVerification(true);
+					customerRepository.save(customer);
+					model.addAttribute("credentials3", "mobile verified");
+					model.addAttribute("mo_verification", true);
+					model.addAttribute("ma_verification", true);
+					model.addAttribute("logged_in", true);
+				} else {
+					System.out.println("mis_matched");
+					model.addAttribute("credentials3", "mobile mismatched");
+				}
+				model.addAttribute("c_email", mobile);
+				// model.addAttribute("logged_in",true);
+				System.out.println("mobil" + mobile);
 			}
+
+			model.addAttribute("customer", new Customer());
+			return "customer_index";
 		}
 
 		/*
@@ -419,6 +435,7 @@ public class VerificationController {
 		 * System.out.println(otp);
 		 */
 		// model.addAttribute("s_email", email);
+		System.out.println("eoriginal" + emailOriginal);
 		if (email.contains("seller"))
 			model.addAttribute("s_email", emailOriginal);
 		else
