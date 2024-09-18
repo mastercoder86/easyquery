@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th=http://www.thymeleaf.org>
+
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Easy Query</title>]
+	<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.css}" />
+	<link rel="shortcut icon" th:href="@{/images/easy_query.jpg}" type="image/x-icon">
+</head>
+
+<body>
+	<h1 class="text-center">Exchange & Refund Policy</h1>
+	<hr />
+	<h3 class="text-center">Exchange Policy</h3>
+	<div class="container">
+		<p th:text="${exchange}"></p>
+	</div>
+
+	<br />
+	<h3 class="text-center">Refund Policy</h3>
+	<div class="container">
+		<p th:text="${refund}"></p>
+	</div>
+	<script th:src="@{/js/bootstrap.js}"></script>
+</body>
+
+</html>

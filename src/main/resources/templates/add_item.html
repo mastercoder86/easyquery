@@ -31,7 +31,15 @@
 	<link th:href="@{/css/style1.css}" rel="stylesheet" />
 	<!-- responsive style -->
 	<link th:href="@{/css/responsive.css}" rel="stylesheet" />
-
+	<!--<script type="text/javascript">
+		const preventBack = () => {
+			window.history.forward();
+		}
+		setTimeout(preventBack, 0);
+		window.onunload = function () {
+			null;
+		}
+	</script>-->
 </head>
 
 <body>
@@ -129,9 +137,9 @@
 
 			</div>
 
-			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<div class="collapse navbar-collapse main_screen_nav" id="navbarSupportedContent">
 				<div class="logo">
-					<img class="logo1" th:src="@{/images/easy_query2.jpg}" alt="no image" />
+					<img class="logo1" th:src="@{/images/easy_query2.png}" alt="no image" />
 					<!--<img class="logo2" th:src="@{/images/logo2.png}" alt="no image" />-->
 				</div>
 				<ul class="navbar-nav">
@@ -153,7 +161,7 @@
 						</a>
 					</li>
 					<li class="nav-item m_menu1">
-						<a class="nav-link" href="#" onclick="close_menu()">
+						<a class="nav-link" onclick="seller_log_out()">
 							Log Out
 						</a>
 					</li>
@@ -193,11 +201,11 @@
 					<a href="#" onclick="close_menu()">
 						<i class="fa fa-shopping-bag" aria-hidden="true"></i>
 					</a>-->
-					<form class="form-inline ">
+					<!--<form class="form-inline ">
 						<button class="btn nav_search-btn s1" type="button" onclick="show_search(this)">
 							<i class="fa fa-search" aria-hidden="true"></i>
 						</button>
-					</form>
+					</form>-->
 			</div>
 	</div>
 	</nav>
@@ -344,14 +352,14 @@
 				</div>
 				<br />
 				<div class="input_container1 sa_textarea">
-					
+
 					<textarea name="exchangePolicy" class="search_input1 street1"
 						placeholder="----------Exchange Policy----------" rows="3" required></textarea>
 					<p class="inval" th:if="${street1error}" th:text="${street1errormessage}"></p>
 				</div>
 				<div class="input_container1 sa_textarea">
-					
-					<textarea name="refPolicy" class="search_input1 street1"
+
+					<textarea name="refundPolicy" class="search_input1 street1"
 						placeholder="----------Refund Policy----------" rows="3" required></textarea>
 					<p class="inval" th:if="${street1error}" th:text="${street1errormessage}"></p>
 				</div>
@@ -906,9 +914,9 @@
 					<a href="">
 						View All Products
 					</a>
-					<a class="back" th:href="@{/}">
+					<!--<a class="back" th:href="@{/}">
 						Back
-					</a>
+					</a>-->
 				</div>
 		</div>
 	</section>
@@ -1085,7 +1093,39 @@
 			</div>
 		</div>
 	</section>
+	<div class="container fixed-top bottom_menu_content">
 
+	</div>
+	<div class="bottom_menu fixed-bottom" th:if="${greeting}">
+		<div class="container">
+			<div class="row text-center">
+				<div class="col-2" onclick="b_menu_item(this)">
+					<i class="fa-solid fa-house fa-home text-center"></i><br />
+					<span>Home</span>
+				</div>
+				<!--<div class="col-2" onclick="b_menu_item(this)">
+					<i class="fa-regular fa-envelope"></i><br />
+					<span>Leads</span>
+				</div>-->
+				<div class="col-2" onclick="b_menu_item(this)">
+					<i class="fa-regular fa-handshake"></i><br />
+					<span>B2B</span>
+				</div>
+				<div class="col-2" onclick="b_menu_item(this)">
+					<i class="fa-regular fa-credit-card"></i><br />
+					<span>Leads</span>
+				</div>
+				<div class="col-2" onclick="b_menu_item(this)">
+					<i class="fa-regular fa-newspaper"></i><br />
+					<span>News</span>
+				</div>
+				<div class="col-2" onclick="b_menu_item(this)">
+					<i class="fa-solid fa-bars"></i><br />
+					<span>More</span>
+				</div>
+			</div>
+		</div>
+	</div>
 	<!-- end contact section -->
 
 	<!-- client section -->
@@ -1093,7 +1133,7 @@
 	<!-- end client section -->
 
 	<!-- info section -->
-
+	<hr />
 	<section class="info_section  layout_padding2-top section2">
 		<div class="social_container">
 			<div class="social_box">
@@ -1111,6 +1151,7 @@
 				</a>
 			</div>
 		</div>
+
 		<div class="info_container">
 			<div class="container">
 				<div class="row">
@@ -1119,8 +1160,11 @@
 							ABOUT US
 						</h6>
 						<p>
-							it amet consectetur adipisicing elit. Architecto enim tempore quam placeat rerum laudantium
-							unde.
+							Easy Query is an online store where you can buy a variety of things like groceries clothes
+							and household items. They have many aisles filled with products for you to choose from.
+							Easy Query is convenient because you can find everything you need in one place. It
+							also often has sales and discounts to help you save money. Overall Easy Query make
+							shopping easy and efficient for busy people.
 						</p>
 					</div>
 					<div class="col-md-6 col-lg-3">
@@ -1141,8 +1185,7 @@
 							NEED HELP
 						</h6>
 						<p>
-							it amet consectetur adipisicing elit. Architecto enim tempore quam placeat rerum laudantium
-							unde.
+							If you need help feel free to contact our 24/7 customer care..
 						</p>
 					</div>
 					<div class="col-md-6 col-lg-3">
@@ -1152,15 +1195,15 @@
 						<div class="info_link-box">
 							<a href="">
 								<i class="fa fa-map-marker" aria-hidden="true"></i>
-								<span> Gb road 123 london Uk </span>
+								<span> Guwahati,Narengi </span>
 							</a>
 							<a href="">
 								<i class="fa fa-phone" aria-hidden="true"></i>
-								<span>+01 12345678901</span>
+								<span>+91 7896927729</span>
 							</a>
 							<a href="">
 								<i class="fa fa-envelope" aria-hidden="true"></i>
-								<span> abc@gmail.com</span>
+								<span> Easyquery1@gmail.com</span>
 							</a>
 						</div>
 					</div>
@@ -1168,7 +1211,7 @@
 			</div>
 		</div>
 		<!-- footer section -->
-
+		<hr />
 		<footer class=" footer_section">
 			<div class="container">
 				<p>

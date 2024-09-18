@@ -1,7 +1,10 @@
 package com.shopping_centre.controller;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +16,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.shopping_centre.dao.CustomerItemRepository;
 import com.shopping_centre.dao.CustomerRepository;
@@ -24,6 +30,7 @@ import com.shopping_centre.entities.Customer;
 import com.shopping_centre.entities.CustomerItem;
 import com.shopping_centre.entities.Product;
 import com.shopping_centre.entities.Seller;
+import com.shopping_centre.helper.CustomerProduct;
 
 @Controller
 @CrossOrigin(origins = "*")
@@ -44,9 +51,14 @@ public class ItemController {
 	public String viewProduct(@RequestParam long id, @RequestParam String page, @RequestParam Optional<String> c_email,
 			Model model) {
 		System.out.println("id : " + id);
+		System.out.println("c_emaill:" + c_email);
 		// System.out.println(productRepository.findById(Long.parseLong(id)));
 		Product product = productRepository.findById(id).get();
+		List<CustomerItem> customerItems2 = customerItemRepository.findByProductId(id);
+		System.out.println(customerItems2.size() + "cc_size");
+		model.addAttribute("noOfViews", customerItems2.size());
 		System.out.println(c_email);
+
 		model.addAttribute("product", product);
 		if (c_email.isPresent()) {
 			Customer customer = customerRepository.findByPhone(c_email.get());
@@ -140,7 +152,9 @@ public class ItemController {
 				// Product p = em.merge(product);
 				customerItem.setProductId(product.getP_id());
 				customerItem.setCustomerId(customer.getId());
-
+				DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+				LocalDateTime now = LocalDateTime.now();
+				customerItem.setTime(df.format(now));
 				customerItem.setStatus("viewed");
 				// customerItem.setStatus("viewed");
 
@@ -165,12 +179,14 @@ public class ItemController {
 				}
 			}
 		}
+
 		if (page.equals("customer_index")) {
 
 			model.addAttribute("allowed", "yes");
 		} else {
 			model.addAttribute("allowed", "no");
 		}
+
 		model.addAttribute("manage_cart", "show");
 		return "display";
 	}
@@ -184,28 +200,28 @@ public class ItemController {
 
 	@GetMapping("/show_cat_items")
 	public String showCatItems(@RequestParam String cat_name, @RequestParam String page,
-			@RequestParam Optional<String> c_email, @RequestParam String startSearch,Model model) {
+			@RequestParam Optional<String> c_email, @RequestParam String startSearch, Model model) {
 		List<Product> products = productRepository.findByCategory(cat_name);
 		// List<Service> services = serviceRepository.findByCategory(cat_name);
 		model.addAttribute("p_list1", products);
 		// model.addAttribute("s_list1", services);
 		model.addAttribute("category", cat_name);
 		model.addAttribute("seller", new Seller());
-		model.addAttribute("customer",new Customer());
-		model.addAttribute("logged_in",true);
-		//model.addAttribute("customer",new Customer());
-		model.addAttribute("show", "show");System.out.println("start searc : "+startSearch);
+		model.addAttribute("customer", new Customer());
+		model.addAttribute("logged_in", true);
+		// model.addAttribute("customer",new Customer());
+		model.addAttribute("show", "show");
+		System.out.println("start searc : " + startSearch);
 		if (!(c_email.isEmpty())) {
 			System.out.println("mail233 :" + c_email.get());
 			Customer customer = customerRepository.findByPhone(c_email.get());
 			model.addAttribute("c_email", customer.getPhone());
 			if (!(customer.getStartSearch().equals(startSearch))) {
-				//model.addAttribute("enableSearch1", true);
+				// model.addAttribute("enableSearch1", true);
 				customer.setStartSearch(startSearch);
 				customerRepository.save(customer);
-				
-			}
-			else {
+
+			} else {
 				model.addAttribute("category", null);
 			}
 			model.addAttribute("startSearch", customer.getStartSearch());
@@ -216,7 +232,7 @@ public class ItemController {
 				greetName = customer.getName();
 			}
 			model.addAttribute("greeting", greetName);
-			
+
 			// model.addAttribute("c_email",c_email.get());
 		}
 		if (products != null) {
@@ -224,7 +240,7 @@ public class ItemController {
 				model.addAttribute("p_list1", null);
 			}
 		}
-		
+
 		/*
 		 * if (services != null) { if (services.isEmpty()) {
 		 * model.addAttribute("s_list1", null); } }
@@ -259,7 +275,8 @@ public class ItemController {
 	@GetMapping("/show_product")
 	public String showProduct(@RequestParam String name, @RequestParam String page,
 			@RequestParam Optional<String> c_email, @RequestParam(required = false) String startSearch, Model model) {
-		System.out.println("startSearch" + startSearch);
+		System.out.println("startS: earch" + startSearch);
+		System.out.println("namee " + name);
 		List<Product> products = productRepository.findByName(name);
 
 		if (products.isEmpty()) {
@@ -288,30 +305,29 @@ public class ItemController {
 			 * 
 			 * }
 			 */
-			
-				if (!(customer.getStartSearch().equals(startSearch))) {
-					model.addAttribute("enableSearch", true);
-					customer.setStartSearch(startSearch);
-					customerRepository.save(customer);
-					model.addAttribute("startSearch", customer.getStartSearch());
-					/*
-					 * if (startSearch.isEmpty()) { if(!customer.getStartSearch().equals("value4"))
-					 * {
-					 * 
-					 * customer.setStartSearch("value4"); }
-					 * 
-					 * model.addAttribute("startSearch", "value1"); }
-					 * 
-					 * 
-					 * else { if(customer.getStartSearch().equals("value4"))
-					 * 
-					 * }
-					 */
-						
-					
-					//model.addAttribute("startSearch", customer.getStartSearch());
-				}
-			
+
+			if (!(customer.getStartSearch().equals(startSearch))) {
+				model.addAttribute("enableSearch", true);
+				customer.setStartSearch(startSearch);
+				customerRepository.save(customer);
+				model.addAttribute("startSearch", customer.getStartSearch());
+				/*
+				 * if (startSearch.isEmpty()) { if(!customer.getStartSearch().equals("value4"))
+				 * {
+				 * 
+				 * customer.setStartSearch("value4"); }
+				 * 
+				 * model.addAttribute("startSearch", "value1"); }
+				 * 
+				 * 
+				 * else { if(customer.getStartSearch().equals("value4"))
+				 * 
+				 * }
+				 */
+
+				// model.addAttribute("startSearch", customer.getStartSearch());
+			}
+
 			/*
 			 * else { model.addAttribute("enableSearch", true); }
 			 */
@@ -324,8 +340,8 @@ public class ItemController {
 			}
 			model.addAttribute("greeting", greetName);
 		}
-		model.addAttribute("customer",new Customer());
-		model.addAttribute("logged_in",true);
+		model.addAttribute("customer", new Customer());
+		model.addAttribute("logged_in", true);
 		if (page.equals("index"))
 			return "index";
 		else
@@ -357,6 +373,9 @@ public class ItemController {
 		System.out.println("customer" + customer.getName());
 		CustomerItem customerItem = customerItemRepository.findByCustomerIdAndProductId(customer.getId(),
 				product.getP_id());
+		DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+		LocalDateTime now = LocalDateTime.now();
+		customerItem.setTime(df.format(now));
 		customerItem.setStatus("added_to_cart");
 		customerItemRepository.save(customerItem);
 		List<CustomerItem> customerItems = customerItemRepository.findByCustomerIdAndStatus(customer.getId(),
@@ -704,4 +723,49 @@ public class ItemController {
 		return ResponseEntity.ok(products);
 	}
 
+	@PostMapping("/get-customers")
+	public ResponseEntity<List<CustomerProduct>> getCustomers(@RequestBody Map<String, Object> data, Model model) {
+		long id = Long.parseLong(data.get("id").toString());
+		List<CustomerItem> customerItems = customerItemRepository.findByProductId(id);
+		System.out.println("iid" + id);
+		List<CustomerProduct> customerProducts = new ArrayList<>();
+		Product product = productRepository.findById(id).get();
+		for (CustomerItem ci : customerItems) {
+
+			CustomerProduct customerProduct = new CustomerProduct();
+			customerProduct.setCustomerName(customerRepository.findById(ci.getCustomerId()).get().getName());
+			customerProduct.setStatus(ci.getStatus());
+			customerProduct.setTime(ci.getTime());
+			customerProducts.add(customerProduct);
+
+		}
+		return ResponseEntity.ok(customerProducts);
+		/* model.addAttribute("customerProducts", customerProducts); */
+		/*
+		 * model.addAttribute("noOfViews", customerProducts.size());
+		 * model.addAttribute("product", product);
+		 */
+
+		/*
+		 * RedirectView redirectView = new RedirectView("/item/view_product",true);
+		 * rd.addAttribute("id", id); rd.addAttribute("page", page);
+		 * rd.addAttribute("customerProducts", customerProducts);
+		 */
+
+	}
+
+	@GetMapping("/clear-cart")
+	public String clearCart(Model model) {
+		model.addAttribute("products", null);
+		return "display";
+	}
+
+	@PostMapping("/exchange-refund")
+	public String exchangeRefund(@RequestParam long id, Model model) {
+		Product product = productRepository.findById(id).get();
+		System.out.println("exc_ref" + product.getExchangePolicy() + product.getRefundPolicy());
+		model.addAttribute("exchange", product.getExchangePolicy());
+		model.addAttribute("refund", product.getRefundPolicy());
+		return "exchange_refund";
+	}
 }

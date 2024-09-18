@@ -12,7 +12,7 @@ public class DataSourceConfig {
 	@Bean
 	public DataSource getDataSource() {
 		return DataSourceBuilder.create().driverClassName("com.mysql.cj.jdbc.Driver")
-				.url("jdbc:mysql://localhost:3306/shopping_centre2").username("sid").password("sid@123").build();
+				.url("jdbc:mysql://localhost:3306/shopping_centre2").username("root").password("root").build();
 	}
 }
 

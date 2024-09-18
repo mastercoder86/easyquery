@@ -280,7 +280,7 @@ public class CustomerController {
 		model.addAttribute("greeting", greetName);
 		model.addAttribute("customer", new Customer());
 		model.addAttribute("seller", new Seller());
-		model.addAttribute("logged_in",true);
+		model.addAttribute("logged_in", true);
 		// model.addAttribute("add_check", seller.getAddCheck());
 		return "customer_index";
 		/* return "add_item"; */
@@ -400,7 +400,7 @@ public class CustomerController {
 		model.addAttribute("bankAccount", new BankAccount());
 		model.addAttribute("login_attempted", "true");
 		if (customer1 != null) {
-			model.addAttribute("mo_verification",customer1.isMobileVerification());
+			model.addAttribute("mo_verification", customer1.isMobileVerification());
 			/*
 			 * if(!customer.isMobileVerification()) {
 			 * model.addAttribute("credentials3","mobile verification pending");
@@ -717,7 +717,7 @@ public class CustomerController {
 
 	// update order
 	@PostMapping("/update_order")
-	public ResponseEntity<?> updateOrder(@RequestBody Map<String, Object> data) {
+	public ResponseEntity<?> updateOrder(@RequestBody Map<String, Object> data, Model model) {
 		System.out.println(data);
 		Customer customer = customerRepository.findByPhone(data.get("email").toString());
 		List<CustomerItem> customerItems = customerItemRepository.findByCustomerIdAndStatus(customer.getId(),
@@ -764,7 +764,7 @@ public class CustomerController {
 
 			JSONObject transferParams = new JSONObject();
 			try {
-				transferParams.put("account", product.getSeller().getAccountId());
+				transferParams.put("account", "acc_OvbMiL8kd9yyCn");
 
 				System.out.println("test1 : " + product.getSeller().getAccountId());
 				transferParams.put("amount", price * 100);
@@ -795,9 +795,9 @@ public class CustomerController {
 					System.out.println("TRANSFER : " + t);
 
 			} catch (RazorpayException e) { // TODO Auto-generated catch block
-				e.printStackTrace();
+				System.out.println("Razorpay error : " + e.getMessage());
 			}
-
+			model.addAttribute("products", null);
 			// return ResponseEntity.ok(Map.of("msg", "updated"));
 
 		}

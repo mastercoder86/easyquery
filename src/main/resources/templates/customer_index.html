@@ -74,7 +74,7 @@
 					<span th:text="'Hi '+${greeting}">Hi Kumar</span>
 					<!--<img class="logo2" th:src="@{/images/logo2.png}" alt="no image" />-->
 				</a>
-				<a class="ma_shopping" onclick="cart_open()">
+				<a class="ma_shopping" onclick="cart_open()" th:if="${greeting}">
 					<i class="fa fa-shopping-bag cart" aria-hidden="true"><sup th:if="${noOfItems}"
 							th:text="${noOfItems}">0</sup></i>
 					<!--<i class="fa fa-shopping-bag"></i>-->
@@ -228,7 +228,7 @@
 
 						</ul>-->
 					</a>
-					<a class="a_shopping" onclick="cart_open()">
+					<a class="a_shopping" onclick="cart_open()" th:if="${greeting}">
 						<i class="fa fa-shopping-bag" aria-hidden="true"><sup th:if="${noOfItems}"
 								th:text="${noOfItems}">0</sup></i>
 
@@ -278,12 +278,12 @@
 					</span>
 
 					<span class="cart_item_price">Rs.<span th:unless="${p.tempPrice}"><span th:unless="${p.tempPrice1}">
-								<span th:text="${p.price}"></span></span></span>
+								<span class="tp1_span3" th:text=" ${p.price}"></span></span></span>
 
-						<span th:if="${p.tempPrice}" th:text="${p.tempPrice}"></span>
+						<span class="tp1_span2" th:if="${p.tempPrice}" th:text="${p.tempPrice}"></span>
 						<span class="tp1_span" th:if="${p.tempPrice1}" th:text="${p.tempPrice1}"></span>
 
-						<form style="display:inline;" th:action="@{/item/remove_from_cart}">
+						<form method="post" style="display:inline;" th:action="@{/item/remove_from_cart}">
 
 							<input id="test_id" type="hidden" name="c_email" th:value="${c_email}" />
 							<input type="hidden" name="p_id" th:value="${p.p_id}" />
@@ -297,13 +297,16 @@
 				</div>
 			</div>
 			<hr />
-			<div class="container">
+			<div class="container" th:if="${products}">
 				<div class="row">
 					<div class="col-6">
-						<button class="checkout_btn">Proceed to checkout</button>
+						<button class="checkout_btn" onclick="paymentStart()">Proceed to checkout</button>
 					</div>
 					<div class="col-6">
-						<h5><b><u>Total :</u></b> Rs.<span th:text="${totalPrice}">2050</span>/-</h5>
+						<!--<h5><b><u>Total :</u></b> Rs.<span th:text="${totalPrice}">2050</span>/-</h5>
+						<input type="hidden" id="amt_to_be_paid" th:value="${totalPrice}" />-->
+						<h5><b><u>Total :</u></b> Rs.<span class="total_amount">2050</span>/-</h5>
+						<input type="hidden" id="amt_to_be_paid" />
 					</div>
 
 				</div>
@@ -1351,11 +1354,16 @@
 							<span class="th_item" th:if="${p_list1}" th:each="p:${p_list1}">
 
 								<form th:action="@{/item/show_product}">
-									<span class="pro_name" th:text="${p.p_name}" onclick="submit_pro(this)"></span>
+									<!--<span class="pro_name" th:text="${p.p_name}" onclick="submit_pro(this)"></span>-->
+									<input name="name" type="hidden" th:value="${p.p_name}" />
 									<input name="c_email" type="hidden" th:value="${c_email}" />
 									<input type="hidden" name="page" value="customer_index" />
 									<input type="hidden" name="id" th:value="${p.p_id}" />
-									<button class="pro_submit" type="submit" style="display: none;"></button>
+									<input type="hidden" id="start_search_id1" name="startSearch" value="value4" />
+									<button class="pro_name" th:text="${p.p_name}" type="submit"
+										onclick="cat_item_pre_submit()"></button>
+
+									<!--<button class="pro_submit" type="submit" style="display: none;" th:text="${p.p_name}"></button>-->
 								</form>
 
 							</span>
@@ -1375,11 +1383,11 @@
 				</div>
 			</div>
 			<div class="container fixed-top item_top_div" th:if="${products}">
-
-				<!--<span class="rem_span">Remove item</span>-->
-				<div class="box" th:each="p:${products}">
-					<i class="fa-solid fa-xmark item_close_cross" onclick="close_item(this)"></i>
-					<!--<form th:action="@{/seller/remove_product}" method="post">
+				<div class="row">
+					<!--<span class="rem_span">Remove item</span>-->
+					<div class="box col-md-3 item_top_div1" th:each="p:${products}" th:if="${enableSearch}">
+						<i class="fa-solid fa-xmark item_close_cross21" onclick="close_item1(this)"></i>
+						<!--<form th:action="@{/seller/remove_product}" method="post">
 							<input name="id" type="hidden" th:value="${p.p_id}" />
 							<input id="seller_id1" type="hidden" name="seller_email" th:value="${s_email}" />
 							<input type="hidden" name="s_list" th:value="${s_list}" />
@@ -1388,41 +1396,43 @@
 							<button class="remove_product_btn" style="display: none;" type="submit"></button>
 						</form>-->
 
-					<span>
-						<th:block>
-							<div class="img-box">
-								<img class="cat_p_img" th:src="@{'/images/'+${p.mainImage}}" alt="no image">
-							</div>
-							<div class="detail-box">
-								<h6 th:text="${p.p_name}">
-									Ring
-								</h6>
-								<h6>
-									Price
-									<span th:text="'Rs.'+${p.price}">
-										$200
+						<span>
+							<th:block>
+								<div class="img-box">
+									<img class="cat_p_img" th:src="@{'/images/'+${p.mainImage}}" alt="no image">
+								</div>
+								<div class="detail-box">
+									<h6 th:text="${p.p_name}">
+										Ring
+									</h6>
+									<h6>
+										Price
+										<span th:text="'Rs.'+${p.price}">
+											$200
+										</span>
+									</h6>
+								</div>
+								<div class="new">
+									<span>
+
+										<input id="view_span_id" type="hidden" th:value="${done}" />
+										<form th:action="@{/item/view_product}">
+											<input type="hidden" name="manage_cart" id="manage_cart_id"
+												th:if="${manage_cart}" th:value="${manage_cart}" />
+											<!--<input type="hidden" name="manage_cart" id="manage_cart_id" th:value="${manage_cart}"/>-->
+											<input type="hidden" name="page" value="customer_index" />
+											<input name="c_email" type="hidden" th:value="${c_email}" />
+											<input type="hidden" name="id" th:value="${p.p_id}" />
+											<span class="view_span" onclick="p_submit(this)">View</span>
+
+											<button style="display : none;" class="p_submit_btn" type="submit"></button>
+										</form>
+
 									</span>
-								</h6>
-							</div>
-							<div class="new">
-								<span>
 
-									<input id="view_span_id" type="hidden" th:value="${done}" />
-									<form th:action="@{/item/view_product}">
-										<input type="hidden" name="manage_cart" id="manage_cart_id"
-											th:if="${manage_cart}" th:value="${manage_cart}" />
-										<!--<input type="hidden" name="manage_cart" id="manage_cart_id" th:value="${manage_cart}"/>-->
-										<input type="hidden" name="page" value="customer_index" />
-										<input name="c_email" type="hidden" th:value="${c_email}" />
-										<input type="hidden" name="id" th:value="${p.p_id}" />
-										<span class="view_span" onclick="p_submit(this)">View</span>
-										<button style="display : none;" class="p_submit_btn" type="submit"></button>
-									</form>
-
-								</span>
-
-							</div>
-						</th:block>
+								</div>
+							</th:block>
+					</div>
 				</div>
 			</div>
 			<div class="container fixed-top item_top_div" th:if="${service}">
@@ -4603,14 +4613,14 @@
 	<section id="contact" class="contact_section ">
 		<div class="container px-0">
 			<div class="heading_container ">
-				<h2 class="">
+				<h2 class="text-center">
 					Contact Us
 				</h2>
 			</div>
 		</div>
 		<div class="container container-bg">
 			<div class="row">
-				<div class="col-lg-7 col-md-6 px-0">
+				<div class="col-lg-12 col-md-12 px-0">
 					<div class="map_container">
 						<div class="map-responsive">
 							<!--<iframe
@@ -4619,12 +4629,12 @@
 								allowfullscreen></iframe>-->
 							<iframe
 								src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d57296.142930948656!2d91.81303649681607!3d26.163838537644494!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x375af7c0c2677f31%3A0x8441f0a8732b65e7!2sNarengi%20Tinali%2C%20Guwahati%2C%20Assam!5e0!3m2!1sen!2sin!4v1724951088126!5m2!1sen!2sin"
-								width="600" height="300" frameborder="0" style="border:0; width: 100%; height:100%"
+								height="300" frameborder="0" style="border:0; width: 100%; height:100%"
 								allowfullscreen></iframe>
 						</div>
 					</div>
 				</div>
-				<div class="col-md-6 col-lg-5 px-0">
+				<!--<div class="col-md-6 col-lg-5 px-0">
 					<form action="#">
 						<div>
 							<input type="text" placeholder="Name" />
@@ -4644,7 +4654,7 @@
 							</button>
 						</div>
 					</form>
-				</div>
+				</div>-->
 			</div>
 		</div>
 	</section>
@@ -4877,6 +4887,7 @@
 	<script th:src="@{/js/custom.js}"></script>
 	<script th:src="@{/js/myscript.js}"></script>
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 	<script>
 		const mq = window.matchMedia("(max-width:600px)");
 		//if (mq.matches) {

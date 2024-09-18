@@ -85,6 +85,7 @@ import com.shopping_centre.dao.SellerRepository;
 
 import com.shopping_centre.entities.BankAccount;
 import com.shopping_centre.entities.Customer;
+import com.shopping_centre.entities.CustomerItem;
 import com.shopping_centre.entities.OtpDetails;
 import com.shopping_centre.entities.Product;
 import com.shopping_centre.entities.Seller;
@@ -336,6 +337,7 @@ public class SellerController {
 			if (flag) {
 				model.addAttribute("customer", new Customer());
 				try {
+					System.out.println("seller savedd");
 					seller.setTermsAndConditionsAgreed(true);
 					sellerRepository.save(seller);
 					model.addAttribute("credentials", "verification pending");
@@ -511,7 +513,15 @@ public class SellerController {
 			}
 
 		}
-
+		Seller seller = sellerRepository.findByEmail(email);
+		String greetName;
+		try {
+			greetName = seller.getName().substring(0, seller.getName().indexOf(" "));
+		} catch (StringIndexOutOfBoundsException se) {
+			greetName = seller.getName();
+		}
+		model.addAttribute("s_email", email);
+		model.addAttribute("greeting", greetName);
 		model.addAttribute("seller", new Seller());
 		model.addAttribute("customer", new Customer());
 
@@ -527,29 +537,23 @@ public class SellerController {
 		model.addAttribute("customer", new Customer());
 		model.addAttribute("bankAccount", new BankAccount());
 		if (seller1 != null) {
-			if (!seller1.isEmailVerification()) {
-				/*
-				 * System.out.println("ma pending");
-				 * System.out.println(seller.isEmailVerification());
-				 */
-				model.addAttribute("mo_verification", seller1.isMobileVerification());
-				model.addAttribute("credentials", "ma_verification_pending");
-				model.addAttribute("s_email", seller.getEmail());
-				return "login_form";
-			} else if (!seller1.isMobileVerification()) {
-				model.addAttribute("ma_verification", seller1.isEmailVerification());
-				model.addAttribute("credentials", "mo_verification_pending");
-				model.addAttribute("s_email", seller.getEmail());
-				return "login_form";
-			} else if (seller1.getBankAccount() == null) {
-				// model.addAttribute("mo_verification", "pending");
-				model.addAttribute("credentials", "no_bank_account");
-				model.addAttribute("s_email", seller.getEmail());
-				return "login_form";
-			} else if (seller1.getBankAccount().getStatus().equals("pending")) {
-				model.addAttribute("credentials", "bank_account_verification_pending");
-				return "login_form";
-			}
+			/*
+			 * if (!seller1.isEmailVerification()) {
+			 * 
+			 * model.addAttribute("mo_verification", seller1.isMobileVerification());
+			 * model.addAttribute("credentials", "ma_verification_pending");
+			 * model.addAttribute("s_email", seller.getEmail()); return "login_form"; } else
+			 * if (!seller1.isMobileVerification()) { model.addAttribute("ma_verification",
+			 * seller1.isEmailVerification()); model.addAttribute("credentials",
+			 * "mo_verification_pending"); model.addAttribute("s_email", seller.getEmail());
+			 * return "login_form"; } else if (seller1.getBankAccount() == null) { //
+			 * model.addAttribute("mo_verification", "pending");
+			 * model.addAttribute("credentials", "no_bank_account");
+			 * model.addAttribute("s_email", seller.getEmail()); return "login_form"; } else
+			 * if (seller1.getBankAccount().getStatus().equals("pending")) {
+			 * model.addAttribute("credentials", "bank_account_verification_pending");
+			 * return "login_form"; }
+			 */
 			String greetName;
 			try {
 				greetName = seller1.getName().substring(0, seller1.getName().indexOf(" "));
@@ -1563,6 +1567,7 @@ public class SellerController {
 		return "add_item";
 
 	}
+
 	/*
 	 * public String getCoordinates() { OkHttpClient client = new
 	 * OkHttpClient().newBuilder() .build(); Request.Builder request = new

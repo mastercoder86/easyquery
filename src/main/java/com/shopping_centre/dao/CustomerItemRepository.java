@@ -12,4 +12,5 @@ public interface CustomerItemRepository extends JpaRepository<CustomerItem, Long
 	CustomerItem findByCustomerIdAndProductId(long cid,long pid);
 	List<CustomerItem> findByCustomerIdAndStatus(long id,String status);
 	CustomerItem findByStatus(String status);
+	List<CustomerItem> findByProductId(long id);
 }

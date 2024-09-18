@@ -30,14 +30,14 @@
 	<link th:href="@{/css/style1.css}" rel="stylesheet" />
 	<!-- responsive style -->
 	<link th:href="@{/css/responsive.css}" rel="stylesheet" />
-	<script type="text/javascript">
-		<!--window.addEventListener('beforeunload', (event) => {
+	<!--<script type="text/javascript">
+		window.addEventListener('beforeunload', (event) => {
 			// Cancel the event as stated by the standard.
 			event.preventDefault();
 			// Chrome requires returnValue to be set.
 			event.returnValue = '';
-		});-->
-	</script>
+		});
+	</script>-->
 </head>
 
 <body>
@@ -61,20 +61,38 @@
 							<!--<img class="logo2" th:src="@{/images/logo2.png}" alt="no image" />-->
 
 						</div>
-						<a class="m_greeting2">
+						<a class="m_greeting2" th:if="${greeting}">
 							<span th:text="'Hi '+${greeting}">Hi Kumar</span>
 							<!--<img class="logo2" th:src="@{/images/logo2.png}" alt="no image" />-->
 						</a>
-						<a class="ma_shopping" onclick="cart_open()">
-							<i class="fa fa-shopping-bag cart" aria-hidden="true"><sup th:if="${noOfItems}"
-									th:text="${noOfItems}">0</sup></i>
+						<a class="ma_shopping" onclick="cart_open()" th:if="${greeting}">
+							<i class="fa fa-shopping-bag cart" aria-hidden="true"><sup class="shopping_bag_sup"
+									th:text="${' '+noOfItems}">0</sup></i>
+
+
 							<!--<i class="fa fa-shopping-bag"></i>-->
 
 						</a>
-						<div class="col-6">
+						<div class="col-4">
+
+
+							<button class="back4" th:unless=" ${greeting}"
+								th:onclick="|show_customers(${product.p_id})|">Views
+
+							</button>
+
+
 							<!--<button class="back3" onclick="back_to_home()">Back to home</button>-->
 						</div>
+						<div class="col-2">
+
+							<span th:text=" ${' '+noOfViews}" class="n_views" th:unless=" ${greeting}">0</span>
+
+							<!--<button class="back3" onclick="back_to_home()">Back to home</button>-->
+						</div>
+
 					</div>
+					<button class="back5" th:if="${greeting}" onclick="product_to_home()">Back</button>
 
 					<!--<button class="navbar-toggler m_menu" type="button" data-toggle="collapse"
 						data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -83,7 +101,11 @@
 
 					</button>-->
 				</div>
-				<button class="back3" onclick="back_to_home()">Back</button>
+				<!--<button class="back3" onclick="back_to_home()">Back</button>-->
+				<!--<button class="back3" th:if="${greeting}">Display</button>
+				<button class="back4" th:unless=" ${greeting}" th:onclick="|show_customers(${product.p_id})|">Views
+					<sup th:text=" ${' '+noOfViews}" class="n_views">0</sup>
+				</button>-->
 
 			</div>
 
@@ -108,7 +130,12 @@
 					</li>
 					<li class="nav-item">
 
-						<button class="back1" onclick="back_to_home()">Back to home</button>
+						<!--<button class="back1" onclick="back_to_home()">Back to home</button>-->
+						<button class="back1" th:if="${greeting}" onclick="product_to_home()">Back</button>
+						<button class="back1" th:unless="${greeting}"
+							th:onclick="|show_customers(${product.p_id})|">Views<sup th:text=" ${' '+noOfViews}"
+								class="n_views">0</sup></button>
+
 
 
 					</li>
@@ -198,11 +225,12 @@
 			<h1 class="no_items_h1" th:unless="${products}">No Items available</h1>
 			<div class="cart_item" th:if="${products}" th:each="p:${products}">
 				<input class="cart_item_id" type="hidden" th:value="${p.p_id}" />
+				<a id="clear_cart" th:href="@{/item/clear-cart}" style="display:none;"></a>
 				<span class="cart_item_name" th:text="${p.p_name}">Product 1</span>
 				<span class="cart_item_qty">
 					<span class="qty_span">
 						<span th:unless="${p.qty}"><span th:unless="${p.qty2}"><span class="sub_qty_span"
-									th:text="'1 '+${p.unit}"></span></span></span><span th:if="${p.qty}"
+									th:text="' 1 '+${p.unit}"></span></span></span><span th:if="${p.qty}"
 							th:text="${p.qty}+' '+${p.unit}"></span><!--<span th:text="' '+${p.unit}"></span>-->
 					</span>
 					<span class="qty_span">
@@ -223,9 +251,9 @@
 				</span>
 
 				<span class="cart_item_price">Rs.<span th:unless="${p.tempPrice}"><span th:unless="${p.tempPrice1}">
-							<span th:text="${p.price}"></span></span></span>
+							<span class="tp1_span3" th:text="${p.price}"></span></span></span>
 
-					<span th:if="${p.tempPrice}" th:text="${p.tempPrice}"></span>
+					<span class="tp1_span2" th:if="${p.tempPrice}" th:text="${p.tempPrice}"></span>
 					<span class="tp1_span" th:if="${p.tempPrice1}" th:text="${p.tempPrice1}"></span>
 
 					<form method="post" style="display:inline;" th:action="@{/item/remove_from_cart}">
@@ -242,14 +270,16 @@
 			</div>
 		</div>
 		<hr />
-		<div class="container">
+		<div class="container bottom_cart" th:if="${products}">
 			<div class="row">
 				<div class="col-md-6">
 					<button class="checkout_btn" onclick="paymentStart()">Proceed to checkout</button>
 				</div>
 				<div class="col-md-6">
-					<h5>Total : Rs.<span th:text="${totalPrice}">2050</span>/-</h5>
-					<input type="hidden" id="amt_to_be_paid" th:value="${totalPrice}" />
+					<!--<h5>Total : Rs.<span th:text="${totalPrice}">2050</span>/-</h5>
+					<input type="hidden" id="amt_to_be_paid" th:value="${totalPrice}" />-->
+					<h5><b><u>Total :</u></b> Rs.<span class="total_amount">2050</span>/-</h5>
+					<input type="hidden" id="amt_to_be_paid" />
 				</div>
 
 			</div>
@@ -257,12 +287,52 @@
 	</div>
 	<input type="hidden" id="page_name_id" th:value="${allowed}" />
 	<input type="hidden" id="product_added_id" th:if="${product_added}" th:value="${product_added}" />
+	<form th:action="@{/item/get-customers}">
+
+		<input type="hidden" name="page" value="customer_index" />
+		<input type="hidden" name="id" th:value="${product.p_id}" />
+		<button type="submit" id="views_btn" style="display:none;"></button>
+	</form>
+	<div class="customers_top_div fixed-top container">
+		<i class="fa-solid fa-xmark close_btn12" onclick="close_view_customers()"></i>
+		<!--<i class="fa-solid fa-xmark close_btn" onclick="close_view_customers()">-->
+		<div class="container">
+			<div class="row text-center">
+				<div class="col-4">
+					<h2>Name</h2>
+				</div>
+				<div class="col-4">
+					<h2>Status</h2>
+				</div>
+				<div class="col-4">
+					<h2>Time</h2>
+				</div>
+
+			</div>
+		</div>
+		<div class="container viewed_customers">
+			<!--<div class="row text-center" th:each="cp:${customerProducts}">
+				<div class="col-4">
+					<h4 th:text="${cp.customerName}">Name</h4>
+				</div>
+				<div class="col-4">
+					<h4 th:text="${cp.status}">Status</h4>
+				</div>
+				<div class="col-4">
+					<h4 th:text="${cp.time}">Time</h4>
+				</div>
+
+			</div>-->
+		</div>
+		<hr />
+		<!--<h3 class="text-center">No views</h3>-->
+	</div>
 	<div class="display_main">
 		<div class="container" th:if="${product}">
-			<h1 class="text-center display_cat_name" th:text="'Category : '+${product.category}"></h1>
+			<h1 class="text-center display_cat_name" th:text="' Category : '+${product.category}"></h1>
 			<div class="row">
 				<div class="col-md-6">
-					<img class="display_img" th:src="@{'/images/'+${product.mainImage}}" />
+					<img class="display_img" th:src="@{' /images/'+${product.mainImage}}" />
 					<hr />
 					<div class="row" th:if="${product.subImages}">
 						<div class="col-md-2 col-3" th:each="ps:${product.subImages}">
@@ -272,6 +342,7 @@
 					</div>
 				</div>
 				<hr />
+
 				<div class="col-md-6">
 					<div class="product_info">
 						<h3 th:text="${product.p_name}"></h3>
@@ -375,11 +446,17 @@
 		</div>
 	</div>
 	<hr />
+	<!--<button th:onclick="|show_customers(${product.p_id})|">button</button>-->
 	<div class="container">
 		<div class="row">
 			<div class="col-6">
-				<button class="contact_seller_btn">Contact Seller</button>
+				<form method="post" th:action="@{/item/exchange-refund}" target="_blank">
+					<input type="hidden" name="id" th:value="${product.p_id}" />
+					<button class="contact_seller_btn" type="submit">Exchange & Refund Policy</button>
+				</form>
+
 			</div>
+
 			<div class="col-6">
 
 				<button class="add_to_cart_btn" onclick="add_to_cart()">Add To Cart</button>
@@ -388,7 +465,7 @@
 	</div>
 	<input type="hidden" name="manage_cart" id="manage_cart_id" value="no submit" />
 	<form id="form1_id" method="get" th:action="@{/item/add_to_cart}" style="display: none;">
-		
+
 		<input type="hidden" name="c_email" th:value="${c_email}" />
 		<input type="hidden" name="p_id" th:if="${product}" th:value="${product.p_id}" />
 		<button id="add_to_cart" type="submit"></button>

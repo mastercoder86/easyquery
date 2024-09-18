@@ -11,6 +11,8 @@ import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -468,6 +470,12 @@ public class HomeController {
 	public String termsAndConditions() {
 		return "terms_conditions";
 	}
+	/*
+	 * @GetMapping("/date-time") public String dateTime() { DateTimeFormatter df =
+	 * DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"); LocalDateTime now =
+	 * LocalDateTime.now(); System.out.println(df.format(now)); return
+	 * "customer_index"; }
+	 */
 	/*
 	 * @GetMapping("/display") public String display(Model model) { Seller seller =
 	 * new Seller(); model.addAttribute("seller", seller); return "display"; }

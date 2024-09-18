@@ -143,6 +143,8 @@
 
 .align_end {
 	margin-left: 3%;
+
+	/*vertical-align: top;*/
 }
 
 .search_btn,
@@ -380,6 +382,7 @@
 */
 .m_menu1 {
 	padding-top: 10px;
+	cursor: pointer;
 }
 
 .m_menu1 a {
@@ -956,7 +959,9 @@
 .input_container1 {
 	display: inline-block;
 	width: 45%;
-	/*vertical-align: top;*/
+	height: 80px;
+	/*background-color: aquamarine;*/
+	vertical-align: top;
 }
 
 .input_container2 {
@@ -1077,6 +1082,7 @@ z-index: 5000;
 	z-index: 5000;
 }
 
+
 .back2 {
 	margin-left: 50%;
 	background-color: rgb(255, 127, 80);
@@ -1084,6 +1090,28 @@ z-index: 5000;
 	border-radius: 5px;
 	padding: 10px;
 	color: aliceblue;
+}
+
+.back4 {
+	margin-left: 50%;
+	background-color: rgb(255, 127, 80);
+	border-color: rgb(255, 127, 80);
+	border-radius: 5px;
+	padding: 10px;
+	color: aliceblue;
+	margin-top: 0%;
+	width: 100%;
+}
+
+.back5 {
+	margin-left: 70%;
+	background-color: rgb(255, 127, 80);
+	border-color: rgb(255, 127, 80);
+	border-radius: 5px;
+	padding: 10px;
+	color: aliceblue;
+	margin-top: -10%;
+	width: 40%;
 }
 
 .back3 {
@@ -1210,8 +1238,11 @@ z-index: 5000;
 
 .pro_name,
 .serv_name1 {
-	cursor: pointer;
-	color: aqua;
+	background-color: green;
+	border-color: green;
+	color: antiquewhite;
+	border-radius: 5px;
+	padding: 5px;
 }
 
 .search_area1,
@@ -1233,17 +1264,17 @@ z-index: 5000;
 
 
 	margin-top: 10%;
-	margin-left: 30%;
+	margin-left: 0%;
 
 }
 
-.item_top_div .box {
+/*item_top_div .box {
 	width: 30%;
-	/*height: 500px;*/
+	height: 500px;
 	overflow: visible;
 
 
-}
+}*/
 
 .contact_seller_btn {
 	background-color: #f16179;
@@ -1302,7 +1333,7 @@ z-index: 5000;
 }*/
 .bottom_menu {
 	background-color: aliceblue;
-	padding-left:10%;
+	padding-left: 10%;
 }
 
 .bottom_menu i,
@@ -1514,6 +1545,7 @@ z-index: 5000;
 .logo21 {
 	width: 30%;
 	margin: 0;
+	height: 110%;
 }
 
 .logo22 {
@@ -1658,6 +1690,10 @@ z-index: 5000;
 	margin-top:20%;*/
 }
 
+.no_display {
+	display: none;
+}
+
 .verification_area,
 .submitting_details_area {
 	display: none;
@@ -1796,8 +1832,8 @@ z-index: 5000;
 	background-color: blue;
 	color: white;
 	border-radius: 5px;
-	cursor: not-allowed !important;
-	opacity: 0.3;
+	/*cursor: not-allowed !important;
+	opacity: 0.3;*/
 }
 
 .verify_btns .mo_btn2 {
@@ -1846,8 +1882,8 @@ z-index: 5000;
 	width: 50%;
 	border-radius: 5px;
 	height: auto;
-	margin-top:20%;
-	margin-left:20%;
+	margin-top: 20%;
+	margin-left: 20%;
 	/*overflow-y: scroll;*/
 	display: none;
 }
@@ -1857,6 +1893,8 @@ z-index: 5000;
 }*/
 .se_search_area1 {
 	display: block;
+	width: 60%;
+	margin-left: 20%;
 }
 
 .no_greeting .logo {
@@ -1903,6 +1941,61 @@ z-index: 5000;
 	
 }
 */
+.co_pa_input_container {
+	margin-top: 0%;
+}
+
+.main_screen_nav {
+	height: 50px !important;
+}
+
+.main_screen_nav .logo {
+	/*margin-top:10px;*/
+	width: 15%;
+
+}
+
+.main_screen_nav .logo .logo1 {
+	margin-top: 70px;
+}
+
+.shop_section1 {
+	margin-top: 5%;
+}
+
+.customers_top_div {
+	background-color: #f16179;
+	color: white;
+	border-radius: 10px;
+
+	display: none;
+	margin-top: 8%;
+	z-index: 2;
+
+}
+
+.n_views {
+
+	color: white;
+	padding: 1px;
+	border-radius: 10px;
+	font-size: large;
+}
+
+.close_btn12 {
+	margin-left: 90%;
+	font-size: larger;
+	cursor: pointer;
+}
+
+.item_top_div1 {
+	margin-left: 5%;
+}
+
+.close_btn12 {
+	margin-left: 95%;
+}
+
 @media only screen and (max-width:600px) {
 	@keyframes anim3 {
 		from {
@@ -2146,6 +2239,7 @@ z-index: 5000;
 	.input_container1 {
 		display: block;
 		width: 100%;
+		height: auto;
 	}
 
 	.input_container1 .search_input1 {
@@ -2486,7 +2580,7 @@ z-index: 5000;
 	.cu_verification_area {
 		width: 93%;
 		margin-left: 4%;
-		margin-top:40%;
+		margin-top: 40%;
 	}
 
 	.cu_reg {
@@ -2498,6 +2592,33 @@ z-index: 5000;
 	.mo_menu1 {
 		margin-left: 15%;
 	}
+
+	.item_top_div1 {
+		width: 94% !important;
+		margin-left: 3%;
+	}
+
+	.n_views {
+		margin-left: 5%;
+		/*margin-top:10%;
+		margin-top:-55%;*/
+	}
+
+	.customers_top_div {
+		width: 94%;
+		margin-left: 3%;
+		margin-top: 30%;
+	}
+
+	.customers_top_div h2 {
+		font-size: x-large;
+	}
+
+	.customers_top_div h4 {
+		font-size: large;
+	}
+
+
 }
 
 

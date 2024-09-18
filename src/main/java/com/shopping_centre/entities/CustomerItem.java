@@ -26,6 +26,7 @@ public class CustomerItem {
 	private Double price;
 	private Integer qty2;
 	private Integer price1;
+	private String time;
 	/*
 	 * @ManyToOne
 	 * 
@@ -105,6 +106,12 @@ public class CustomerItem {
 	}
 	public void setPrice1(Integer price1) {
 		this.price1 = price1;
+	}
+	public String getTime() {
+		return time;
+	}
+	public void setTime(String time) {
+		this.time = time;
 	}
 	
 	

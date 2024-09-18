@@ -15,7 +15,11 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
 	List<Product> findByCategory(String category);
 
-	@Query("select p from Product p where p.p_name LIKE :name% OR p.p_name LIKE %:name OR p.p_name LIKE %:name%")
+	/*
+	 * @Query("select p from Product p where p.p_name LIKE :name% OR p.p_name LIKE %:name OR p.p_name LIKE %:name%"
+	 * )
+	 */
+	@Query("select p from Product p where p.p_name LIKE :name% OR p.p_name LIKE %:name")
 	List<Product> findByName(@Param("name") String name);
 
 }

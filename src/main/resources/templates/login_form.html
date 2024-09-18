@@ -104,7 +104,7 @@
 				</div>
 			</div>
 		</div>-->
-		<section class="search_area1 se_search_area1">
+		<section class="search_area1">
 
 			<i class="fa-solid fa-xmark close_btn" onclick="close_search()"></i>
 			<form action="#" th:object="${seller}" method="post" th:action="@{/seller/do_register}" class="mt-2">
@@ -115,6 +115,10 @@
 					<i class="fa-solid fa-star star"></i>
 					<input th:value="${seller.name}" name="name" type="text" class="search_input1"
 						placeholder="----------Contact Name-----------" />
+					<!--<p style="color:#f16179" th:if="${emailerror}" th:unless="${nameerror}">this is
+						wrong</p>
+					<p style="color:#f16179" th:if="${cvError}" th:unless="${nameerror}">this is
+						wrong</p>-->
 					<p class="inval" th:if="${namerror}" th:text="${namerrormessage}"></p>
 
 				</div>
@@ -122,6 +126,8 @@
 					<i class="fa-solid fa-star star"></i>
 					<input th:value="${seller.email}" name="email" type="email" class="search_input1"
 						placeholder="----------E-Mail-----------" />
+					<!--<p style="color:#f16179" th:if="${nameerror}" th:unless="${emailerror and cvError}">this is
+						wrong</p>-->
 					<p class="inval" th:if="${emailerror}" th:text="${emailerrormessage}"></p>
 					<p class="inval" th:if="${cvError}" th:text="${cvError}"></p>
 
@@ -130,6 +136,8 @@
 					<i class="fa-solid fa-star star"></i>
 					<input th:value="${seller.bussinessName}" name="bussinessName" type="text" class="search_input1"
 						placeholder="----------Legal Bussiness Name-----------" />
+					<!--<p style="color:#f16179" th:if="${bussinessTypeerror}" th:unless="${bussinessNameerror}">this is
+						wrong</p>-->
 					<p class="inval" th:if="${bussinessNamerror}" th:text="${bussinessNamerrormessage}"></p>
 
 				</div>
@@ -150,19 +158,24 @@
 						<option value="NGO">NGO</option>
 
 					</select>
+					<!--<p style="color:#f16179" th:if="${bussinessNameerror}" th:unless="${bussinessTypeerror}">this is
+						wrong</p>-->
 					<p class="inval" th:if="${bussinessTypeerror}" th:text="${bussinessTypeerrormessage}"></p>
 				</div>
 				<div class="input_container1">
 					<i class="fa-solid fa-star star"></i>
 					<input name="password" type="password" class="search_input1" th:value="${seller.password}"
 						placeholder="----------Password-----------" />
+					<!--<p style="color:#f16179" th:if="${confirmpassworderror}" th:unless="${passworderror}">This is wrong
+					</p>-->
 					<p class="inval" th:if="${passworderror}" th:text="${passworderrormessage}"></p>
 
 				</div>
-				<div class="input_container1">
+				<div class="input_container1 co_pa_input_container">
 					<input name="confirmPassword" type="password" class="search_input1 align_end"
 						placeholder="----------Confirm Password-----------" />
-
+					<!--<p style="color:#f16179" th:if="${passworderror}" th:unless="${confirmpassworderror}">this is
+						wrong</p>-->
 					<p class="inval" th:if="${confirmpassworderror}" th:text="${confirmpassworderrormessage}"></p>
 				</div>
 
@@ -170,6 +183,10 @@
 					<i class="fa-solid fa-star star"></i>
 					<input th:value="${seller.phone}" name="phone" type="text" class="search_input1"
 						placeholder="----------Contact Number----------" />
+					<!--<p style="color:#f16179" th:if="${street1error}"
+						th:unless="${phoneerror} == null and ${mobileError} == null">
+						This is
+						wrong</p>-->
 					<p class="inval" th:if="${phoneerror}" th:text="${phoneerrormessage}"></p>
 					<p class="inval" th:if="${mobileError}" th:text="${mobileError}"></p>
 				</div>
@@ -183,6 +200,8 @@
 					<i class="fa-solid fa-star star"></i>
 					<textarea th:text="${seller.street1}" name="street1" type="text" class="search_input1 street1"
 						placeholder="----------Address----------" onkeyup="suggest()" rows="3"></textarea>
+					<!--<p style="color:#f16179" th:if="${mobileError}" th:unless="${street1error}">This is wrong</p>
+					<p style="color:#f16179" th:if="${phoneerror}" th:unless="${street1eerror}">This is wrong</p>-->
 					<p class="inval" th:if="${street1error}" th:text="${street1errormessage}"></p>
 				</div>
 				<!--<div class="input_container1">
@@ -195,12 +214,15 @@
 					<i class="fa-solid fa-star star"></i>
 					<input th:value="${seller.city}" name="city" type="text" class="search_input1"
 						placeholder="----------City----------" />
+					<!--<p style="color:#f16179" th:if="${stateerror}" th:unless="${cityerror}">This is wrong</p>-->
 					<p class="inval" th:if="${cityerror}" th:text="${cityerrormessage}"></p>
 				</div>
 				<div class="input_container1">
 					<i class="fa-solid fa-star star"></i>
 					<input th:value="${seller.state}" name="state" type="text" class="search_input1"
 						placeholder="----------State----------" />
+					<!--<p style="color:#f16179" th:if="${cityerror}" th:unless="${stateerror}"
+						th:text="${cityerrormessage}">This is wrong</p>-->
 					<p class="inval" th:if="${stateerror}" th:text="${stateerrormessage}"></p>
 				</div>
 				<!--<div class="input_container1">
@@ -449,7 +471,7 @@
 
 			<h3 class="text-center">Submitting details...Please wait...</h3>
 		</section>
-		<div id="s_login" class="search_area">
+		<div id="s_login" class="search_area se_search_area1">
 			<i class="fa-solid fa-xmark close_btn" onclick="close_search()"></i>
 			<input id="cred_checker1" type="hidden" th:value="${login_credentials}" />
 			<h1>Seller Login</h1>
@@ -467,7 +489,7 @@
 					placeholder="----------Password-----------" />
 				<hr />
 				<button class="seller_login_btn" type="submit">Login</button>
-				<span class="show_register" onclick="show_register(this)">Register</span>
+				<span class="show_register" onclick="seller_show_register()">Register</span>
 			</form>
 			<form style="display: none;" action="#" method="post" th:action="@{/seller/do_login1}" class="mt-2">
 				<input name="email" type="hidden" th:value="${s_email}" />
@@ -475,7 +497,7 @@
 				<input name="p_list" type="hidden" th:value="${p_list}" />
 				<hr />
 				<button class="seller_login_btn1" type="submit">Login</button>
-				<span onclick="show_register()">Register</span>
+				<span>Register</span>
 			</form>
 		</div>
 		<!--<div id="c_login" class="search_area">

@@ -215,6 +215,18 @@ const show_register = () => {
 		}
 	});
 }
+const seller_show_register = () => {
+	console.log("hello 9");
+	$(".search_area1").each(function() {
+		if ($(this).html().includes("Enter Bussiness"))
+			$(this).show();
+		else {
+			$(this).hide();
+		}
+	});
+	$(".se_search_area1").hide();
+}
+
 const show_add_product = (el) => {
 	var element = el;
 	var addProduct = document.getElementsByClassName("add_product");
@@ -800,6 +812,9 @@ const displaySellerRegistration = () => {
 				text: "Your account will be activated after verifying your kyc details",
 				icon: "warning",
 				button: "OK!",
+			}).then(() => {
+				//window.location.href="/";
+				$("#s_register_btn").click();
 			});
 
 		}
@@ -941,6 +956,27 @@ const displaySellerRegistration = () => {
 			}
 
 		}
+		else if (credChecker3.value === "mobile mismatched") {
+			/*$(".cu_verification_area").each(function() {
+				if ($(this).html().includes("Enter OTP"))
+					$(this).show();
+			});*/
+			$(".cu_verification_area").show();
+			$(".cu_verification_area div").each(function() {
+				$(this).hide();
+			});
+			$(".cu_verification_area").each(function() {
+				if ($(this).html().includes("Sending OTP"))
+					$(this).hide();
+			});
+			$(".mobile_otp_div").show();
+			swal({
+				title: "Invalid otp!",
+				text: "Please try again!",
+				icon: "error",
+				button: "OK!",
+			});
+		}
 	}
 	if (credChecker1 != null) {
 		if (credChecker1.value === "bad") {
@@ -975,13 +1011,13 @@ const displaySellerRegistration = () => {
 	if (credChecker4 != null) {
 		if (credChecker4.value === "bad") {
 
-			if (s1.length > 0) {
+			/*if (s1.length > 0) {
 				for (let i = 0; i < s1.length; i++) {
 					if (s1[i].innerHTML === "Customer") {
 						s1[i].click();
 					}
 				}
-			}
+			}*/
 			/*if (s1.length > 0) {
 				for (let i = 0; i < s1.length; i++) {
 					if (s1[i].innerHTML === "Seller") {
@@ -994,6 +1030,7 @@ const displaySellerRegistration = () => {
 				loginOpt.style.display = "none";
 			}*/
 			if (localStorage.getItem("login_attempted") === null) {
+				$(".cu_login").show();
 				swal({
 					title: "Oops!",
 					text: "Invalid username or password",
@@ -1363,6 +1400,55 @@ const displaySellerRegistration = () => {
 	console.log(localStorage.getItem("easyquery_customer_phone"));
 	/*console.log($("#cred_checker3").val());*/
 	//localStorage.removeItem("easyquery_customer_phone");
+	if (window.location.href.includes("remove_product"))
+		localStorage.setItem("removed_item", true);
+	if (window.location.href.includes("add_product")) {
+		if (localStorage.getItem("removed_item") != null) {
+			window.location.href = "http://localhost:8000/seller/remove_product";
+		}
+	}
+	$("#customers_top_div").addClass("no_display");
+
+	if (localStorage.getItem("view_customers") !== null) {
+		if ($("#customers_top_div").length) {
+			$("#customers_top_div").removeClass("no_display");
+		}
+
+
+	}
+	if (localStorage.getItem("cart_size") !== null) {
+		if ($(".remove_item_btn").length > 0)
+			$(".remove_item_btn").each(function() {
+				$(this).click();
+			});
+		else {
+			localStorage.removeItem("cart_size");
+			window.location.href = "/";
+		}
+
+	}
+	var totalPrice = 0;
+
+	//console.log(totalPrice);
+	if ($(".cart_item").length) {
+		$(".cart_item").each(function() {
+			if ($(this).find(".tp1_span3").length)
+				totalPrice += Number($(this).find(".tp1_span3").text());
+			else if ($(this).find(".tp1_span2").length)
+				totalPrice += Number($(this).find(".tp1_span2").text());
+			else if ($(this).find(".tp1_span").length)
+				totalPrice += Number($(this).find(".tp1_span").text());
+			console.log(totalPrice);
+		});
+		totalPrice = Math.round(totalPrice);
+		console.log(totalPrice);
+		$(".total_amount").text(totalPrice);
+		$("#amt_to_be_paid").val(totalPrice);
+	}
+
+	/*else{
+		$(".close_btn12").click();
+	}*/
 }
 /*end display seller */
 //}
@@ -2156,17 +2242,22 @@ const img_switch = (el) => {
 	}
 }
 
-const submit_pro = (el) => {
+/*const submit_pro = (el) => {
 	var element = el;
+	$(".pro_name").each(function(i){
+		if($(this) === element)
+			$(".")
+	});
 	var proName = document.getElementsByClassName("pro_name");
 	var proSubmit = document.getElementsByClassName("pro_submit");
 	console.log("product");
+	console.log(proName.length+":"+proSubmit.length);
 	for (let i = 0; i < proName.length; i++) {
 		if (proName[i] === element) {
 			proSubmit[i].click();
 		}
 	}
-}
+}*/
 const submit_serv = (el) => {
 	var element = el;
 	var servName = document.getElementsByClassName("serv_name1");
@@ -2193,6 +2284,18 @@ const close_item = (el) => {
 			itemTopDiv[i].style.display = "none";
 		}
 	}
+	window.location.href = "/";
+}
+const close_item1 = (el) => {
+	var element = el;
+	console.log($(".item_close_cross21").length + ":" + $(".item_top_div1").length);
+	$(".item_close_cross21").each(function(i, item) {
+		console.log("::" + i);
+		if (item === element) {
+			console.log("::,," + i);
+			$(".item_top_div1").eq(i).hide();
+		}
+	})
 
 }
 const back_to_home = () => {
@@ -2265,7 +2368,7 @@ const add_to_cart = () => {
 
 
 			title: "Not Logged In !!!",
-			text: "Please login to use this feature",
+			text: "Please login as a customer to use this feature",
 			icon: "error",
 			button: "Try Again!",
 		});
@@ -2337,8 +2440,8 @@ const cart_close = () => {
 };*/
 const submit_seller = () => {
 
-	var submitting = document.getElementsByClassName("submitting_details_top")[0];
-	var loginOpt = document.getElementsByClassName("login_list")[0];
+	var submitting = document.getElementsByClassName("submitting_details_area")[0];
+	//var loginOpt = document.getElementsByClassName("login_list")[0];
 	var submit = document.getElementById("customer_login_btn10_submit");
 	var searchArea1 = document.getElementsByClassName("search_area1")[0];
 	/*swal({
@@ -2349,7 +2452,7 @@ const submit_seller = () => {
 						});*/
 	searchArea1.style.display = "none";
 	submitting.style.display = "block";
-	loginOpt.style.display = "none";
+	//loginOpt.style.display = "none";
 	//$("#terms_conditions_id").val($("#terms_conditions_id").is(":checked"));
 	/*$(".search_area1").each(function(){
 		if($(this).html().includes("Enter Bussiness Details")){
@@ -2392,7 +2495,7 @@ const paymentStart = () => {
 				if (response.status == "created") {
 					console.log("inside created")
 					var options = {
-						key: "rzp_test_y84XqHSv5nPYer", // Enter the Key ID generated from the Dashboard
+						key: "rzp_test_u5jZubA75Ra06W", // Enter the Key ID generated from the Dashboard
 						amount: response.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
 						currency: "INR",
 						name: "Easy Query",
@@ -2459,12 +2562,38 @@ function updatePaymentOnServer(razorpay_payment_id, razorpay_order_id, status, e
 		type: "POST",
 		dataType: "json",
 		success: function(response) {
+			console.log(response);
+			localStorage.setItem("cart_size", $(".cart_item").length);
+			/*var cartSize = localStorage.setItem("cart_size");
+			cartSize -= 1;
+			localStorage.setItem("cart_size", cartSize);*/
+			//$(".remove_item_btn").click();
+			/*$(".shopping_bag_sup").each(function() {
+				$(this).text(0);
+			});*/
+			/*$(".cart_item").html("<h1 class='text-center'>No items available</h1>")*/
+			/*$(".cart_item").remove();
+			$(".bottom_cart").remove();
+			$(".close_btn5").click();
+			$(".add_to_cart_btn").css({
+				"opacity": "1",
+				"cursor": "pointer",
+			});
+			$(".add_to_cart_btn").attr("disabled", false);*/
 			swal({
 				title: "Good job!",
 				text: "Your payment is successfull!",
 				icon: "success",
 				button: "OK!",
-			});
+			})
+				.then(() => {
+					/*$("#clear_cart").bind("click", function() {
+						window.location.href = "/item/clear-cart"
+					});
+					$("#clear_cart").trigger("click");
+					window.location.href = "/";*/
+					$(".remove_item_btn").click();
+				});
 		},
 		error: function(error) {
 			swal({
@@ -2627,16 +2756,27 @@ const show_searched_item = () => {
 	}*/
 	if (login_to_search())
 		return;
+	else if ($("#in_search_item").val() === "")
+		swal({
+			title: "Empty !",
+			text: "Please enter something",
 
-	$("#product_name_id").val($("#in_search_item").val());
-	if ($("#start_search_status_id").val() === "value1")
-		$("#start_search_id").val("value2");
-	else if ($("#start_search_status_id").val() === "value2")
-		$("#start_search_id").val("value1");
+			icon: "info",
+			button: "Try Again!",
+		});
+
+	else {
+		$("#product_name_id").val($("#in_search_item").val());
+		if ($("#start_search_status_id").val() === "value1")
+			$("#start_search_id").val("value2");
+		else if ($("#start_search_status_id").val() === "value2")
+			$("#start_search_id").val("value1");
 
 
-	console.log("clicked");
-	$(".pro_submit1").click();
+		console.log("clicked");
+		$(".pro_submit1").click();
+	}
+
 }
 const cAddress_search = () => {
 	const mq = window.matchMedia("(max-width:600px)");
@@ -2937,6 +3077,8 @@ const b_menu_item = (el) => {
 			}
 			else if ($(this).html().includes("Leads"))
 				$(".bottom_menu_content").html("<i class='fa-solid fa-xmark item_close_cross_bottom text-right' onclick='close_bottom_item()'></i><h1 class='text-center'>No leads</h1>");
+			else if ($(this).html().includes("Views"))
+				$(".bottom_menu_content").html("<i class='fa-solid fa-xmark item_close_cross_bottom text-right' onclick='close_bottom_item()'></i><h1 class='text-center'>No Views</h1>");
 			else if ($(this).html().includes("B2B"))
 				$(".bottom_menu_content").html("<i class='fa-solid fa-xmark item_close_cross_bottom text-right' onclick='close_bottom_item()'></i><h1 class='text-center'>No contacts</h1>");
 			else if ($(this).html().includes("Pay")) {
@@ -3009,7 +3151,7 @@ const login_to_search = () => {
 								if ($(this).html().includes("Verify Mobile Number")) {
 									//$(this).attr("style","z-index:7 !important;");
 									$(this).show();
-
+	
 								}
 								else {
 									$(this).hide();
@@ -3049,7 +3191,6 @@ const close_mo_verify = () => {
 	$(".cu_verification_area").each(function() {
 		if ($(this).text().includes("Verify Mobile Number"))
 			$(this).hide();
-
 	});
 	window.location.href = "/";
 }
@@ -3061,7 +3202,65 @@ const click_seller_login = () => {
 
 	$(".m_menu1 a").trigger('click');
 }
+const seller_log_out = () => {
+	localStorage.setItem("removed_item", true);
+	window.location.href = "/";
+}
+function show_customers(id) {
+	/*$("#views_btn").click();
+	localStorage.setItem("view_;customers", true);*/
+	$(".back1").css("border", "none");
+	var id1 = id;
+	console.log("get_cust" + id1);
+	$.ajax({
+		url: "/item/get-customers",
+		data: JSON.stringify({ id: id }),
+		contentType: "application/json",
+		type: "POST",
+		dataType: "json",
+		success: ((data) => {
+			let text = '';
+			console.log(data);
+			if (data.length !== 0) {
+				data.forEach(product => {
+					text += `<div class="row text-center">
+				<div class="col-4">
+					<h4>${product.customerName}</h4>
+				</div>
+				<div class="col-4">
+					<h4>${product.status}</h4>
+				</div>
+				<div class="col-4">
+					<h4>${product.time}</h4>
+				</div>
 
+			</div>`
+
+				});
+
+				$(".viewed_customers").html(text);
+			}
+			else {
+				$(".viewed_customers").html("<h4 class='text-center'>No Views</h4>")
+			}
+		})
+	});
+	$(".customers_top_div").show();
+}
+const close_view_customers = () => {
+	//localStorage.removeItem("view_customers");
+
+	$(".customers_top_div").hide();
+}
+const cat_item_pre_submit = () => {
+	if ($("#start_search_status_id").val() === "value4")
+		$("#start_search_id1").val("value5");
+	else if ($("#start_search_status_id").val() === "value5")
+		$("#start_search_id1").val("value6");
+}
+const product_to_home = () => {
+	window.location.href = "/";
+}
 document.addEventListener("DOMContentLoaded", function() {
 
 	displaySellerRegistration();
