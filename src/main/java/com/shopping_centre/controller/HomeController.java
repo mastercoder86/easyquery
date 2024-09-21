@@ -470,6 +470,12 @@ public class HomeController {
 	public String termsAndConditions() {
 		return "terms_conditions";
 	}
+
+	@GetMapping("/easyquery-login")
+	public String easyQueryLogin(Model model) {
+		model.addAttribute("seller", new Seller());
+		return "easyquery_login";
+	}
 	/*
 	 * @GetMapping("/date-time") public String dateTime() { DateTimeFormatter df =
 	 * DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"); LocalDateTime now =

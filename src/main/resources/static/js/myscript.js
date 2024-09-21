@@ -25,7 +25,7 @@ const show_search = (el) => {
 				found.push(i);
 			}
 			/*if (s1[i].innerHTML === "Seller") {
-				swal({
+				Swal.fire({
 					title: "Oops!",
 					text: "Please fill the fields correctly",
 					
@@ -77,6 +77,8 @@ const close_search = (el) => {
 	var back = document.getElementsByClassName("back");
 	var shopSection = document.getElementsByClassName("shop_section");
 	var cBtn = document.getElementsByClassName("c_btn");
+	if (localStorage.getItem("login_form") !== null)
+		localStorage.removeItem("login_form")
 	console.log(cBtn.length);
 	if (shopSection.length > 0) {
 		for (let i = 0; i < shopSection.length; i++) {
@@ -164,6 +166,9 @@ const close_menu = () => {
 		console.log("close");
 	}
 
+
+}
+const close_menu1 = () => {
 
 }
 const show_register1 = (el) => {
@@ -379,12 +384,21 @@ const displaySellerRegistration = () => {
 	var manageCartId = document.getElementById("manage_cart_id");
 	var searchInput = document.getElementById("in_search_item");
 	const mq = window.matchMedia("(max-width:600px)");
+
 	//cartTopDiv.style.marginLeft = "60%"
 	//var catDisplayId = document.getElementById("cat_display_id");
 	//var backB = document.getElementById("backB");
 	//var sLoginBtn = document.getElementsByClassName("seller_login_btn1")[0];
 	//var showCatItems = document.getElementsByClassName("show_cat_items")[0];
 	if (credChecker !== null) {
+		if ($(".mobile_otp_div").length)
+			//if ($(".mail_otp_div").css("display") === "block")
+			console.log($(".mobile_otp_div").css("dsplay"));
+		if (!(credChecker.value === ""))
+			$(".se_search_area1").hide();
+		else if (!($(".mail_otp_div").is(":hidden")) || !($(".mobile_otp_div").is(":hidden")))
+			console.log("not hidden")
+		//$(".se_search_area1").hide();
 		if (credChecker.value === "bad") {
 			console.log("seller");
 			if (searchArea1.length > 0) {
@@ -404,7 +418,8 @@ const displaySellerRegistration = () => {
 					}
 				}
 			}
-			swal({
+			$(".se_search_area1").hide();
+			Swal.fire({
 				title: "Oops!",
 				text: "Please fill the fields correctly",
 				icon: "error",
@@ -412,7 +427,7 @@ const displaySellerRegistration = () => {
 			});
 		}
 		else if (credChecker.value === "good") {
-			swal({
+			Swal.fire({
 				title: "Registration Completed!",
 				text: "You have registered successfully!",
 				icon: "success",
@@ -423,7 +438,7 @@ const displaySellerRegistration = () => {
 
 		}
 		else if (credChecker.value === "incomplete") {
-			swal({
+			Swal.fire({
 				title: "Step 2/3 completed !",
 				text: "You have to fill kyc form for start adding your products ! Are you ready ?",
 				icon: "warning",
@@ -444,9 +459,10 @@ const displaySellerRegistration = () => {
 				});
 		}
 		else if (credChecker.value === "verification pending") {
-			swal({
+
+			Swal.fire({
 				title: "Step 1/3 completed !",
-				text: "You have to verify your email and mobile to complete step2/3 of registration ! Are you ready ?",
+				text: "You have to verify your email and mobile to complete step 2/3 of registration ! Are you ready ?",
 				icon: "warning",
 				buttons: true,
 				dangerMode: true,
@@ -492,17 +508,19 @@ const displaySellerRegistration = () => {
 					}).html("Mobile Number Verified <i class='fa-solid fa-check'></i>");
 					if ($("#s_email_present").length) {
 
-						swal({
+						Swal.fire({
 							title: "Step 2/3 completed !",
-							text: "Now you have to add your bank account details to fulfil KYC and complete registration process !! Are you ready ?",
+							text: "Proceed to step 3",
 							icon: "info",
-							buttons: true,
-							dangerMode: true,
+							/*buttons: "",
+							dangerMode: true,*/
+							showConfirmButton: true
+
 						})
 							.then((open) => {
 								if (open) {
 									$(".search_area1").each(function() {
-										if ($(this).html().includes("Bank Account")) {
+										if ($(this).html().includes("Enter Passcode")) {
 											$(this).show();
 										}
 										else {
@@ -513,7 +531,7 @@ const displaySellerRegistration = () => {
 							});
 					}
 					else if ($("#c_email_present").length) {
-						swal({
+						Swal.fire({
 							title: "Registration Completed!",
 							text: "You have registered successfully!",
 							icon: "success",
@@ -529,7 +547,7 @@ const displaySellerRegistration = () => {
 				$(this).hide();
 
 			});
-			swal({
+			Swal.fire({
 				title: "Success !",
 				text: "Email verification done successfully !! Start Adding products now !!",
 				icon: "success",
@@ -555,7 +573,7 @@ const displaySellerRegistration = () => {
 				"opacity": "0.5"
 			}).html("Email Verified <i class='fa-solid fa-check'></i>");*/
 			$(".mail_otp_div").show();
-			swal({
+			Swal.fire({
 				title: "Oops!",
 				text: "Incorrect otp...please try again !!!",
 				icon: "error",
@@ -586,17 +604,25 @@ const displaySellerRegistration = () => {
 						"opacity": "0.5"
 					}).html("Email Verified <i class='fa-solid fa-check'></i>");
 					if ($("#s_email_present").length) {
-						swal({
+						Swal.fire({
 							title: "Step 2/3 completed !",
-							text: "Now you have to add your bank account details to fulfil KYC and complete registration process !! Are you ready ?",
+							text: "Procced to step3",
 							icon: "info",
-							buttons: true,
-							dangerMode: true,
+							/*buttons: "",
+							dangerMode: true,*/
+							//showCancelButton: true,
+							showConfirmButton: true,
+							// Background color of the "Confirm"-button. The default color is #3085d6
+							//confirmButtonColor: 'Green',
+							// Background color of the "Cancel"-button. The default color is #aaa
+							/*cancelButtonColor: 'Crimson',
+							confirmButtonText: 'Online',
+							cancelButtonText: 'Offline'*/
 						})
 							.then((open) => {
 								if (open) {
 									$(".search_area1").each(function() {
-										if ($(this).html().includes("Bank Account")) {
+										if ($(this).html().includes("Enter Passcode")) {
 											$(this).show();
 										}
 										else {
@@ -607,7 +633,7 @@ const displaySellerRegistration = () => {
 							});
 					}
 					else if ($("#c_email_present").length) {
-						swal({
+						Swal.fire({
 							title: "Registration Completed!",
 							text: "You have registered successfully!",
 							icon: "success",
@@ -624,7 +650,7 @@ const displaySellerRegistration = () => {
 				$(this).hide();
 
 			});
-			swal({
+			Swal.fire({
 				title: "Success !",
 				text: "Email verification done successfully !! Start Adding products now !!",
 				icon: "success",
@@ -650,7 +676,7 @@ const displaySellerRegistration = () => {
 				"opacity": "0.5"
 			}).html("Email Verified <i class='fa-solid fa-check'></i>");*/
 			$(".mobile_otp_div").show();
-			swal({
+			Swal.fire({
 				title: "Oops!",
 				text: "Incorrect otp...please try again !!!",
 				icon: "error",
@@ -668,7 +694,7 @@ const displaySellerRegistration = () => {
 				}
 			});
 
-			swal({
+			Swal.fire({
 				title: "Oops!",
 				text: "Please agree to terms and conditions to continue",
 				icon: "error",
@@ -678,7 +704,7 @@ const displaySellerRegistration = () => {
 
 		else if (credChecker.value === "ma_verification_pending") {
 
-			swal({
+			Swal.fire({
 				title: "Verification pending!",
 				text: "Please verify your email...Are you ready ?",
 				icon: "info",
@@ -701,12 +727,15 @@ const displaySellerRegistration = () => {
 							}).html("Mobile Number Verified <i class='fa-solid fa-check'></i>");
 						}
 					}
+					else {
+						window.location.href = "/";
+					}
 				});
 
 
 		}
 		else if (credChecker.value === "mo_verification_pending") {
-			swal({
+			Swal.fire({
 				title: "Verification pending!",
 				text: "Please verify your mobile number...Are you ready ?",
 				icon: "info",
@@ -729,12 +758,15 @@ const displaySellerRegistration = () => {
 							}).html("Email Verified <i class='fa-solid fa-check'></i>");
 						}
 					}
+					else {
+						window.location.href = "/";
+					}
 				});
 
 
 		}
 		else if (credChecker.value === "no_bank_account") {
-			swal({
+			Swal.fire({
 				title: "Bank Account details pending",
 				text: "Please fill in your bank account details for KYC verification...Are you ready ?",
 				icon: "info",
@@ -753,7 +785,7 @@ const displaySellerRegistration = () => {
 
 		}
 		else if (credChecker.value === "bank_account_verification_pending") {
-			swal({
+			Swal.fire({
 				title: "KYC Verification pending!",
 				text: "Please wait for KYC verification",
 				icon: "info",
@@ -764,7 +796,24 @@ const displaySellerRegistration = () => {
 
 
 		}
+		else if (credChecker.value === "registration incomplete") {
+			Swal.fire({
+				title: "Registration incomplete !",
+				text: "You have to complete registration to proceed ! Are you ready ?",
+				icon: "warning",
+				buttons: true,
+				dangerMode: true,
+			})
+				.then(() => {
+					$(".search_area1").each(function() {
+						if ($(this).text().includes("Enter Passcode"))
+							$(this).show();
+						else
+							$(this).hide();
+					});
+				});
 
+		}
 	}
 
 	//console.log(credChecker.value);
@@ -787,16 +836,23 @@ const displaySellerRegistration = () => {
 						}
 					}
 				}
+				$(".se_search_area1").hide();
+				Swal.fire({
+					title: "Oops!",
+					text: "Please fill the fields correctly",
+					icon: "error",
+					button: "Try Again!",
+				});
 			}
-			swal({
+			/*Swal.fire({
 				title: "Oops!",
 				text: "Please fill the fields correctly",
 				icon: "error",
 				button: "Try Again!",
-			});
+			});*/
 		}
 		/*else if (credChecker.value === "ba_good") {
-			swal({
+			Swal.fire({
 				title: "Registration Completed!",
 				text: "You have registered successfully!",
 				icon: "success",
@@ -807,7 +863,7 @@ const displaySellerRegistration = () => {
 
 		}*/
 		else if (credChecker.value === "pending") {
-			swal({
+			Swal.fire({
 				title: "Details Submitted !",
 				text: "Your account will be activated after verifying your kyc details",
 				icon: "warning",
@@ -827,7 +883,7 @@ const displaySellerRegistration = () => {
 					if ($(this).text().includes("Customer Registration"))
 						$(this).show();
 				});
-				swal({
+				Swal.fire({
 					title: "Oops!",
 					text: "Please fill the fields correctly",
 					icon: "error",
@@ -862,7 +918,7 @@ const displaySellerRegistration = () => {
 
 		}
 		/*else if (credChecker3.value === "good") {
-			swal({
+			Swal.fire({
 				title: "Registration Completed!",
 				text: "You have registered successfully!",
 				icon: "success",
@@ -882,7 +938,7 @@ const displaySellerRegistration = () => {
 				}
 			});
 
-			swal({
+			Swal.fire({
 				title: "Oops!",
 				text: "Please agree to terms and conditions to continue",
 				icon: "error",
@@ -899,7 +955,7 @@ const displaySellerRegistration = () => {
 			}
 			if (localStorage.getItem("verification_attempted") === null) {
 
-				swal({
+				Swal.fire({
 					title: "Step 1/2 completed !",
 					text: "You have to verify your mobile to complete registration ! Are you ready ?",
 					icon: "warning",
@@ -936,7 +992,7 @@ const displaySellerRegistration = () => {
 			if (localStorage.getItem("mobile_verification_attempted") === null) {
 				console.log("hello");
 				console.log("hello2");
-				swal({
+				Swal.fire({
 					title: "Registration Completed!",
 					text: "You have registered successfully!",
 					icon: "success",
@@ -970,7 +1026,7 @@ const displaySellerRegistration = () => {
 					$(this).hide();
 			});
 			$(".mobile_otp_div").show();
-			swal({
+			Swal.fire({
 				title: "Invalid otp!",
 				text: "Please try again!",
 				icon: "error",
@@ -998,7 +1054,7 @@ const displaySellerRegistration = () => {
 			if (window.getComputedStyle(loginOpt).display === "block") {
 				loginOpt.style.display = "none";
 			}*/
-			swal({
+			Swal.fire({
 				title: "Oops!",
 				text: "Invalid username or password",
 				icon: "error",
@@ -1031,7 +1087,7 @@ const displaySellerRegistration = () => {
 			}*/
 			if (localStorage.getItem("login_attempted") === null) {
 				$(".cu_login").show();
-				swal({
+				Swal.fire({
 					title: "Oops!",
 					text: "Invalid username or password",
 					icon: "error",
@@ -1062,7 +1118,7 @@ const displaySellerRegistration = () => {
 				}
 			}
 		}
-		swal({
+		Swal.fire({
 			title: "Oops!",
 			text: "Please fill the fields correctly",
 			icon: "error",
@@ -1070,7 +1126,7 @@ const displaySellerRegistration = () => {
 		});
 	}
 	else if (credChecker.value === "good") {
-		swal({
+		Swal.fire({
 			title: "Registration Completed!",
 			text: "You have registered successfully!",
 			icon: "success",
@@ -1169,7 +1225,8 @@ const displaySellerRegistration = () => {
 
 	}
 	if (viewSpanId1 != null) {
-		jumpLink2.click();
+		if (jumpLink != null)
+			jumpLink2.click();
 		if (viewSpanId1.value) {
 
 		}
@@ -1396,17 +1453,25 @@ const displaySellerRegistration = () => {
 	/*if (window.location.href.includes("verify-mobile-otp"))
 		localStorage.setItem("easyquery_customer_phone", $("#customer_email_id1").val());*/
 	//if ($("#customer_email_id1").length)
-	console.log($("#customer_email_id1").val());
-	console.log(localStorage.getItem("easyquery_customer_phone"));
+	/*console.log($("#customer_email_id1").val());
+	console.log(localStorage.getItem("easyquery_customer_phone"));*/
 	/*console.log($("#cred_checker3").val());*/
 	//localStorage.removeItem("easyquery_customer_phone");
 	if (window.location.href.includes("remove_product"))
 		localStorage.setItem("removed_item", true);
 	if (window.location.href.includes("add_product")) {
 		if (localStorage.getItem("removed_item") != null) {
-			window.location.href = "http://localhost:8000/seller/remove_product";
+			window.location.href = "/seller/remove_product";
 		}
 	}
+	/*if (window.location.href.includes("login-form"))
+	
+		localStorage.setItem("login_form", true);*/
+	/*if (localStorage.getItem("login_form") !== null)
+		if (!window.location.href.includes("login-form"))
+			window.location.href = "/login-form";*/
+
+
 	$("#customers_top_div").addClass("no_display");
 
 	if (localStorage.getItem("view_customers") !== null) {
@@ -1445,10 +1510,84 @@ const displaySellerRegistration = () => {
 		$(".total_amount").text(totalPrice);
 		$("#amt_to_be_paid").val(totalPrice);
 	}
+	if ($("#credentials7_id").length)
+		if ($("#credentials7_id").val() === "good") {
+			$(".se_search_area2").hide();
+			$(".se_search_area3").show();
+		}
+		else if ($("#credentials7_id").val() === "bad") {
+			Swal.fire({
+				title: "Oops!",
+				text: "Invalid username or password",
+				icon: "error",
+				button: "Try Again!",
+			});
+		}
+	if ($("#credentials6_id").length)
+		if ($("#credentials6_id").val() === "good") {
+			Swal.fire({
+				title: "Success!",
+				text: "Passcode submitted successfully ! Now you can use this passcode",
+				icon: "success",
+				button: "OK",
+			})
+				.then(() => {
+					window.location.href = "/";
+				});
+		}
+		else if ($("#credentials6_id").val() === "lo_good") {
+			$(".search_area1").each(function() {
+				$(this).hide();
+			});
+			$(".se_search_area1").hide();
+			Swal.fire({
+				title: "Success!",
+				text: "Registration complete ! Now you are raeady to go",
+				icon: "success",
+				button: "OK",
+			})
+				.then(() => {
+					$("#seller_login2").click();
+				});
+		}
+		else if ($("#credentials6_id").val() === "lo_bad") {
+			$(".search_area1").each(function() {
+				if ($(this).html().includes("Enter Passcode")) {
+					$(this).show();
+				}
+				else {
+					$(this).hide();
+				}
+			});
+			Swal.fire({
+				title: "Error!",
+				text: "Invalid passcode ! Please try again..",
+				icon: "error",
+				button: "Try Again",
+			});
+		}
+	if ($("#show_details").length) {
+		console.log($("#show_details").val());
+		if ($("#show_details").val() === "yes") {
+			$(".view_leads_btn").each(function() {
+				$(this).click();
+			});
+		}
+	}
 
+	//t
+	//localStorage.removeItem("login_form");
 	/*else{
 		$(".close_btn12").click();
 	}*/
+	/*if ($("#passcode_value").length) {
+		$(".se_search_area2").hide();
+		$(".se_search_area3").show();*/
+	/*if($("#passcode_value").val() !== null)
+		$(".no_passcode.show")*/
+	//}
+
+
 }
 /*end display seller */
 //}
@@ -1508,7 +1647,7 @@ const displayAddProduct = () => {
 			}
 		}
 	}
-	/*swal({
+	/*Swal.fire({
 		title: "Oops!",
 		text: "Please fill the fields correctly",
 		icon: "error",
@@ -1516,7 +1655,7 @@ const displayAddProduct = () => {
 	});*/
 	//}
 	//else if (credChecker.value === "good") {
-	/*swal({
+	/*Swal.fire({
 		title: "Registration Completed!",
 		text: "You have registered successfully!",
 		icon: "success",
@@ -1691,7 +1830,7 @@ const proceed1 = (el) => {
 			console.log("i:" + i)
 			var n = Number(imgInput1[i].value);
 			if (n < 1) {
-				swal({
+				Swal.fire({
 					title: "Invalid value !",
 					text: "Please enter the number of images you want to add or cancel the option",
 					icon: "error",
@@ -1941,7 +2080,7 @@ const delete_feature = (el) => {
 
 }
 const try_again = () => {
-	swal({
+	Swal.fire({
 		title: "Try Again !",
 		text: "Please choose whether you want to add more images or not",
 		icon: "error",
@@ -2007,7 +2146,7 @@ const view_cat_click = (el) => {
 
 }
 /*const no_category = () => {
-	swal({
+	Swal.fire({
 					title: "Oops!",
 					text: "Please select category",
 					
@@ -2338,33 +2477,33 @@ const logout = () => {
 	window.location.href = "/";
 	console.log(localStorage.getItem("user"));
 }
-const add_to_cart = () => {
-	var pageNameId = document.getElementById("page_name_id");
+const add_to_cart = (id) => {
+	/*var pageNameId = document.getElementById("page_name_id");
 	var addToCart = document.getElementById("add_to_cart");
 	var addToCartBtn = document.getElementsByClassName("add_to_cart_btn")[0];
-	var removedId = document.getElementById("removed_id");
+	var removedId = document.getElementById("removed_id");*/
 	//var form1Id = document.getElementById("form1_id");
 	//var manageCartId = document.getElementById("manage_cart_id");
 	//var productAdded = document.getElementById("product_added_id");
 	//console.log("method:"+form1Id.getAttribute("method"));
-	if (pageNameId.value === "yes" || removedId != null) {
-		/*swal({
-			title: "Good job!",
-			text: "You have registered successfully!",
-			icon: "success",
-			button: "OK!",
-		});*/
+	//if (pageNameId.value === "yes" || removedId != null) {
+	/*Swal.fire({
+		title: "Good job!",
+		text: "You have registered successfully!",
+		icon: "success",
+		button: "OK!",
+	});*/
 
-		addToCartBtn.disabled = true;
+	/*addToCartBtn.disabled = true;*/
 
 
-		//manageCartId.value = "submit";
+	//manageCartId.value = "submit";
 
-		addToCart.click();
-	}
+	/*addToCart.click();*/
+	//}
 
-	else {
-		swal({
+	/*else {
+		Swal.fire({
 
 
 			title: "Not Logged In !!!",
@@ -2372,7 +2511,43 @@ const add_to_cart = () => {
 			icon: "error",
 			button: "Try Again!",
 		});
-	}
+	}*/
+	$.ajax(
+		{
+			url: "/item/seller-info",
+			data: JSON.stringify({
+				id: id
+			}),
+			contentType: "application/json",
+			type: "POST",
+			dataType: "json",
+			success: function(seller) {
+				let text = `<h1 class="text-center">Seller Info</h1><hr />
+				<h4 class="text-center"><u><b>Name :</b></u> ${seller.bussinessName}</h4>
+				<hr />
+				<h4 class="text-center"><u><b>Mobile No. :</u></b> ${seller.phone}</h4>
+				<hr />
+				<h4 class="text-center"><u><b>Address :</u></b> ${seller.street1}</h4>
+				<hr />
+				<h4 class="text-center"><u><b>Email. :</u></b> ${seller.email}</h4>`;
+
+				$(".customers_top_div").each(function() {
+					console.log($(".customers_top_div").length);
+					console.log("hello");
+					if (!($(this).text().includes("cust"))) {
+						console.log(text);
+						$(this).append(text);
+						$(this).show();
+					}
+					else
+						$(this).hide();
+				});
+
+			},
+			error: function(erro) {
+				console.log(erro);
+			}
+		});
 }
 const test = (event) => {
 	event.preventDefault();
@@ -2389,7 +2564,7 @@ const test = (event) => {
 	else
 		return false;*/
 	//return false;
-	/*if (manageCartId.value === "submit") {
+	/*if (manageCartId.value === "su_mmit") {
 		addToCartBtn.disabled = true;
 	
 		return true;
@@ -2444,7 +2619,7 @@ const submit_seller = () => {
 	//var loginOpt = document.getElementsByClassName("login_list")[0];
 	var submit = document.getElementById("customer_login_btn10_submit");
 	var searchArea1 = document.getElementsByClassName("search_area1")[0];
-	/*swal({
+	/*Swal.fire({
 							title: "Oops!",
 							text: "Something went wrong!",
 							icon: "error",
@@ -2461,6 +2636,12 @@ const submit_seller = () => {
 			});
 		}
 	});*/
+	if ($(".mobile_input").val().includes(" ")) {
+		var mobile = $(".mobile_input").val();
+		var mobile1 = mobile.split(" ").join("");
+		$(".mobile_input").val(mobile1);
+	}
+
 
 
 	submit.click();
@@ -2534,7 +2715,7 @@ const paymentStart = () => {
 						console.log(response.error.metadata.order_id);
 						console.log(response.error.metadata.payment_id);
 						alert("payment failed")
-						swal({
+						Swal.fire({
 							title: "Oops!",
 							text: "Something went wrong!",
 							icon: "error",
@@ -2580,7 +2761,7 @@ function updatePaymentOnServer(razorpay_payment_id, razorpay_order_id, status, e
 				"cursor": "pointer",
 			});
 			$(".add_to_cart_btn").attr("disabled", false);*/
-			swal({
+			Swal.fire({
 				title: "Good job!",
 				text: "Your payment is successfull!",
 				icon: "success",
@@ -2596,7 +2777,7 @@ function updatePaymentOnServer(razorpay_payment_id, razorpay_order_id, status, e
 				});
 		},
 		error: function(error) {
-			swal({
+			Swal.fire({
 				title: "Oops!",
 				text: "your payment is successfull but something went wrong on server! we will contact you later",
 				icon: "error",
@@ -2627,7 +2808,9 @@ const search = () => {
 	else {
 		$(".search_result").removeClass("no_display_important");
 		/*$(".search_item").css("height", "auto");*/
-		let url = `http://localhost:8000/item/search/${query}`;
+		/*let url = `http://localhost:8000/item/search/${query}`;*/
+		let url = `https://www.easyquery.in/item/search/${query}`;
+
 		fetch(url)
 			.then((response) => {
 				return response.json();
@@ -2757,7 +2940,7 @@ const show_searched_item = () => {
 	if (login_to_search())
 		return;
 	else if ($("#in_search_item").val() === "")
-		swal({
+		Swal.fire({
 			title: "Empty !",
 			text: "Please enter something",
 
@@ -2806,7 +2989,8 @@ const cAddress_search = () => {
 			query = query.replace("/", ",");
 			console.log(query);
 		}
-		let url = `http://localhost:8000/search-address/${query}/${pinCode}`;
+		/*let url = `http://localhost:8000/search-address/${query}/${pinCode}`;*/
+		let url = `https://www.easyquery.in/search-address/${query}/${pinCode}`;
 		fetch(url)
 			.then((response) => {
 				return response.json();
@@ -2967,6 +3151,22 @@ const phonepeTransact = () => {
 
 }
 const submit_otp = () => {
+	if ($(".ma_otp_sub") !== "") {
+		if ($(".ma_otp_sub").val().includes(" ")) {
+			var mobile = $(".ma_otp_sub").val();
+			var mobile1 = mobile.split(" ").join("");
+			$(".ma_otp_sub").val(mobile1);
+		}
+	}
+	if ($(".mo_otp_sub") !== "") {
+		if ($(".mo_otp_sub").val().includes(" ")) {
+			var mobile = $(".mo_otp_sub").val();
+			var mobile1 = mobile.split(" ").join("");
+			$(".mo_otp_sub").val(mobile1);
+		}
+	}
+
+
 	$(".submitting_details_area").show();
 }
 var interval = 500;
@@ -3061,7 +3261,7 @@ function start_search() {
 const b_menu_item = (el) => {
 
 	var element = el;
-	$(".bottom_menu .container .row div").each(function(i, item) {
+	$(".bottom_menu .bm_container .bm_menu").each(function(i, item) {
 		console.log("hello");
 		if (element === item) {
 			if ($(this).html().includes("Home")) {
@@ -3075,8 +3275,20 @@ const b_menu_item = (el) => {
 				$(".jump_to_home_top").trigger('click');
 				return;
 			}
-			else if ($(this).html().includes("Leads"))
-				$(".bottom_menu_content").html("<i class='fa-solid fa-xmark item_close_cross_bottom text-right' onclick='close_bottom_item()'></i><h1 class='text-center'>No leads</h1>");
+			else if ($(this).html().includes("Leads")) {
+				console.log($(".leads_size").text());
+				if ($(".leads_size").text() === "0") {
+
+					$(".bottom_menu_content").html("<i class='fa-solid fa-xmark item_close_cross_bottom text-right' onclick='close_bottom_item()'></i><h1 class='text-center'>No leads</h1>");
+
+				}
+				else if ($(".view_size1").text() !== "0") {
+					console.log("here");
+					$(".leads_item").show();
+					return;
+
+				}
+			}
 			else if ($(this).html().includes("Views"))
 				$(".bottom_menu_content").html("<i class='fa-solid fa-xmark item_close_cross_bottom text-right' onclick='close_bottom_item()'></i><h1 class='text-center'>No Views</h1>");
 			else if ($(this).html().includes("B2B"))
@@ -3084,6 +3296,8 @@ const b_menu_item = (el) => {
 			else if ($(this).html().includes("Pay")) {
 				$(".ma_shopping").click();
 				$(".a_shopping").click();
+				if ($(".bottom_menu_content").css("display") === "block")
+					$(".bottom_menu_content").hide();
 				return;
 			}
 
@@ -3091,6 +3305,7 @@ const b_menu_item = (el) => {
 				$(".bottom_menu_content").html("<i class='fa-solid fa-xmark item_close_cross_bottom text-right' onclick='close_bottom_item()'></i><h1 class='text-center'>News</h1><hr />" +
 					"<p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Possimus itaque accusantium totam odio nemo perferendis ea optio quis temporibus alias doloribus voluptas numquam eveniet consequatur ducimus, delectus nulla atque debitis.</p>");
 			$(".bottom_menu_content").show();
+
 
 
 		}
@@ -3102,7 +3317,7 @@ const close_bottom_item = () => {
 const login_to_search = () => {
 	if (localStorage.getItem("easyquery_customer_phone") === null) {
 		console.log("empty");
-		swal({
+		Swal.fire({
 			title: "Not logged in !",
 			text: "Please log in to continue",
 			icon: "info",
@@ -3131,7 +3346,7 @@ const login_to_search = () => {
 
 			if ($("#mo_verification_id").val() === "false") {
 
-				swal({
+				Swal.fire({
 					title: "Verification incomplete !",
 					text: "You have to verify your mobile number to continue !! Are you ready",
 					icon: "info",
@@ -3169,12 +3384,22 @@ const login_to_search = () => {
 const preCustomerLogin = () => {
 	if (localStorage.getItem("login_attempted") !== null)
 		localStorage.removeItem("login_attempted");
+	if ($(".phone_input").val().includes(" ")) {
+		var mobile = $(".phone_input").val();
+		var mobile1 = mobile.split(" ").join("");
+		$(".phone_input").val(mobile1);
+	}
 }
 const preCustomerRegistration = () => {
 	if (localStorage.getItem("register_attempted") !== null)
 		localStorage.removeItem("register_attempted");
 	if (localStorage.getItem("verification_attempted") !== null)
 		localStorage.removeItem("verification_attempted");
+	if ($(".re_mobile_input").val().includes(" ")) {
+		var mobile = $(".re_mobile_input").val();
+		var mobile1 = mobile.split(" ").join("");
+		$(".re_mobile_input").val(mobile1);
+	}
 
 }
 const close_cu_registration = () => {
@@ -3195,7 +3420,7 @@ const close_mo_verify = () => {
 	window.location.href = "/";
 }
 const click_seller_login = () => {
-
+	localStorage.setItem("login_form", true);
 	$(".m_menu1 a").bind("click", function() {
 		window.location.href = $(this).attr("href");
 	});
@@ -3223,12 +3448,12 @@ function show_customers(id) {
 			console.log(data);
 			if (data.length !== 0) {
 				data.forEach(product => {
-					text += `<div class="row text-center">
+					text += `<div class="row">
 				<div class="col-4">
 					<h4>${product.customerName}</h4>
 				</div>
 				<div class="col-4">
-					<h4>${product.status}</h4>
+					<h4 class="mobile_no">${product.status}</h4>
 				</div>
 				<div class="col-4">
 					<h4>${product.time}</h4>
@@ -3245,12 +3470,22 @@ function show_customers(id) {
 			}
 		})
 	});
-	$(".customers_top_div").show();
+	$(".customers_top_div").each(function() {
+		if ($(this).text().includes("cust"))
+			$(this).show();
+		else
+			$(this).hide();
+	});
 }
-const close_view_customers = () => {
+const close_view_customers = (el) => {
+	var element = el;
 	//localStorage.removeItem("view_customers");
+	$(".close_btn12").each(function(i, item) {
+		if (element === item) {
+			$(".customers_top_div").eq(i).hide();
+		}
+	});
 
-	$(".customers_top_div").hide();
 }
 const cat_item_pre_submit = () => {
 	if ($("#start_search_status_id").val() === "value4")
@@ -3260,6 +3495,73 @@ const cat_item_pre_submit = () => {
 }
 const product_to_home = () => {
 	window.location.href = "/";
+}
+const onLoad = () => {
+	console.log("loaded");
+};
+/*window.addEventListener("hashchange", function(e) {
+	if (localStorage.getItem("login_form") !== null) {
+		localStorage.removeItem("login_form");
+		window.location.href = "/login-form";
+	}
+	console.log("has changed");
+})*/
+window.onpageshow = function(event) {
+	if (event.persisted) {
+		window.location.reload();
+	}
+};
+const close_easy_query = () => {
+	window.location.href = "/";
+}
+const check_passcode = () => {
+	$(".check_passcode_area").show();
+	$.ajax({
+		url: "/easyquery/check-passcode",
+
+
+		type: "GET",
+
+		success: function(response) {
+			let text = "";
+			if (response === "no passcode") {
+				text = `<i class="fa-solid fa-xmark close_btn22" onclick="close_passcode_area()"></i>
+
+			<h3>No passcode</h3>`;
+			}
+			else {
+				text = `<i class="fa-solid fa-xmark close_btn23" onclick="close_passcode_area()"></i>
+				<h5>Valid Passcode : ${response}</h5>`
+			}
+			$(".check_passcode_area").html(text);
+
+		},
+		error: function(error) {
+			console.log("error is :" + error);
+		}
+	});
+}
+const close_passcode_area = () => {
+	$(".check_passcode_area").hide();
+}
+const close_leads = () => {
+	$(".leads_item").hide();
+}
+const show_leads_details = (el) => {
+	var element = el;
+	$(".leads_btn").each(function(i, item) {
+
+		if (item === element) {
+			$(".p_id5").each(function(j) {
+				if ($(this).val() === $(".p_id6").eq(i).val()) {
+					$(".show_leads").eq(j).val("yes");
+					$(".p_submit_btn").eq(j).click();
+				}
+			});
+		}
+	});
+
+
 }
 document.addEventListener("DOMContentLoaded", function() {
 

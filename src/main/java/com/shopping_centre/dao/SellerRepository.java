@@ -6,9 +6,9 @@ import com.shopping_centre.entities.Product;
 import com.shopping_centre.entities.Seller;
 import java.util.List;
 
-
 public interface SellerRepository extends JpaRepository<Seller, Long> {
 	Seller findByEmail(String name);
-	Seller findByEmailAndPassword(String name,String password);
-	//Seller findByProduct(Product product);
+
+	Seller findByEmailAndPassword(String name, String password);
+
 }

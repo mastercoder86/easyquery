@@ -31,6 +31,8 @@
 	<link th:href="@{/css/style1.css}" rel="stylesheet" />
 	<!-- responsive style -->
 	<link th:href="@{/css/responsive.css}" rel="stylesheet" />
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script src="sweetalert2.all.min.js"></script>
 	<script type="text/javascript">
 		const preventBack = () => {
 			window.history.forward();
@@ -42,7 +44,7 @@
 	</script>
 </head>
 
-<body>
+<body onload="onLoad()">
 
 	<!--<div class="container">
 		<button class="log_btn">Login</button>
@@ -181,8 +183,8 @@
 
 				<div class="input_container1">
 					<i class="fa-solid fa-star star"></i>
-					<input th:value="${seller.phone}" name="phone" type="text" class="search_input1"
-						placeholder="----------Contact Number----------" />
+					<input th:value="${seller.phone}" name="phone" type="text" class="search_input1 mobile_input"
+						placeholder="Mobile No.(10 digit)" />
 					<!--<p style="color:#f16179" th:if="${street1error}"
 						th:unless="${phoneerror} == null and ${mobileError} == null">
 						This is
@@ -424,7 +426,7 @@
 				<form method="post" th:action="@{/verify/verify-otp-mail}">
 					<input type="hidden" name="email" th:value="'seller:'+${s_email}" th:if="${s_email}" />
 					<input type="hidden" name="email" th:value="'customer:'+${c_email}" th:if="${c_email}" />
-					<input type="text" name="otp" class="search_input1"
+					<input type="text" name="otp" class="search_input1 ma_otp_sub"
 						placeholder="-------------Enter Otp-------------" />
 					<button class="search_btn" onclick="submit_otp()">Submit</button>
 					<p class="inval" th:if="${otpError}" th:text="${otpError}"></p>
@@ -438,7 +440,7 @@
 						th:if="${s_email}" />
 					<input id="c_email_present" type="hidden" name="email" th:value="'customer:'+${c_email}"
 						th:if="${c_email}" />
-					<input type="text" name="otp" class="search_input1"
+					<input type="text" name="otp" class="search_input1 mo_otp_sub"
 						placeholder="-------------Enter Otp-------------" />
 					<button class="search_btn" onclick="submit_otp()">Submit</button>
 					<p class="inval" th:if="${otpError}" th:text="${otpError}"></p>
@@ -471,6 +473,7 @@
 
 			<h3 class="text-center">Submitting details...Please wait...</h3>
 		</section>
+
 		<div id="s_login" class="search_area se_search_area1">
 			<i class="fa-solid fa-xmark close_btn" onclick="close_search()"></i>
 			<input id="cred_checker1" type="hidden" th:value="${login_credentials}" />
@@ -539,13 +542,53 @@
 
 
 	</div>
+	<div id="easy_passcode" class="search_area1 se_search_area3">
+		<i class="fa-solid fa-xmark close_btn" onclick="close_easy_query()"></i>
+		<input id="credentials6_id" type="hidden" th:value="${credentials6}" />
+
+
+		<h1>Enter Passcode</h1>
+		<!--<div id="bad_cred1">
+				<h4>
+					Inavlid username or password !
+					<i class="fa-solid fa-xmark" onclick="close_search()"></i>
+
+				</h4>
+			</div>-->
+		<input id="backB" type="hidden" th:value="${backB}" />
+		<!--<input id="passcode_value" type="hidden" th:value="${passcode}">-->
+
+		<form action="#" method="post" th:action="@{/seller/login-passcode}" class="mt-2">
+			<input name="passcode" type="password" class="search_input search_input3"
+				placeholder="----------Passcode-----------" />
+			<input type="hidden" name="email" th:value="${s_email}" />
+			<hr />
+			<div class="container">
+				<div class="row">
+
+					<div class="col-12">
+						<button class="seller_login_btn passcode_login" type="submit">Submit</button>
+					</div>
+				</div>
+			</div>
+
+
+
+		</form>
+	</div>
+	<form method="post" th:object="${seller}" th:action="@{/seller/do_login}" th:if="${seller}">
+		<input type="hidden" name="email" th:value="${seller.email}" />
+		<input type="hidden" name="password" th:value="${seller.password}" />
+		<button type="submit" id="seller_login2" style="display:none;" />
+	</form>
 	<script th:src="@{/js/jquery-3.4.1.min.js}"></script>
 	<script th:src="@{/js/bootstrap.js}"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js}">
 	</script>
 	<!--<script th:src="@{/js/custom.js}"></script>-->
 	<script th:src="@{/js/myscript.js}"></script>
-	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	<!--<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>-->
+
 	<script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCl30do4Fl45eUvhk6PQDFA7JMWIBhS0jk
 &loading=async&libraries=places&callback=initMap"></script>
 </body>

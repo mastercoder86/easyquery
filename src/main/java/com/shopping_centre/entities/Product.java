@@ -61,9 +61,10 @@ public class Product {
 	@ManyToOne
 	@JsonIgnore
 	private Seller seller;
-	/*
-	 * @ManyToMany private List<Customer> customers = new ArrayList<>();
-	 */
+
+	@ManyToMany
+	private List<Customer> customers = new ArrayList<>();
+
 	/*
 	 * @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
 	 * 

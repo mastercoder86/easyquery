@@ -22,7 +22,9 @@ import java.nio.file.StandardCopyOption;
 import java.security.Principal;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
@@ -39,10 +41,10 @@ import org.hibernate.exception.ConstraintViolationException;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.openqa.selenium.By;
+/*import org.openqa.sele
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeDriver;*/
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.boot.autoconfigure.cassandra.CassandraProperties.Request;
@@ -79,7 +81,9 @@ import com.razorpay.RazorpayClient;
 import com.razorpay.RazorpayException;
 import com.razorpay.VirtualAccount;
 import com.shopping_centre.dao.BankAccountRepository;
+import com.shopping_centre.dao.CustomerItemRepository;
 import com.shopping_centre.dao.OtpDetailsRepository;
+import com.shopping_centre.dao.PasscodeRepository;
 import com.shopping_centre.dao.ProductRepository;
 import com.shopping_centre.dao.SellerRepository;
 
@@ -87,6 +91,7 @@ import com.shopping_centre.entities.BankAccount;
 import com.shopping_centre.entities.Customer;
 import com.shopping_centre.entities.CustomerItem;
 import com.shopping_centre.entities.OtpDetails;
+import com.shopping_centre.entities.Passcode;
 import com.shopping_centre.entities.Product;
 import com.shopping_centre.entities.Seller;
 
@@ -99,10 +104,10 @@ import com.sinch.sdk.domains.sms.GroupsService;
 import com.sinch.sdk.domains.sms.InboundsService;
 import com.sinch.sdk.domains.sms.SMSService;
 import com.sinch.sdk.domains.sms.WebHooksService;
-import com.sinch.xms.ApiConnection;
+/*import com.sinch.xms.ApiConnection;
 import com.sinch.xms.ApiException;
 import com.sinch.xms.SinchSMSApi;
-import com.sinch.xms.api.MtBatchTextSmsResult;
+import com.sinch.xms.api.MtBatchTextSmsResult;*/
 
 import jakarta.validation.Valid;
 import jakarta.xml.bind.DatatypeConverter;
@@ -132,6 +137,10 @@ public class SellerController {
 	 */
 	@Autowired
 	private BankAccountRepository bankAccountRepository;
+	@Autowired
+	private PasscodeRepository passcodeRepository;
+	@Autowired
+	private CustomerItemRepository customerItemRepository;
 
 	@ModelAttribute
 	public void addCommonData(Model model) {
@@ -291,7 +300,7 @@ public class SellerController {
 			 */
 
 			/* model.addAttribute("seller", new Seller()); */
-			seller.setAddCheck("add1");
+			seller.setAddCheck("logged_in");
 			seller.setRegistrationStatus("incomplete");
 
 			/*
@@ -425,6 +434,20 @@ public class SellerController {
 		} catch (StringIndexOutOfBoundsException se) {
 			greetName = seller.getName();
 		}
+		List<Product> products = productRepository.findProductsBySeller(seller);
+		List<Product> sellerProducts = new ArrayList<>();
+		for (Product product : products) {
+			CustomerItem customerItem = customerItemRepository.findFirstByProductId(product.getP_id());
+			if (customerItem != null)
+				sellerProducts.add(product);
+		}
+		/* model.addAttribute("sellerProducts", sellerProducts); */
+		Map<Product, Integer> leadsMap = new HashMap<>();
+		for (Product sp : sellerProducts) {
+			leadsMap.put(sp, customerItemRepository.findByProductId(sp.getP_id()).size());
+		}
+		model.addAttribute("leadsMap", leadsMap);
+		model.addAttribute("leadsSize", leadsMap.size());
 		model.addAttribute("s_email", seller.getEmail());
 		model.addAttribute("greeting", greetName);
 		model.addAttribute("seller", new Seller());
@@ -440,6 +463,8 @@ public class SellerController {
 			@RequestParam String email, Model model) {
 		// model.addAttribute("clicked","yes");
 //		model.addAttribute("namerror",null);
+		System.out.println("e:m" + email);
+		model.addAttribute("s_email", email);
 		boolean flag = true;
 		// boolean flag2 = false;
 		if (result1.hasErrors()) {
@@ -520,7 +545,7 @@ public class SellerController {
 		} catch (StringIndexOutOfBoundsException se) {
 			greetName = seller.getName();
 		}
-		model.addAttribute("s_email", email);
+		// model.addAttribute("s_email", email);
 		model.addAttribute("greeting", greetName);
 		model.addAttribute("seller", new Seller());
 		model.addAttribute("customer", new Customer());
@@ -537,23 +562,34 @@ public class SellerController {
 		model.addAttribute("customer", new Customer());
 		model.addAttribute("bankAccount", new BankAccount());
 		if (seller1 != null) {
+
+			if (!seller1.isEmailVerification()) {
+
+				model.addAttribute("mo_verification", seller1.isMobileVerification());
+				model.addAttribute("credentials", "ma_verification_pending");
+				model.addAttribute("s_email", seller.getEmail());
+				return "login_form";
+			} else if (!seller1.isMobileVerification()) {
+				model.addAttribute("ma_verification", seller1.isEmailVerification());
+				model.addAttribute("credentials", "mo_verification_pending");
+				model.addAttribute("s_email", seller.getEmail());
+				return "login_form";
+			} else if (seller1.getRegistrationStatus().equals("incomplete")) {
+				model.addAttribute("registration_status", "incomplete");
+				model.addAttribute("credentials", "registration incomplete");
+				model.addAttribute("s_email", seller.getEmail());
+				return "login_form";
+			}
 			/*
-			 * if (!seller1.isEmailVerification()) {
-			 * 
-			 * model.addAttribute("mo_verification", seller1.isMobileVerification());
-			 * model.addAttribute("credentials", "ma_verification_pending");
-			 * model.addAttribute("s_email", seller.getEmail()); return "login_form"; } else
-			 * if (!seller1.isMobileVerification()) { model.addAttribute("ma_verification",
-			 * seller1.isEmailVerification()); model.addAttribute("credentials",
-			 * "mo_verification_pending"); model.addAttribute("s_email", seller.getEmail());
-			 * return "login_form"; } else if (seller1.getBankAccount() == null) { //
+			 * } else if (seller1.getBankAccount() == null) { //
 			 * model.addAttribute("mo_verification", "pending");
 			 * model.addAttribute("credentials", "no_bank_account");
 			 * model.addAttribute("s_email", seller.getEmail()); return "login_form"; } else
 			 * if (seller1.getBankAccount().getStatus().equals("pending")) {
 			 * model.addAttribute("credentials", "bank_account_verification_pending");
-			 * return "login_form"; }
+			 * return "login_form";
 			 */
+
 			String greetName;
 			try {
 				greetName = seller1.getName().substring(0, seller1.getName().indexOf(" "));
@@ -580,6 +616,20 @@ public class SellerController {
 					model.addAttribute("length_check", "change");
 				}
 			}
+			List<Product> products = productRepository.findProductsBySeller(seller1);
+			List<Product> sellerProducts = new ArrayList<>();
+			for (Product product : products) {
+				CustomerItem customerItem = customerItemRepository.findFirstByProductId(product.getP_id());
+				if (customerItem != null)
+					sellerProducts.add(product);
+			}
+			/* model.addAttribute("sellerProducts", sellerProducts); */
+			Map<Product, Integer> leadsMap = new HashMap<>();
+			for (Product sp : sellerProducts) {
+				leadsMap.put(sp, customerItemRepository.findByProductId(sp.getP_id()).size());
+			}
+			model.addAttribute("leadsMap", leadsMap);
+			model.addAttribute("leadsSize", leadsMap.size());
 			/*
 			 * if (seller1.getServices().isEmpty()) { model.addAttribute("s_list", null); }
 			 * else { if (((seller1.getServices().size()) % 3) == 0) {
@@ -631,7 +681,22 @@ public class SellerController {
 
 		try {
 			Seller seller = sellerRepository.findByEmail(s_email);
+			List<Product> products = productRepository.findProductsBySeller(seller);
+			List<Product> sellerProducts = new ArrayList<>();
+			for (Product p : products) {
+				CustomerItem customerItem = customerItemRepository.findFirstByProductId(p.getP_id());
+				if (customerItem != null)
+					sellerProducts.add(p);
+			}
+			/* model.addAttribute("sellerProducts", sellerProducts); */
+			Map<Product, Integer> leadsMap = new HashMap<>();
+			for (Product sp : sellerProducts) {
+				leadsMap.put(sp, customerItemRepository.findByProductId(sp.getP_id()).size());
+			}
+			model.addAttribute("leadsMap", leadsMap);
+			model.addAttribute("leadsSize", leadsMap.size());
 			if (!seller.getAddCheck().equals(adding)) {
+
 				if (file.isEmpty()) {
 					System.out.println("File is empty");
 				} else {
@@ -1467,10 +1532,12 @@ public class SellerController {
 	public String verification() {
 
 		System.setProperty("webdriver.chrome.driver", "D:\\chromedriver-win64\\chromedriver-win64\\chromedriver.exe");
-		WebDriver driver = new ChromeDriver();
-		driver.get(
-				"https://id.sinch.com/u/login/identifier?state=hKFo2SBQcS1DcW0zWjdocHBNa08tOUswRU1sWnZCa2J2eE95RaFur3VuaXZlcnNhbC1sb2dpbqN0aWTZIC1vZGVxdUVqcTFHQ1VJbnJ4M0R1a3JRN0ZrekpUZm9po2NpZNkgU0xJVTIwWFd0bXo5dVFrWHBVUDE3RUtNQlN4U05Nd1o");
-
+		// WebDriver driver = new ChromeDriver();
+		/*
+		 * driver.get(
+		 * "https://id.sinch.com/u/login/identifier?state=hKFo2SBQcS1DcW0zWjdocHBNa08tOUswRU1sWnZCa2J2eE95RaFur3VuaXZlcnNhbC1sb2dpbqN0aWTZIC1vZGVxdUVqcTFHQ1VJbnJ4M0R1a3JRN0ZrekpUZm9po2NpZNkgU0xJVTIwWFd0bXo5dVFrWHBVUDE3RUtNQlN4U05Nd1o"
+		 * );
+		 */
 		// WebElement email =
 		// driver.findElement(By.xpath("//input[@inputmode='email']"));
 		try {
@@ -1479,11 +1546,11 @@ public class SellerController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		WebElement email = driver.findElement(By.id("username"));
-		email.sendKeys("budhakumar21@gmail.com");
+		// WebElement email = driver.findElement(By.id("username"));
+		// email.sendKeys("budhakumar21@gmail.com");
 		// WebElement password = driver.findElement(By.id("password"));
-		WebElement verifyBtn = driver.findElement(By.className("_button-login-id"));
-		verifyBtn.click();
+		// WebElement verifyBtn = driver.findElement(By.className("_button-login-id"));
+		// verifyBtn.click();
 		try {
 			Thread.sleep(5000);
 		} catch (InterruptedException e) {
@@ -1492,10 +1559,12 @@ public class SellerController {
 		}
 		List<String> tabs = new ArrayList<>();
 		// driver.switchTo().window(tabs.get(1));
-		WebElement continueBtn = driver.findElement(By.className("_button-login-password"));
-		WebElement password = driver.findElement(By.id("password"));
-		password.sendKeys("Iam2578legend@sKumar22");
-		continueBtn.click();
+		/*
+		 * WebElement continueBtn =
+		 * driver.findElement(By.className("_button-login-password")); WebElement
+		 * password = driver.findElement(By.id("password"));
+		 * password.sendKeys("Iam2578legend@sKumar22"); continueBtn.click();
+		 */
 
 		// driver.close();
 		/*
@@ -1568,6 +1637,33 @@ public class SellerController {
 
 	}
 
+	@PostMapping("/login-passcode")
+	public String loginPasscode(@RequestParam String passcode, @RequestParam String email, Model model) {
+		Passcode passcode1 = passcodeRepository.findFirstByOrderByIdDesc();
+		model.addAttribute("seller", new Seller());
+		model.addAttribute("bankAccount", new BankAccount());
+		System.out.println("pass:" + passcode);
+		if (passcode1 != null) {
+			if (passcode1.getPasscode().equals(passcode)) {
+				Seller seller = sellerRepository.findByEmail(email);
+				seller.setRegistrationStatus("complete");
+				sellerRepository.save(seller);
+				model.addAttribute("seller", seller);
+				model.addAttribute("credentials6", "lo_good");
+			} else {
+				model.addAttribute("s_email", email);
+				model.addAttribute("credentials6", "lo_bad");
+			}
+
+		}
+
+		else {
+			model.addAttribute("s_email", email);
+			model.addAttribute("credentials6", "lo_bad");
+		}
+
+		return "login_form";
+	}
 	/*
 	 * public String getCoordinates() { OkHttpClient client = new
 	 * OkHttpClient().newBuilder() .build(); Request.Builder request = new

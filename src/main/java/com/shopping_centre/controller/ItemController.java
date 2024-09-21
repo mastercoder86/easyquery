@@ -25,7 +25,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import com.shopping_centre.dao.CustomerItemRepository;
 import com.shopping_centre.dao.CustomerRepository;
 import com.shopping_centre.dao.ProductRepository;
-
+import com.shopping_centre.dao.SellerRepository;
 import com.shopping_centre.entities.Customer;
 import com.shopping_centre.entities.CustomerItem;
 import com.shopping_centre.entities.Product;
@@ -38,6 +38,8 @@ import com.shopping_centre.helper.CustomerProduct;
 public class ItemController {
 	@Autowired
 	private ProductRepository productRepository;
+	@Autowired
+	private SellerRepository sellerRepository;
 	/*
 	 * @Autowired private ServiceRepository serviceRepository;
 	 */
@@ -49,7 +51,7 @@ public class ItemController {
 	@GetMapping("/view_product")
 	// @Transactional
 	public String viewProduct(@RequestParam long id, @RequestParam String page, @RequestParam Optional<String> c_email,
-			Model model) {
+			@RequestParam(required = false) String showDetails, Model model) {
 		System.out.println("id : " + id);
 		System.out.println("c_emaill:" + c_email);
 		// System.out.println(productRepository.findById(Long.parseLong(id)));
@@ -58,7 +60,9 @@ public class ItemController {
 		System.out.println(customerItems2.size() + "cc_size");
 		model.addAttribute("noOfViews", customerItems2.size());
 		System.out.println(c_email);
-
+		if (showDetails != null) {
+			model.addAttribute("show_details", showDetails);
+		}
 		model.addAttribute("product", product);
 		if (c_email.isPresent()) {
 			Customer customer = customerRepository.findByPhone(c_email.get());
@@ -378,6 +382,12 @@ public class ItemController {
 		customerItem.setTime(df.format(now));
 		customerItem.setStatus("added_to_cart");
 		customerItemRepository.save(customerItem);
+		/*
+		 * CustomerProduct customerProduct = new CustomerProduct();
+		 * customerProduct.setCustomerName(customer.getName());
+		 * customerProduct.setStatus("Added To Cart");
+		 * customerProduct.setTime(df.format(now));
+		 */
 		List<CustomerItem> customerItems = customerItemRepository.findByCustomerIdAndStatus(customer.getId(),
 				"added_to_cart");
 		List<Product> products = new ArrayList<>();
@@ -444,6 +454,7 @@ public class ItemController {
 		model.addAttribute("greeting", greetName);
 		// model.addAttribute("allowed", "yes");
 		model.addAttribute("product_added", "yes");
+
 		model.addAttribute("product", product);
 		if (products != null) {
 			model.addAttribute("noOfItems", products.size());
@@ -734,7 +745,7 @@ public class ItemController {
 
 			CustomerProduct customerProduct = new CustomerProduct();
 			customerProduct.setCustomerName(customerRepository.findById(ci.getCustomerId()).get().getName());
-			customerProduct.setStatus(ci.getStatus());
+			customerProduct.setStatus(customerRepository.findById(ci.getCustomerId()).get().getPhone());
 			customerProduct.setTime(ci.getTime());
 			customerProducts.add(customerProduct);
 
@@ -752,6 +763,13 @@ public class ItemController {
 		 * rd.addAttribute("customerProducts", customerProducts);
 		 */
 
+	}
+
+	@PostMapping("/seller-info")
+	public ResponseEntity<Seller> sellerInfo(@RequestBody Map<String, Object> data, Model model) {
+		long id = Long.parseLong(data.get("id").toString());
+		Seller seller = productRepository.findById(id).get().getSeller();
+		return ResponseEntity.ok(seller);
 	}
 
 	@GetMapping("/clear-cart")

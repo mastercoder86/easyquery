@@ -54,31 +54,29 @@ public class Customer {
 	/*
 	 * @NotBlank private String address;
 	 */
-	//private String finalAddress;
-	
-	  //@NotBlank(message = "Password field is required")
-	  
-	  //@Column(columnDefinition = "varchar(255) default 'abc'")
-	 
-		/* private String city="abc"; */
-	//@Size(min = 6, max = 6, message = "Please enter valid PIN Code")
-	//private String pinCode;
+	// private String finalAddress;
+
+	// @NotBlank(message = "Password field is required")
+
+	// @Column(columnDefinition = "varchar(255) default 'abc'")
+
+	/* private String city="abc"; */
+	// @Size(min = 6, max = 6, message = "Please enter valid PIN Code")
+	// private String pinCode;
 	private boolean logIn;
 	/*
 	 * private String image; private String addCheck;
 	 */
 
-	/*
-	 * @ManyToMany
-	 * 
-	 * @JoinTable(name = "customer_product", joinColumns = @JoinColumn(name =
-	 * "customer_id"), inverseJoinColumns = @JoinColumn(name = "product_id"))
-	 * private List<Product> products = new ArrayList<>();
-	 */
-	//private boolean emailVerification;
+	@ManyToMany(cascade = CascadeType.ALL,mappedBy = "customers")
+	//@JoinTable(name = "customer_product", joinColumns = @JoinColumn(name = "customer_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "product_id", referencedColumnName = "p_id"))
+	private List<Product> products = new ArrayList<>();
+
+	// private boolean emailVerification;
 	private boolean mobileVerification;
 	private boolean termsAndConditionsAgreed;
 	private String startSearch = "value3";
+
 	/*
 	 * @ManyToMany
 	 * 
@@ -100,8 +98,6 @@ public class Customer {
 		this.id = id;
 	}
 
-	
-
 	public String getName() {
 		return name;
 	}
@@ -109,8 +105,6 @@ public class Customer {
 	public void setName(String name) {
 		this.name = name;
 	}
-
-	
 
 	public String getPhone() {
 		return phone;
@@ -120,7 +114,6 @@ public class Customer {
 		this.phone = phone;
 	}
 
-	
 	/*
 	 * public String getPinCode() { return pinCode; }
 	 * 
@@ -140,7 +133,7 @@ public class Customer {
 	public void setLogIn(boolean logIn) {
 		this.logIn = logIn;
 	}
-	
+
 	/*
 	 * public List<Product> getProducts() { return products; }
 	 * 
@@ -164,8 +157,6 @@ public class Customer {
 	 * public void setProducts(List<Product> products) { this.products = products; }
 	 */
 
-	
-
 	public boolean isMobileVerification() {
 		return mobileVerification;
 	}
@@ -173,8 +164,6 @@ public class Customer {
 	public void setMobileVerification(boolean mobileVerification) {
 		this.mobileVerification = mobileVerification;
 	}
-	
-	
 
 	public boolean isTermsAndConditionsAgreed() {
 		return termsAndConditionsAgreed;
@@ -192,6 +181,4 @@ public class Customer {
 		this.startSearch = startSearch;
 	}
 
-	
-	
 }

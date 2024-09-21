@@ -209,7 +209,19 @@
 			</div>
 	</div>
 	</nav>
-
+	<div class="leads_item fixed-top">
+		<i class="fa-solid fa-xmark close_btn25" onclick="close_leads()"></i>
+		<hr />
+		<th:block th:each="lm:${leadsMap}">
+			<input type="hidden" class="p_id6" th:value="${lm.key.p_id}" />
+			<h4 class="text-center">
+				<span th:text="${lm.key.p_name}"></span> ----- <span th:text="${lm.value}"></span></span> views</span>
+				<br />
+			</h4>
+			<button class="btn btn-primary btn-lg leads_btn" onclick="show_leads_details(this)">View Details</button>
+			<hr />
+		</th:block>
+	</div>
 	<div class="search_sec fixed-top">
 		<!--<section class="search_area1">
 				<i class="fa-solid fa-xmark close_btn" onclick="close_search()"></i>
@@ -890,8 +902,10 @@
 										<input id="view_span_id" type="hidden" th:value="${done}" />
 										<input id="view_span_id1" type="hidden" th:value="${p_added}" />
 										<form th:action="@{/item/view_product}">
+											<!--<input type="hidden" value="no details" id="leads_details" />-->
 											<input type="hidden" name="page" value="add_item" />
-											<input type="hidden" name="id" th:value="${p.p_id}" />
+											<input type="hidden" class="p_id5" name="id" th:value="${p.p_id}" />
+											<input type="hidden" class="show_leads" name="showDetails" value="no" />
 											<span class="view_span" onclick="p_submit(this)">View</span>
 											<button style="display : none;" class="p_submit_btn" type="submit"></button>
 										</form>
@@ -1096,34 +1110,72 @@
 	<div class="container fixed-top bottom_menu_content">
 
 	</div>
-	<div class="bottom_menu fixed-bottom" th:if="${greeting}">
+	<!--<div class="bottom_menu fixed-bottom" th:if="${greeting}">
 		<div class="container">
 			<div class="row text-center">
-				<div class="col-2" onclick="b_menu_item(this)">
+				<span class="bm_menu" onclick="b_menu_item(this)">
 					<i class="fa-solid fa-house fa-home text-center"></i><br />
 					<span>Home</span>
 				</div>
-				<!--<div class="col-2" onclick="b_menu_item(this)">
+				<span class="bm_menu" onclick="b_menu_item(this)">
 					<i class="fa-regular fa-envelope"></i><br />
 					<span>Leads</span>
-				</div>-->
-				<div class="col-2" onclick="b_menu_item(this)">
+				</div>
+				<span class="bm_menu" onclick="b_menu_item(this)">
 					<i class="fa-regular fa-handshake"></i><br />
 					<span>B2B</span>
 				</div>
-				<div class="col-2" onclick="b_menu_item(this)">
+				<span class="bm_menu" onclick="b_menu_item(this)">
 					<i class="fa-regular fa-credit-card"></i><br />
 					<span>Leads</span>
+					<sup class="leads_size" th:text="${leadsSize}"></sup>
 				</div>
-				<div class="col-2" onclick="b_menu_item(this)">
+				<span class="bm_menu" onclick="b_menu_item(this)">
 					<i class="fa-regular fa-newspaper"></i><br />
 					<span>News</span>
 				</div>
-				<div class="col-2" onclick="b_menu_item(this)">
+				<span class="bm_menu" onclick="b_menu_item(this)">
 					<i class="fa-solid fa-bars"></i><br />
 					<span>More</span>
 				</div>
 			</div>
+		</div>
+	</div>-->
+	<div class="bottom_menu fixed-bottom" th:if="${greeting}">
+		<div class="bm_container text-center">
+			<span class="bm_menu" onclick="b_menu_item(this)">
+				<i class="fa-solid fa-house fa-home text-center"></i><br />
+				<span>Home</span>
+			</span>
+			<span class="bm_menu" onclick="b_menu_item(this)">
+				<i class="fa-regular fa-handshake"></i><br />
+				<span>B2B</span>
+			</span>
+			<span class="bm_menu leads_menu" onclick="b_menu_item(this)">
+				<span class="view_size1" th:text="${leadsSize}"></span>
+				<i class="fa-regular fa-credit-card"></i><br />
+
+				<span>Leads</span>
+
+				<!--<sup class="leads_size" th:text="${leadsSize}"></sup>-->
+			</span>
+
+			<span class="bm_menu" onclick="b_menu_item(this)">
+				<i class="fa-regular fa-newspaper"></i><br />
+				<span>News</span>
+			</span>
+			<span class="bm_menu" onclick="b_menu_item(this)">
+				<i class="fa-solid fa-bars"></i><br />
+				<span>More</span>
+			</span>
+			<!--<div class="row text-center">
+			</div>-->
+			<!--<span class="bm_menu" onclick="b_menu_item(this)">
+					<i class="fa-regular fa-envelope"></i><br />
+					<span>Leads</span>
+				</div>-->
+
+
 		</div>
 	</div>
 	<!-- end contact section -->
@@ -1249,9 +1301,7 @@
 				console.log("hello2");
 			}
 		});
-		<!--window.onbeforeunload = function(){
-			return "sorry";
-		}-->
+
 
 	</script>
 </body>

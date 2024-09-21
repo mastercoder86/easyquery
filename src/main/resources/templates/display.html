@@ -76,7 +76,7 @@
 						<div class="col-4">
 
 
-							<button class="back4" th:unless=" ${greeting}"
+							<button class="back4 view_leads_btn" th:unless=" ${greeting}"
 								th:onclick="|show_customers(${product.p_id})|">Views
 
 							</button>
@@ -132,7 +132,7 @@
 
 						<!--<button class="back1" onclick="back_to_home()">Back to home</button>-->
 						<button class="back1" th:if="${greeting}" onclick="product_to_home()">Back</button>
-						<button class="back1" th:unless="${greeting}"
+						<button class="back1 view_leads_btn" th:unless="${greeting}"
 							th:onclick="|show_customers(${product.p_id})|">Views<sup th:text=" ${' '+noOfViews}"
 								class="n_views">0</sup></button>
 
@@ -213,6 +213,7 @@
 		<!-- end slider section -->
 	</div>
 	<!--end hero area-->
+	<input type="hidden" id="show_details" th:value="${show_details}" />
 	<div class="cart_top_div fixed-top">
 		<input type="hidden" id="removed_id" th:value="${removed}" th:if="${removed}" />
 		<i class="fa-solid fa-xmark close_btn5" onclick="cart_close()"></i>
@@ -294,7 +295,8 @@
 		<button type="submit" id="views_btn" style="display:none;"></button>
 	</form>
 	<div class="customers_top_div fixed-top container">
-		<i class="fa-solid fa-xmark close_btn12" onclick="close_view_customers()"></i>
+		<span style="display:none;">cust</span>
+		<i class="fa-solid fa-xmark close_btn12" onclick="close_view_customers(this)"></i>
 		<!--<i class="fa-solid fa-xmark close_btn" onclick="close_view_customers()">-->
 		<div class="container">
 			<div class="row text-center">
@@ -302,7 +304,7 @@
 					<h2>Name</h2>
 				</div>
 				<div class="col-4">
-					<h2>Status</h2>
+					<h2>Mobile No.</h2>
 				</div>
 				<div class="col-4">
 					<h2>Time</h2>
@@ -310,6 +312,7 @@
 
 			</div>
 		</div>
+
 		<div class="container viewed_customers">
 			<!--<div class="row text-center" th:each="cp:${customerProducts}">
 				<div class="col-4">
@@ -326,6 +329,10 @@
 		</div>
 		<hr />
 		<!--<h3 class="text-center">No views</h3>-->
+	</div>
+	<div class="customers_top_div fixed-top container">
+		<i class="fa-solid fa-xmark close_btn12" onclick="close_view_customers(this)"></i>
+
 	</div>
 	<div class="display_main">
 		<div class="container" th:if="${product}">
@@ -459,7 +466,7 @@
 
 			<div class="col-6">
 
-				<button class="add_to_cart_btn" onclick="add_to_cart()">Add To Cart</button>
+				<button class="add_to_cart_btn" th:onclick="|add_to_cart(${product.p_id})|">Seller Info</button>
 			</div>
 		</div>
 	</div>

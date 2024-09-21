@@ -36,6 +36,8 @@
 	<!-- responsive style -->
 	<link th:href="@{/css/responsive.css}" rel="stylesheet" />
 	<link rel="shortcut icon" th:href="@{/images/easy_query.jpg}" type="image/x-icon">
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script src="sweetalert2.all.min.js"></script>
 	<!--<script type="text/javascript">
 		const preventBack = () => {
 			window.history.forward();
@@ -122,11 +124,16 @@
 					<li class="nav-item m_menu1">
 						<a class="nav-link" href="#contact" onclick="close_menu()">Contact Us</a>
 					</li>
-					<li class="nav-item m_menu1" th:unless="${greeting}">
-						<a class="nav-link" th:href="@{/login-form}" onclick="close_menu()">Seller Login</a>
-						<div>
-							<i class="fa-solid fa-arrow-right-to-bracket" onclick="click_seller_login()"></i>
-						</div>
+					<li class="nav-item m_menu1">
+						<a class="nav-link" th:href="@{/easyquery-login}" onclick="close_menu1()">Easy Query</a>
+					</li>
+					<li class="nav-item m_menu1" th:unless="${greeting}" onclick="close_menu()">
+						<a href="#" th:href="@{/login-form}" onclick="close_menu()"></a>
+						<span class="nav-link" onclick="click_seller_login()">Seller Login</span>
+						<!--<div style="width:300px;" onclick="click_seller_login()">
+							Seller Login
+							<i class="fa-solid fa-arrow-right-to-bracket"></i>
+						</div>-->
 
 					</li>
 
@@ -201,12 +208,16 @@
 					<li class="nav-item m_menu1">
 						<a class="nav-link" href="#contact" onclick="close_menu()">Contact Us</a>
 					</li>
+					<li class="nav-item m_menu1">
+						<a class="nav-link" th:href="@{/easyquery-login}" onclick="close_menu1()">Easy Query</a>
+					</li>
 					<li class="nav-item m_menu1" th:unless="${greeting}">
-						<a class="nav-link" href="#" th:href="@{/login-form}" onclick="close_menu()">Seller
-							Login</a>
-						<div>
-							<i class="fa-solid fa-arrow-right-to-bracket" onclick="click_seller_login()"></i>
-						</div>
+						<a href="#" th:href="@{/login-form}" onclick="close_menu()"></a>
+						<span class="nav-link" onclick="click_seller_login()">Seller Login</span>
+						<!--<div style="width:300px;" onclick="click_seller_login()">
+							Seller Login
+							<i class="fa-solid fa-arrow-right-to-bracket"></i>
+						</div>-->
 
 					</li>
 
@@ -563,8 +574,8 @@
 				</div>
 -->
 				<div class="input_container1">
-					<input th:value="${customer.phone}" name="phone" type="text" class="search_input1"
-						placeholder="----------Contact Number----------" />
+					<input th:value="${customer.phone}" name="phone" type="text" class="search_input1 re_mobile_input"
+						placeholder="Mobile No.(10 digit)" />
 					<p class="inval" th:if="${phoneerror1}" th:text="${phoneerrormessage1}"></p>
 					<p class="inval" th:if="${cvError}" th:text="${cvError}"></p>
 				</div>
@@ -717,8 +728,7 @@
 			</div>-->
 			<!--<input id="c_backB" type="hidden" th:value="${backB}" />-->
 			<form action="#" th:object="${customer}" method="post" th:action="@{/customer/do_login}" class="mt-2">
-				<input name="phone" type="text" class="search_input phone_input"
-					placeholder="--------Mobile Number-----------" />
+				<input name="phone" type="text" class="search_input phone_input" placeholder="Mobile No.(10 digit)" />
 				<!--<input name="password" type="password" class="search_input"
 					placeholder="----------Password-----------" />-->
 				<hr />
@@ -4886,7 +4896,7 @@
 	</script>
 	<script th:src="@{/js/custom.js}"></script>
 	<script th:src="@{/js/myscript.js}"></script>
-	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	<!--<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>-->
 	<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 	<script>
 		const mq = window.matchMedia("(max-width:600px)");
