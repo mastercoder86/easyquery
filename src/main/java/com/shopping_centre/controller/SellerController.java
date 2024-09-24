@@ -1441,7 +1441,7 @@ public class SellerController {
 		}
 	}
 
-	@GetMapping("/send_sms")
+	@GetMapping("/send_sms1")
 	public String SendSms() {
 		/*
 		 * SendSms.init();
